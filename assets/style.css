@@ -333,6 +333,8 @@ a.cell .badge {
   gap: 1.25rem;
   align-items: start;
 }
+.toc-bar { align-self: stretch; min-width: 0; }
+.toc-toggle { display: none; }
 .toc {
   position: sticky;
   top: 3.4rem;
@@ -513,7 +515,31 @@ a.cell .badge {
 
 @media (max-width: 760px) {
   .site-header { flex-direction: column; align-items: flex-start; }
-  .reader { grid-template-columns: 7.4rem minmax(0, 1fr); gap: 0.6rem; }
+  .reader { display: block; }
+  .toc-bar {
+    position: sticky;
+    top: 3.4rem;
+    z-index: 5;
+    margin: 0 0 0.8rem;
+  }
+  .toc-toggle {
+    display: inline-flex;
+    font: inherit;
+    color: inherit;
+  }
+  .toc {
+    display: none;
+    position: static;
+    max-height: min(50vh, 22rem);
+    margin-top: 0.45rem;
+    padding: 0.45rem 0.7rem 0.7rem;
+    border: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--bg-raise);
+    box-shadow: var(--shadow);
+  }
+  .reader.toc-open .toc { display: block; }
   .toc a { font-size: 0.75rem; }
   .prose { font-size: 1rem; }
   .table-wrap { max-height: calc(100vh - 8rem); }

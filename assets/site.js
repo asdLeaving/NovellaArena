@@ -509,12 +509,36 @@
       document.title = (work.title || entry.topic) + " · " + when + " · NovellaArena";
       var layout = document.createElement("div");
       layout.className = "reader";
+      var tocBar = document.createElement("div");
+      tocBar.className = "toc-bar";
+      var tocToggle = document.createElement("button");
+      tocToggle.type = "button";
+      tocToggle.className = "button toc-toggle";
+      tocToggle.textContent = "目录";
+      tocToggle.setAttribute("aria-expanded", "false");
+      tocToggle.setAttribute("aria-controls", "toc");
       var toc = document.createElement("nav");
       toc.className = "toc";
+      toc.id = "toc";
       toc.setAttribute("aria-label", "目录");
       var label = document.createElement("p");
       label.textContent = "目录";
       toc.appendChild(label);
+      function setTocOpen(open) {
+        layout.classList.toggle("toc-open", open);
+        tocToggle.setAttribute("aria-expanded", open ? "true" : "false");
+        tocToggle.textContent = open ? "收起目录" : "目录";
+      }
+      tocToggle.addEventListener("click", function () {
+        var open = !layout.classList.contains("toc-open");
+        setTocOpen(open);
+        if (open) {
+          var active = toc.querySelector("a.active");
+          if (active) revealTocLink(active);
+        }
+      });
+      tocBar.appendChild(tocToggle);
+      tocBar.appendChild(toc);
 
       var article = document.createElement("article");
       var head = document.createElement("div");
@@ -561,6 +585,7 @@
       }
       function jumpTo(id, target) {
         pinnedId = id;
+        if (window.matchMedia("(max-width: 760px)").matches) setTocOpen(false);
         activate(id);
         target.scrollIntoView({ behavior: "smooth", block: "start" });
         history.replaceState(null, "", "#" + id);
@@ -654,7 +679,7 @@
         article.appendChild(related);
       }
 
-      layout.appendChild(toc);
+      layout.appendChild(tocBar);
       layout.appendChild(article);
       mount.textContent = "";
       mount.appendChild(layout);
