@@ -700,7 +700,7 @@
       "time": "202610060103",
       "effort": "high",
       "harness": "codex",
-      "grade": "",
+      "grade": "C",
       "file": "texts/洋葱骑士_gpt-5.6-sol_2610060103.txt",
       "manual": false
     },
@@ -793,17 +793,6 @@
       "manual": true
     },
     {
-      "id": "关系户_Grok4.6_2610070140",
-      "topic": "关系户",
-      "model": "Grok 4.6",
-      "time": "202610070140",
-      "effort": "xhigh",
-      "harness": "cursor",
-      "grade": "",
-      "file": "texts/关系户_Grok4.6_2610070140.txt",
-      "manual": true
-    },
-    {
       "id": "偏执_gpt-5.6-sol_2610070156",
       "topic": "偏执",
       "model": "GPT 5.6 Sol",
@@ -889,6 +878,28 @@
       "harness": "codex",
       "grade": "",
       "file": "texts/分析者（大纲）_GPT-6-Astra_2610071806.txt",
+      "manual": true
+    },
+    {
+      "id": "洋葱骑士_GPT-6-Astra_2610072133",
+      "topic": "洋葱骑士",
+      "model": "GPT 6 Astra",
+      "time": "202610072133",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/洋葱骑士_GPT-6-Astra_2610072133.txt",
+      "manual": true
+    },
+    {
+      "id": "洋葱骑士_Claude-Opus-5.5_2610072208",
+      "topic": "洋葱骑士",
+      "model": "Claude Opus 5.5",
+      "time": "202610072208",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/洋葱骑士_Claude-Opus-5.5_2610072208.txt",
       "manual": true
     }
   ]

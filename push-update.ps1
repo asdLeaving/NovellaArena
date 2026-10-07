@@ -1,4 +1,5 @@
 ﻿# 在仓库目录运行：提交本地改动，并经本机代理推送到 GitHub。
+cmd /c "chcp 65001 >nul"
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 $OutputEncoding = [System.Text.Encoding]::UTF8
 $proxy = "http://127.0.0.1:10808"
