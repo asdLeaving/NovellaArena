@@ -1,0 +1,895 @@
+{
+  "legend": "grade 留空为未定（灰色）。A 深绿，B 浅绿，C 浅黄，D 浅红，E 深红。题目的 grade 是主观复杂度，文稿的 grade 是生成质量。harness 为 cursor 时，Claude 系 effort 为 high，GPT 与 Grok 为 xhigh，其余模型为 max。10月3日12:00至10月4日12:00前的 GPT 文稿为 codex / medium，10月4日12:00及之后的 GPT 文稿为 codex / high。题目按 topics 数组的现有顺序展示。模型列自动排序：发布日期留空的排在最左，其余按发布日期从新到旧向右排。models 的 hidden 为 true 时该列默认隐藏。新模型导入时，发布日期留空或晚于当时默认显示模型发布日期的中位数则为 false，否则为 true；已有模型再导入不改 hidden。把某条文稿的 manual 设为 true 后，重新建站不会覆盖它的 effort 和 harness。题目若带 promptManual，重新建站不会覆盖它的 prompt。",
+  "topics": [
+    {
+      "name": "高魔",
+      "grade": "B",
+      "promptFile": "prompts/高魔.txt",
+      "promptAt": "2026-10-02 16:46"
+    },
+    {
+      "name": "双线",
+      "grade": "C",
+      "promptFile": "prompts/双线.txt",
+      "promptAt": "2026-10-06 21:33",
+      "promptManual": true
+    },
+    {
+      "name": "报道",
+      "grade": "D",
+      "promptFile": "prompts/报道.txt",
+      "promptAt": "2026-10-02 20:34"
+    },
+    {
+      "name": "哲学教授",
+      "grade": "C",
+      "promptFile": "prompts/哲学教授.txt",
+      "promptAt": "2026-10-04 16:21"
+    },
+    {
+      "name": "关系户",
+      "grade": "C",
+      "promptFile": "prompts/关系户.txt",
+      "promptAt": "2026-10-03 01:22"
+    },
+    {
+      "name": "分析者（大纲）",
+      "grade": "A",
+      "promptFile": "prompts/分析者（大纲）.txt",
+      "promptAt": "2026-09-11 14:35"
+    },
+    {
+      "name": "分析者",
+      "grade": "B",
+      "promptFile": "prompts/分析者.txt",
+      "promptAt": "2026-09-30 15:18"
+    },
+    {
+      "name": "母亲",
+      "grade": "C",
+      "promptFile": "prompts/母亲.txt",
+      "promptAt": "2026-09-28 22:03"
+    },
+    {
+      "name": "偏执",
+      "grade": "D",
+      "promptFile": "prompts/偏执.txt",
+      "promptAt": "2026-10-07 01:56",
+      "promptManual": true
+    },
+    {
+      "name": "工程师",
+      "grade": "D",
+      "promptFile": "prompts/工程师.txt",
+      "promptAt": "2026-09-27 19:04"
+    },
+    {
+      "name": "洋葱骑士",
+      "grade": "B",
+      "promptFile": "prompts/洋葱骑士.txt",
+      "promptAt": "2026-10-06 01:03"
+    },
+    {
+      "name": "同寝",
+      "grade": "D",
+      "promptFile": "prompts/同寝.txt",
+      "promptAt": "2026-09-28 21:15"
+    }
+  ],
+  "models": [
+    {
+      "name": "Muse Spark 1.3",
+      "released": "2026-09-02",
+      "hidden": true
+    },
+    {
+      "name": "Gemini 3.8 Flash",
+      "released": "2026-09-02",
+      "hidden": true
+    },
+    {
+      "name": "Gemini 3.1 Pro",
+      "released": "2026-02-19",
+      "hidden": true
+    },
+    {
+      "name": "Kimi K3",
+      "released": "2026-07-16",
+      "hidden": true
+    },
+    {
+      "name": "GPT 6.1 Sol",
+      "released": "2026-09-29",
+      "hidden": false
+    },
+    {
+      "name": "Claude Opus 5.5",
+      "released": "2026-09-22",
+      "hidden": false
+    },
+    {
+      "name": "Grok 4.7",
+      "released": "2026-09-21",
+      "hidden": false
+    },
+    {
+      "name": "GPT 6 Astra",
+      "released": "2026-09-03",
+      "hidden": false
+    },
+    {
+      "name": "Claude Fable 5.1",
+      "released": "2026-09-01",
+      "hidden": false
+    },
+    {
+      "name": "Grok 4.6",
+      "released": "2026-08-12",
+      "hidden": false
+    },
+    {
+      "name": "Claude Opus 5",
+      "released": "2026-07-24",
+      "hidden": true
+    },
+    {
+      "name": "Grok 4.5",
+      "released": "2026-07-16",
+      "hidden": true
+    },
+    {
+      "name": "GPT 5.6 Sol",
+      "released": "2026-07-09",
+      "hidden": false
+    },
+    {
+      "name": "Claude Opus 4.5",
+      "released": "2025-11-24",
+      "hidden": true
+    },
+    {
+      "name": "Human",
+      "released": "2000-11-03",
+      "hidden": true
+    }
+  ],
+  "entries": [
+    {
+      "id": "双线_Human_2502161804",
+      "topic": "双线",
+      "model": "Human",
+      "time": "202502161804",
+      "effort": "medium",
+      "harness": "life",
+      "grade": "B",
+      "file": "texts/双线_Human_2502161804.txt",
+      "manual": true
+    },
+    {
+      "id": "分析者（大纲）_gemini-3.1-pro_2608271615",
+      "topic": "分析者（大纲）",
+      "model": "Gemini 3.1 Pro",
+      "time": "202608271615",
+      "effort": "N/A",
+      "harness": "cursor",
+      "grade": "E",
+      "file": "texts/分析者（大纲）_gemini-3.1-pro_2608271615.txt",
+      "manual": false
+    },
+    {
+      "id": "分析者（大纲）_kimi-k3_2608271637",
+      "topic": "分析者（大纲）",
+      "model": "Kimi K3",
+      "time": "202608271637",
+      "effort": "max",
+      "harness": "cursor",
+      "grade": "E",
+      "file": "texts/分析者（大纲）_kimi-k3_2608271637.txt",
+      "manual": false
+    },
+    {
+      "id": "分析者（大纲）_Claude-Opus-5_2609102220",
+      "topic": "分析者（大纲）",
+      "model": "Claude Opus 5",
+      "time": "202609102220",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "C",
+      "file": "texts/分析者（大纲）_Claude-Opus-5_2609102220.txt",
+      "manual": false
+    },
+    {
+      "id": "分析者（大纲）_Grok4.6_2609102222",
+      "topic": "分析者（大纲）",
+      "model": "Grok 4.6",
+      "time": "202609102222",
+      "effort": "xhigh",
+      "harness": "cursor",
+      "grade": "D",
+      "file": "texts/分析者（大纲）_Grok4.6_2609102222.txt",
+      "manual": false
+    },
+    {
+      "id": "分析者（大纲）_ClaudeFable5.1_2609221707",
+      "topic": "分析者（大纲）",
+      "model": "Claude Fable 5.1",
+      "time": "202609221707",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "D",
+      "file": "texts/分析者（大纲）_ClaudeFable5.1_2609221707.txt",
+      "manual": false
+    },
+    {
+      "id": "分析者（大纲）_gpt-5.6-sol_2609221708",
+      "topic": "分析者（大纲）",
+      "model": "GPT 5.6 Sol",
+      "time": "202609221708",
+      "effort": "xhigh",
+      "harness": "cursor",
+      "grade": "B",
+      "file": "texts/分析者（大纲）_gpt-5.6-sol_2609221708.txt",
+      "manual": false
+    },
+    {
+      "id": "分析者（大纲）_Grok4.7_2609221727",
+      "topic": "分析者（大纲）",
+      "model": "Grok 4.7",
+      "time": "202609221727",
+      "effort": "xhigh",
+      "harness": "cursor",
+      "grade": "D",
+      "file": "texts/分析者（大纲）_Grok4.7_2609221727.txt",
+      "manual": false
+    },
+    {
+      "id": "分析者（大纲）_Claude-Opus-5.5_2609231615",
+      "topic": "分析者（大纲）",
+      "model": "Claude Opus 5.5",
+      "time": "202609231615",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "D",
+      "file": "texts/分析者（大纲）_Claude-Opus-5.5_2609231615.txt",
+      "manual": false
+    },
+    {
+      "id": "分析者（大纲）_Claude-Opus-4.5_2609261627",
+      "topic": "分析者（大纲）",
+      "model": "Claude Opus 4.5",
+      "time": "202609261627",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "E",
+      "file": "texts/分析者（大纲）_Claude-Opus-4.5_2609261627.txt",
+      "manual": true
+    },
+    {
+      "id": "工程师_ClaudeOpus4.5_2609271440",
+      "topic": "工程师",
+      "model": "Claude Opus 4.5",
+      "time": "202609271440",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "E",
+      "file": "texts/工程师_ClaudeOpus4.5_2609271440.txt",
+      "manual": false
+    },
+    {
+      "id": "工程师_ClaudeFable5.1_2609271510",
+      "topic": "工程师",
+      "model": "Claude Fable 5.1",
+      "time": "202609271510",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "B",
+      "file": "texts/工程师_ClaudeFable5.1_2609271510.txt",
+      "manual": false
+    },
+    {
+      "id": "工程师_Grok4.7_2609271514",
+      "topic": "工程师",
+      "model": "Grok 4.7",
+      "time": "202609271514",
+      "effort": "xhigh",
+      "harness": "cursor",
+      "grade": "B",
+      "file": "texts/工程师_Grok4.7_2609271514.txt",
+      "manual": false
+    },
+    {
+      "id": "工程师_GPT-5.6-Sol_2609271904",
+      "topic": "工程师",
+      "model": "GPT 5.6 Sol",
+      "time": "202609271904",
+      "effort": "xhigh",
+      "harness": "cursor",
+      "grade": "C",
+      "file": "texts/工程师_GPT-5.6-Sol_2609271904.txt",
+      "manual": false
+    },
+    {
+      "id": "分析者_ClaudeFable5.1_2609271928",
+      "topic": "分析者",
+      "model": "Claude Fable 5.1",
+      "time": "202609271928",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "A",
+      "file": "texts/分析者_ClaudeFable5.1_2609271928.txt",
+      "manual": false
+    },
+    {
+      "id": "分析者_GPT-5.6-Sol_2609272224",
+      "topic": "分析者",
+      "model": "GPT 5.6 Sol",
+      "time": "202609272224",
+      "effort": "xhigh",
+      "harness": "cursor",
+      "grade": "C",
+      "file": "texts/分析者_GPT-5.6-Sol_2609272224.txt",
+      "manual": false
+    },
+    {
+      "id": "分析者_GPT-6-Astra_2609281347",
+      "topic": "分析者",
+      "model": "GPT 6 Astra",
+      "time": "202609281347",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "D",
+      "file": "texts/分析者_GPT-6-Astra_2609281347.txt",
+      "manual": true
+    },
+    {
+      "id": "分析者_Grok4.7_2609281710",
+      "topic": "分析者",
+      "model": "Grok 4.7",
+      "time": "202609281710",
+      "effort": "xhigh",
+      "harness": "cursor",
+      "grade": "C",
+      "file": "texts/分析者_Grok4.7_2609281710.txt",
+      "manual": false
+    },
+    {
+      "id": "母亲_Grok4.7_2609282111",
+      "topic": "母亲",
+      "model": "Grok 4.7",
+      "time": "202609282111",
+      "effort": "xhigh",
+      "harness": "cursor",
+      "grade": "C",
+      "file": "texts/母亲_Grok4.7_2609282111.txt",
+      "manual": false
+    },
+    {
+      "id": "母亲_Grok4.5_2609282136",
+      "topic": "母亲",
+      "model": "Grok 4.5",
+      "time": "202609282136",
+      "effort": "xhigh",
+      "harness": "cursor",
+      "grade": "D",
+      "file": "texts/母亲_Grok4.5_2609282136.txt",
+      "manual": false
+    },
+    {
+      "id": "同寝_Grok4.7_2609282146",
+      "topic": "同寝",
+      "model": "Grok 4.7",
+      "time": "202609282146",
+      "effort": "xhigh",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/同寝_Grok4.7_2609282146.txt",
+      "manual": false
+    },
+    {
+      "id": "母亲_Grok4.6_2609282218",
+      "topic": "母亲",
+      "model": "Grok 4.6",
+      "time": "202609282218",
+      "effort": "xhigh",
+      "harness": "cursor",
+      "grade": "C",
+      "file": "texts/母亲_Grok4.6_2609282218.txt",
+      "manual": false
+    },
+    {
+      "id": "高魔_Grok4.7_2609290058",
+      "topic": "高魔",
+      "model": "Grok 4.7",
+      "time": "202609290058",
+      "effort": "xhigh",
+      "harness": "cursor",
+      "grade": "C",
+      "file": "texts/高魔_Grok4.7_2609290058.txt",
+      "manual": false
+    },
+    {
+      "id": "分析者_Grok4.7_2609301548",
+      "topic": "分析者",
+      "model": "Grok 4.7",
+      "time": "202609301548",
+      "effort": "xhigh",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/分析者_Grok4.7_2609301548.txt",
+      "manual": false
+    },
+    {
+      "id": "双线_ClaudeFable5.1_2610010009",
+      "topic": "双线",
+      "model": "Claude Fable 5.1",
+      "time": "202610010009",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "D",
+      "file": "texts/双线_ClaudeFable5.1_2610010009.txt",
+      "manual": false
+    },
+    {
+      "id": "双线_Claude-Opus-5.5_2610012200",
+      "topic": "双线",
+      "model": "Claude Opus 5.5",
+      "time": "202610012200",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "B",
+      "file": "texts/双线_Claude-Opus-5.5_2610012200.txt",
+      "manual": false
+    },
+    {
+      "id": "双线_GPT-5.6-Sol_2610020006",
+      "topic": "双线",
+      "model": "GPT 5.6 Sol",
+      "time": "202610020006",
+      "effort": "xhigh",
+      "harness": "cursor",
+      "grade": "B",
+      "file": "texts/双线_GPT-5.6-Sol_2610020006.txt",
+      "manual": false
+    },
+    {
+      "id": "高魔_GPT-5.6-Sol_2610021358",
+      "topic": "高魔",
+      "model": "GPT 5.6 Sol",
+      "time": "202610021358",
+      "effort": "xhigh",
+      "harness": "cursor",
+      "grade": "B",
+      "file": "texts/高魔_GPT-5.6-Sol_2610021358.txt",
+      "manual": false
+    },
+    {
+      "id": "双线_Grok4.7_2610021437",
+      "topic": "双线",
+      "model": "Grok 4.7",
+      "time": "202610021437",
+      "effort": "xhigh",
+      "harness": "cursor",
+      "grade": "D",
+      "file": "texts/双线_Grok4.7_2610021437.txt",
+      "manual": false
+    },
+    {
+      "id": "高魔_Claude-Opus-5.5_2610021646",
+      "topic": "高魔",
+      "model": "Claude Opus 5.5",
+      "time": "202610021646",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "B",
+      "file": "texts/高魔_Claude-Opus-5.5_2610021646.txt",
+      "manual": false
+    },
+    {
+      "id": "报道_Grok4.7_2610022102",
+      "topic": "报道",
+      "model": "Grok 4.7",
+      "time": "202610022102",
+      "effort": "xhigh",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/报道_Grok4.7_2610022102.txt",
+      "manual": false
+    },
+    {
+      "id": "哲学教授_Grok4.7_2610030027",
+      "topic": "哲学教授",
+      "model": "Grok 4.7",
+      "time": "202610030027",
+      "effort": "xhigh",
+      "harness": "cursor",
+      "grade": "C",
+      "file": "texts/哲学教授_Grok4.7_2610030027.txt",
+      "manual": false
+    },
+    {
+      "id": "关系户_Grok4.7_2610030145",
+      "topic": "关系户",
+      "model": "Grok 4.7",
+      "time": "202610030145",
+      "effort": "xhigh",
+      "harness": "cursor",
+      "grade": "C",
+      "file": "texts/关系户_Grok4.7_2610030145.txt",
+      "manual": false
+    },
+    {
+      "id": "哲学教授_gpt-5.6-sol_2610031229",
+      "topic": "哲学教授",
+      "model": "GPT 5.6 Sol",
+      "time": "202610031229",
+      "effort": "medium",
+      "harness": "codex",
+      "grade": "B",
+      "file": "texts/哲学教授_gpt-5.6-sol_2610031229.txt",
+      "manual": false
+    },
+    {
+      "id": "双线_GPT-6-Astra_2610031657",
+      "topic": "双线",
+      "model": "GPT 6 Astra",
+      "time": "202610031657",
+      "effort": "medium",
+      "harness": "codex",
+      "grade": "D",
+      "file": "texts/双线_GPT-6-Astra_2610031657.txt",
+      "manual": false
+    },
+    {
+      "id": "哲学教授_GPT-6-Astra_2610031845",
+      "topic": "哲学教授",
+      "model": "GPT 6 Astra",
+      "time": "202610031845",
+      "effort": "medium",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/哲学教授_GPT-6-Astra_2610031845.txt",
+      "manual": false
+    },
+    {
+      "id": "高魔_GPT-6-Astra_2610032016",
+      "topic": "高魔",
+      "model": "GPT 6 Astra",
+      "time": "202610032016",
+      "effort": "medium",
+      "harness": "codex",
+      "grade": "D",
+      "file": "texts/高魔_GPT-6-Astra_2610032016.txt",
+      "manual": false
+    },
+    {
+      "id": "哲学教授_GPT-6-Astra_2610032317",
+      "topic": "哲学教授",
+      "model": "GPT 6 Astra",
+      "time": "202610032317",
+      "effort": "medium",
+      "harness": "codex",
+      "grade": "D",
+      "file": "texts/哲学教授_GPT-6-Astra_2610032317.txt",
+      "manual": false
+    },
+    {
+      "id": "哲学教授_GPT-6.1-Sol_2610040002",
+      "topic": "哲学教授",
+      "model": "GPT 6.1 Sol",
+      "time": "202610040002",
+      "effort": "medium",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/哲学教授_GPT-6.1-Sol_2610040002.txt",
+      "manual": false
+    },
+    {
+      "id": "哲学教授_GPT-6.1-Sol_2610040029",
+      "topic": "哲学教授",
+      "model": "GPT 6.1 Sol",
+      "time": "202610040029",
+      "effort": "medium",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/哲学教授_GPT-6.1-Sol_2610040029.txt",
+      "manual": false
+    },
+    {
+      "id": "哲学教授_gpt-5.6-sol_2610041116",
+      "topic": "哲学教授",
+      "model": "GPT 5.6 Sol",
+      "time": "202610041116",
+      "effort": "medium",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/哲学教授_gpt-5.6-sol_2610041116.txt",
+      "manual": false
+    },
+    {
+      "id": "哲学教授_Claude-Opus-5.5_2610041621",
+      "topic": "哲学教授",
+      "model": "Claude Opus 5.5",
+      "time": "202610041621",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "B",
+      "file": "texts/哲学教授_Claude-Opus-5.5_2610041621.txt",
+      "manual": false
+    },
+    {
+      "id": "报道_gpt-5.6-sol_2610041919",
+      "topic": "报道",
+      "model": "GPT 5.6 Sol",
+      "time": "202610041919",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "B",
+      "file": "texts/报道_gpt-5.6-sol_2610041919.txt",
+      "manual": false
+    },
+    {
+      "id": "报道_GPT-6.1-Sol_2610042001",
+      "topic": "报道",
+      "model": "GPT 6.1 Sol",
+      "time": "202610042001",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "D",
+      "file": "texts/报道_GPT-6.1-Sol_2610042001.txt",
+      "manual": false
+    },
+    {
+      "id": "关系户_gpt-5.6-sol_2610051645",
+      "topic": "关系户",
+      "model": "GPT 5.6 Sol",
+      "time": "202610051645",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "A",
+      "file": "texts/关系户_gpt-5.6-sol_2610051645.txt",
+      "manual": false
+    },
+    {
+      "id": "关系户_GPT-6-Astra_2610051733",
+      "topic": "关系户",
+      "model": "GPT 6 Astra",
+      "time": "202610051733",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "B",
+      "file": "texts/关系户_GPT-6-Astra_2610051733.txt",
+      "manual": false
+    },
+    {
+      "id": "同寝_gpt-5.6-sol_2610051808",
+      "topic": "同寝",
+      "model": "GPT 5.6 Sol",
+      "time": "202610051808",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/同寝_gpt-5.6-sol_2610051808.txt",
+      "manual": false
+    },
+    {
+      "id": "母亲_GPT-5.6-Sol_2610052016",
+      "topic": "母亲",
+      "model": "GPT 5.6 Sol",
+      "time": "202610052016",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "D",
+      "file": "texts/母亲_GPT-5.6-Sol_2610052016.txt",
+      "manual": false
+    },
+    {
+      "id": "报道_GPT-6-Astra_2610060053",
+      "topic": "报道",
+      "model": "GPT 6 Astra",
+      "time": "202610060053",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "D",
+      "file": "texts/报道_GPT-6-Astra_2610060053.txt",
+      "manual": false
+    },
+    {
+      "id": "洋葱骑士_gpt-5.6-sol_2610060103",
+      "topic": "洋葱骑士",
+      "model": "GPT 5.6 Sol",
+      "time": "202610060103",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/洋葱骑士_gpt-5.6-sol_2610060103.txt",
+      "manual": false
+    },
+    {
+      "id": "洋葱骑士_Grok4.7_2610060136",
+      "topic": "洋葱骑士",
+      "model": "Grok 4.7",
+      "time": "202610060136",
+      "effort": "xhigh",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/洋葱骑士_Grok4.7_2610060136.txt",
+      "manual": false
+    },
+    {
+      "id": "工程师_MuseSpark1.3_2610061409",
+      "topic": "工程师",
+      "model": "Muse Spark 1.3",
+      "time": "202610061409",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "D",
+      "file": "texts/工程师_MuseSpark1.3_2610061409.txt",
+      "manual": true
+    },
+    {
+      "id": "报道_Claude-Opus-5.5_2610061745",
+      "topic": "报道",
+      "model": "Claude Opus 5.5",
+      "time": "202610061745",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "B",
+      "file": "texts/报道_Claude-Opus-5.5_2610061745.txt",
+      "manual": true
+    },
+    {
+      "id": "双线_muse-spark-1.3_2610062133",
+      "topic": "双线",
+      "model": "Muse Spark 1.3",
+      "time": "202610062133",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "E",
+      "file": "texts/双线_muse-spark-1.3_2610062133.txt",
+      "manual": true
+    },
+    {
+      "id": "关系户_Claude-Opus-5.5_2610062240",
+      "topic": "关系户",
+      "model": "Claude Opus 5.5",
+      "time": "202610062240",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "C",
+      "file": "texts/关系户_Claude-Opus-5.5_2610062240.txt",
+      "manual": true
+    },
+    {
+      "id": "双线_Gemini-3.8-Flash_2610070047",
+      "topic": "双线",
+      "model": "Gemini 3.8 Flash",
+      "time": "202610070047",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/双线_Gemini-3.8-Flash_2610070047.txt",
+      "manual": true
+    },
+    {
+      "id": "高魔_Grok4.6_2610070102",
+      "topic": "高魔",
+      "model": "Grok 4.6",
+      "time": "202610070102",
+      "effort": "xhigh",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/高魔_Grok4.6_2610070102.txt",
+      "manual": true
+    },
+    {
+      "id": "母亲_Claude-Opus-5.5_2610070109",
+      "topic": "母亲",
+      "model": "Claude Opus 5.5",
+      "time": "202610070109",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "C",
+      "file": "texts/母亲_Claude-Opus-5.5_2610070109.txt",
+      "manual": true
+    },
+    {
+      "id": "关系户_Grok4.6_2610070140",
+      "topic": "关系户",
+      "model": "Grok 4.6",
+      "time": "202610070140",
+      "effort": "xhigh",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/关系户_Grok4.6_2610070140.txt",
+      "manual": true
+    },
+    {
+      "id": "偏执_gpt-5.6-sol_2610070156",
+      "topic": "偏执",
+      "model": "GPT 5.6 Sol",
+      "time": "202610070156",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "C",
+      "file": "texts/偏执_gpt-5.6-sol_2610070156.txt",
+      "manual": true
+    },
+    {
+      "id": "偏执_GPT-6-Astra_2610070159",
+      "topic": "偏执",
+      "model": "GPT 6 Astra",
+      "time": "202610070159",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/偏执_GPT-6-Astra_2610070159.txt",
+      "manual": true
+    },
+    {
+      "id": "偏执_Claude-Opus-5.5_2610070216",
+      "topic": "偏执",
+      "model": "Claude Opus 5.5",
+      "time": "202610070216",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "A",
+      "file": "texts/偏执_Claude-Opus-5.5_2610070216.txt",
+      "manual": true
+    },
+    {
+      "id": "偏执_Grok4.7_2610070219",
+      "topic": "偏执",
+      "model": "Grok 4.7",
+      "time": "202610070219",
+      "effort": "xhigh",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/偏执_Grok4.7_2610070219.txt",
+      "manual": true
+    },
+    {
+      "id": "报道_MuseSpark1.3_2610071015",
+      "topic": "报道",
+      "model": "Muse Spark 1.3",
+      "time": "202610071015",
+      "effort": "high",
+      "harness": "opencode",
+      "grade": "E",
+      "file": "texts/报道_MuseSpark1.3_2610071015.txt",
+      "manual": true
+    },
+    {
+      "id": "母亲_GPT-6-Astra_2610071417",
+      "topic": "母亲",
+      "model": "GPT 6 Astra",
+      "time": "202610071417",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "D",
+      "file": "texts/母亲_GPT-6-Astra_2610071417.txt",
+      "manual": true
+    },
+    {
+      "id": "工程师_GPT-6-Astra_2610071710",
+      "topic": "工程师",
+      "model": "GPT 6 Astra",
+      "time": "202610071710",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/工程师_GPT-6-Astra_2610071710.txt",
+      "manual": true
+    },
+    {
+      "id": "分析者（大纲）_GPT-6-Astra_2610071806",
+      "topic": "分析者（大纲）",
+      "model": "GPT 6 Astra",
+      "time": "202610071806",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/分析者（大纲）_GPT-6-Astra_2610071806.txt",
+      "manual": true
+    }
+  ]
+}

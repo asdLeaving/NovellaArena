@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>导入文稿 · NovellaArena</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <div class="topbar">
+    <a class="back" href="index.html">返回主页</a>
+    <strong>导入文稿</strong>
+  </div>
+  <main class="page">
+    <p class="lede">把符合「题目_模型_yymmddhhmm.txt」的文稿拖进来。模型名会归一成空格分隔的规范写法，并和已有列合并。网页标注的文稿不会收入。</p>
+    <div class="drop" id="drop">
+      <div>
+        <p>把 .txt 拖到这里，或点击选择文件</p>
+        <input id="file" type="file" accept=".txt,text/plain">
+      </div>
+    </div>
+    <section id="panel" class="hidden">
+      <div class="preview" id="preview"></div>
+      <div class="choice-stack">
+        <div class="field">
+          <span>Harness</span>
+          <div class="choice-row" id="harness" role="radiogroup">
+            <button type="button" data-value="cursor">cursor</button>
+            <button type="button" data-value="codex">codex</button>
+            <button type="button" data-value="__custom">手动填入</button>
+          </div>
+        </div>
+        <label id="harnessCustomWrap" class="hidden">自定义 harness
+          <input id="harnessCustom" type="text" autocomplete="off">
+        </label>
+        <div class="field">
+          <span>Effort</span>
+          <div class="choice-row" id="effort" role="radiogroup">
+            <button type="button" data-value="">未记录</button>
+            <button type="button" data-value="low">low</button>
+            <button type="button" data-value="medium">medium</button>
+            <button type="button" data-value="high">high</button>
+            <button type="button" data-value="xhigh">xhigh</button>
+            <button type="button" data-value="max">max</button>
+            <button type="button" data-value="__custom">手动填入</button>
+          </div>
+        </div>
+        <label id="effortCustomWrap" class="hidden">自定义 effort
+          <input id="effortCustom" type="text" autocomplete="off">
+        </label>
+        <div class="field">
+          <span>生成质量</span>
+          <div class="choice-row" id="grade" role="radiogroup">
+            <button type="button" class="g-unset" data-value="">未定</button>
+            <button type="button" class="g-a" data-value="A">A</button>
+            <button type="button" class="g-b" data-value="B">B</button>
+            <button type="button" class="g-c" data-value="C">C</button>
+            <button type="button" class="g-d" data-value="D">D</button>
+            <button type="button" class="g-e" data-value="E">E</button>
+          </div>
+        </div>
+        <label id="releaseWrap" class="hidden">模型发布日期
+          <span class="date-parts">
+            <input id="releaseYear" inputmode="numeric" maxlength="4" placeholder="年" aria-label="年" autocomplete="off">
+            <input id="releaseMonth" inputmode="numeric" maxlength="2" placeholder="月" aria-label="月" autocomplete="off">
+            <input id="releaseDay" inputmode="numeric" maxlength="2" placeholder="日" aria-label="日" autocomplete="off">
+          </span>
+        </label>
+      </div>
+      <div class="stack">
+        <label>生成 prompt（可留空；填写后会写入或更新这道题目的 prompt）
+          <textarea id="prompt"></textarea>
+        </label>
+      </div>
+      <div class="actions">
+        <button class="primary" id="save" type="button">加入网页</button>
+        <span id="dirLabel" class="note"></span>
+      </div>
+      <p id="message" class="note"></p>
+    </section>
+  </main>
+  <script src="assets/models.js"></script>
+  <script src="assets/ingest.js"></script>
+</body>
+</html>
