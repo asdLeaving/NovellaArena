@@ -45,12 +45,6 @@
       "promptAt": "2026-09-30 15:18"
     },
     {
-      "name": "母亲",
-      "grade": "C",
-      "promptFile": "prompts/母亲.txt",
-      "promptAt": "2026-09-28 22:03"
-    },
-    {
       "name": "偏执",
       "grade": "D",
       "promptFile": "prompts/偏执.txt",
@@ -62,6 +56,26 @@
       "grade": "D",
       "promptFile": "prompts/工程师.txt",
       "promptAt": "2026-09-27 19:04"
+    },
+    {
+      "name": "逃走",
+      "grade": "E",
+      "promptFile": "prompts/逃走.txt",
+      "promptAt": "2026-10-08 02:22",
+      "promptManual": true
+    },
+    {
+      "name": "母亲",
+      "grade": "B",
+      "promptFile": "prompts/母亲.txt",
+      "promptAt": "2026-09-28 22:03"
+    },
+    {
+      "name": "母亲V2",
+      "grade": "C",
+      "promptFile": "prompts/母亲V2.txt",
+      "promptAt": "2026-10-08 12:02",
+      "promptManual": true
     },
     {
       "name": "洋葱骑士",
@@ -900,6 +914,50 @@
       "harness": "cursor",
       "grade": "",
       "file": "texts/洋葱骑士_Claude-Opus-5.5_2610072208.txt",
+      "manual": true
+    },
+    {
+      "id": "逃走_GPT-6-Astra_2610080222",
+      "topic": "逃走",
+      "model": "GPT 6 Astra",
+      "time": "202610080222",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/逃走_GPT-6-Astra_2610080222.txt",
+      "manual": true
+    },
+    {
+      "id": "逃走_Claude-Opus-5.5_2610080222",
+      "topic": "逃走",
+      "model": "Claude Opus 5.5",
+      "time": "202610080222",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/逃走_Claude-Opus-5.5_2610080222.txt",
+      "manual": true
+    },
+    {
+      "id": "逃走_gpt-5.6-sol_2610080222",
+      "topic": "逃走",
+      "model": "GPT 5.6 Sol",
+      "time": "202610080222",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "B",
+      "file": "texts/逃走_gpt-5.6-sol_2610080222.txt",
+      "manual": true
+    },
+    {
+      "id": "母亲V2_GPT-5.6-Sol_2610081202",
+      "topic": "母亲V2",
+      "model": "GPT 5.6 Sol",
+      "time": "202610081202",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/母亲V2_GPT-5.6-Sol_2610081202.txt",
       "manual": true
     }
   ]
