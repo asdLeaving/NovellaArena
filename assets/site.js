@@ -400,6 +400,21 @@
     applyFilters();
   }
 
+  function pageQuery() {
+    var query = location.search || "";
+    if (query.charAt(0) === "?") query = query.slice(1);
+    var mark = query.indexOf("#");
+    if (mark !== -1) query = query.slice(0, mark);
+    return new URLSearchParams(query);
+  }
+
+  function manuscriptId() {
+    var id = pageQuery().get("id") || "";
+    var mark = id.indexOf("#");
+    if (mark !== -1) id = id.slice(0, mark);
+    return id;
+  }
+
   function findEntry(catalog, id) {
     return catalog.entries.find(function (entry) { return entry.id === id; }) || null;
   }
@@ -449,7 +464,8 @@
     if (/^[一二三四五六七八九十百零〇]{1,3}[\s　·.、:：].+/.test(text)) return { level: 1, text: text };
     if (/^【(?:场景)?[一二三四五六七八九十0-9]{1,3}】/.test(text)) return { level: 1, text: text };
     if (/^No\.?\s*\d+/i.test(text)) return { level: 1, text: text };
-    if (/^(尾声|序章|楔子|终章|后记|引子|序)$/.test(text)) return { level: 1, text: text };
+    if (/^(尾声|序章|楔子|终章|后记|引子|序|跋)$/.test(text)) return { level: 1, text: text };
+    if (/^(序|跋)[\s　·.、:：].+/.test(text)) return { level: 1, text: text };
     if (/^[\u4e00-\u9fff]{2,4}$/.test(text) && /^(\d{1,3}|[一二三四五六七八九十]{2,5})岁$/.test(nextText)) {
       return { level: 1, text: text };
     }
@@ -493,7 +509,13 @@
   }
 
   function renderRead(catalog) {
-    var id = new URLSearchParams(location.search).get("id");
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+    var glued = pageQuery().get("id") || "";
+    var gluedMark = glued.indexOf("#");
+    if (gluedMark !== -1 && !location.hash) {
+      history.replaceState(null, "", location.pathname + "?id=" + encodeURIComponent(glued.slice(0, gluedMark)) + glued.slice(gluedMark));
+    }
+    var id = manuscriptId();
     var entry = id && findEntry(catalog, id);
     var mount = $("reader");
     if (!entry) {
@@ -588,7 +610,7 @@
         if (window.matchMedia("(max-width: 760px)").matches) setTocOpen(false);
         activate(id);
         target.scrollIntoView({ behavior: "smooth", block: "start" });
-        history.replaceState(null, "", "#" + id);
+        history.replaceState(null, "", location.pathname + location.search + "#" + id);
       }
       var topLink = document.createElement("a");
       topLink.href = "#top";
@@ -717,14 +739,29 @@
       }, { passive: true });
       window.addEventListener("wheel", function () { pinnedId = ""; }, { passive: true });
       window.addEventListener("touchmove", function () { pinnedId = ""; }, { passive: true });
-      requestAnimationFrame(syncToc);
+      function scrollToHash() {
+        var raw = location.hash;
+        if (!raw || raw === "#") return;
+        var targetId = raw.slice(1);
+        try { targetId = decodeURIComponent(targetId); } catch (error) { return; }
+        var target = document.getElementById(targetId);
+        if (!target) return;
+        pinnedId = targetId;
+        activate(targetId);
+        target.scrollIntoView({ behavior: "auto", block: "start" });
+      }
+      scrollToHash();
+      requestAnimationFrame(function () {
+        scrollToHash();
+        syncToc();
+      });
     }).catch(function () {
       mount.textContent = "正文没有加载出来。请通过本地服务器或 GitHub Pages 打开本站。";
     });
   }
 
   function renderPrompt(catalog) {
-    var topicName = new URLSearchParams(location.search).get("topic");
+    var topicName = pageQuery().get("topic");
     var topic = catalog.topics.find(function (item) { return item.name === topicName; });
     var mount = $("prompt");
     if (!topic) {

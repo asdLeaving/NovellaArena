@@ -3,9 +3,10 @@
   "topics": [
     {
       "name": "高魔",
-      "grade": "B",
+      "grade": "D",
       "promptFile": "prompts/高魔.txt",
-      "promptAt": "2026-10-02 16:46"
+      "promptAt": "2026-10-02 16:46",
+      "promptManual": true
     },
     {
       "name": "双线",
@@ -16,59 +17,66 @@
     },
     {
       "name": "报道",
-      "grade": "D",
+      "grade": "B",
       "promptFile": "prompts/报道.txt",
-      "promptAt": "2026-10-02 20:34"
+      "promptAt": "2026-10-02 20:34",
+      "promptManual": true
     },
     {
       "name": "哲学教授",
       "grade": "C",
       "promptFile": "prompts/哲学教授.txt",
-      "promptAt": "2026-10-04 16:21"
+      "promptAt": "2026-10-04 16:21",
+      "promptManual": true
     },
     {
       "name": "关系户",
       "grade": "C",
       "promptFile": "prompts/关系户.txt",
-      "promptAt": "2026-10-03 01:22"
+      "promptAt": "2026-10-03 01:22",
+      "promptManual": true
     },
     {
       "name": "分析者（大纲）",
-      "grade": "A",
+      "grade": "E",
       "promptFile": "prompts/分析者（大纲）.txt",
-      "promptAt": "2026-09-11 14:35"
+      "promptAt": "2026-09-22 17:08",
+      "promptManual": true
     },
     {
       "name": "分析者",
-      "grade": "B",
+      "grade": "D",
       "promptFile": "prompts/分析者.txt",
-      "promptAt": "2026-09-30 15:18"
+      "promptAt": "2026-09-30 15:18",
+      "promptManual": true
     },
     {
       "name": "偏执",
-      "grade": "D",
+      "grade": "B",
       "promptFile": "prompts/偏执.txt",
       "promptAt": "2026-10-07 01:56",
       "promptManual": true
     },
     {
       "name": "工程师",
-      "grade": "D",
+      "grade": "B",
       "promptFile": "prompts/工程师.txt",
-      "promptAt": "2026-09-27 19:04"
+      "promptAt": "2026-09-27 19:04",
+      "promptManual": true
     },
     {
       "name": "逃走",
-      "grade": "E",
+      "grade": "A",
       "promptFile": "prompts/逃走.txt",
       "promptAt": "2026-10-08 02:22",
       "promptManual": true
     },
     {
       "name": "母亲",
-      "grade": "B",
+      "grade": "D",
       "promptFile": "prompts/母亲.txt",
-      "promptAt": "2026-09-28 22:03"
+      "promptAt": "2026-09-28 22:03",
+      "promptManual": true
     },
     {
       "name": "母亲V2",
@@ -79,15 +87,31 @@
     },
     {
       "name": "洋葱骑士",
-      "grade": "B",
+      "grade": "D",
       "promptFile": "prompts/洋葱骑士.txt",
-      "promptAt": "2026-10-06 01:03"
+      "promptAt": "2026-10-06 01:03",
+      "promptManual": true
     },
     {
       "name": "同寝",
-      "grade": "D",
+      "grade": "B",
       "promptFile": "prompts/同寝.txt",
-      "promptAt": "2026-09-28 21:15"
+      "promptAt": "2026-09-28 21:15",
+      "promptManual": true
+    },
+    {
+      "name": "附魅",
+      "grade": "A",
+      "promptFile": "prompts/附魅.txt",
+      "promptAt": "2026-10-09 07:09",
+      "promptManual": true
+    },
+    {
+      "name": "失调",
+      "grade": "B",
+      "promptFile": "prompts/失调.txt",
+      "promptAt": "2026-10-09 07:15",
+      "promptManual": true
     }
   ],
   "models": [
@@ -681,7 +705,7 @@
       "time": "202610051808",
       "effort": "high",
       "harness": "codex",
-      "grade": "",
+      "grade": "B",
       "file": "texts/同寝_gpt-5.6-sol_2610051808.txt",
       "manual": false
     },
@@ -923,7 +947,7 @@
       "time": "202610080222",
       "effort": "high",
       "harness": "codex",
-      "grade": "",
+      "grade": "C",
       "file": "texts/逃走_GPT-6-Astra_2610080222.txt",
       "manual": true
     },
@@ -934,7 +958,7 @@
       "time": "202610080222",
       "effort": "high",
       "harness": "cursor",
-      "grade": "",
+      "grade": "C",
       "file": "texts/逃走_Claude-Opus-5.5_2610080222.txt",
       "manual": true
     },
@@ -956,8 +980,63 @@
       "time": "202610081202",
       "effort": "high",
       "harness": "codex",
-      "grade": "",
+      "grade": "D",
       "file": "texts/母亲V2_GPT-5.6-Sol_2610081202.txt",
+      "manual": true
+    },
+    {
+      "id": "母亲V2_gpt-5.6-sol_2610081707",
+      "topic": "母亲V2",
+      "model": "GPT 5.6 Sol",
+      "time": "202610081707",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/母亲V2_gpt-5.6-sol_2610081707.txt",
+      "manual": true
+    },
+    {
+      "id": "附魅_gpt-5.6-sol_2610090709",
+      "topic": "附魅",
+      "model": "GPT 5.6 Sol",
+      "time": "202610090709",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/附魅_gpt-5.6-sol_2610090709.txt",
+      "manual": true
+    },
+    {
+      "id": "失调_gpt-5.6-sol_2610090715",
+      "topic": "失调",
+      "model": "GPT 5.6 Sol",
+      "time": "202610090715",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/失调_gpt-5.6-sol_2610090715.txt",
+      "manual": true
+    },
+    {
+      "id": "同寝_GPT-6-Astra_2610091041",
+      "topic": "同寝",
+      "model": "GPT 6 Astra",
+      "time": "202610091041",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/同寝_GPT-6-Astra_2610091041.txt",
+      "manual": true
+    },
+    {
+      "id": "母亲V2_GPT-6-Astra_2610091043",
+      "topic": "母亲V2",
+      "model": "GPT 6 Astra",
+      "time": "202610091043",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/母亲V2_GPT-6-Astra_2610091043.txt",
       "manual": true
     }
   ]
