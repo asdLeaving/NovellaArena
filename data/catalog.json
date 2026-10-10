@@ -463,7 +463,7 @@
       "time": "202610010009",
       "effort": "high",
       "harness": "cursor",
-      "grade": "D",
+      "grade": "C",
       "file": "texts/双线_ClaudeFable5.1_2610010009.txt",
       "manual": false
     },
@@ -903,7 +903,7 @@
       "time": "202610071710",
       "effort": "high",
       "harness": "codex",
-      "grade": "",
+      "grade": "C",
       "file": "texts/工程师_GPT-6-Astra_2610071710.txt",
       "manual": true
     },
@@ -914,7 +914,7 @@
       "time": "202610071806",
       "effort": "high",
       "harness": "codex",
-      "grade": "",
+      "grade": "C",
       "file": "texts/分析者（大纲）_GPT-6-Astra_2610071806.txt",
       "manual": true
     },
@@ -925,7 +925,7 @@
       "time": "202610072133",
       "effort": "high",
       "harness": "codex",
-      "grade": "",
+      "grade": "C",
       "file": "texts/洋葱骑士_GPT-6-Astra_2610072133.txt",
       "manual": true
     },
@@ -936,7 +936,7 @@
       "time": "202610072208",
       "effort": "high",
       "harness": "cursor",
-      "grade": "",
+      "grade": "D",
       "file": "texts/洋葱骑士_Claude-Opus-5.5_2610072208.txt",
       "manual": true
     },
@@ -1002,7 +1002,7 @@
       "time": "202610090709",
       "effort": "high",
       "harness": "codex",
-      "grade": "",
+      "grade": "C",
       "file": "texts/附魅_gpt-5.6-sol_2610090709.txt",
       "manual": true
     },
@@ -1013,7 +1013,7 @@
       "time": "202610090715",
       "effort": "high",
       "harness": "codex",
-      "grade": "",
+      "grade": "C",
       "file": "texts/失调_gpt-5.6-sol_2610090715.txt",
       "manual": true
     },
@@ -1024,7 +1024,7 @@
       "time": "202610091041",
       "effort": "high",
       "harness": "codex",
-      "grade": "",
+      "grade": "C",
       "file": "texts/同寝_GPT-6-Astra_2610091041.txt",
       "manual": true
     },
@@ -1037,6 +1037,28 @@
       "harness": "codex",
       "grade": "",
       "file": "texts/母亲V2_GPT-6-Astra_2610091043.txt",
+      "manual": true
+    },
+    {
+      "id": "附魅_GPT-6-Astra_2610091719",
+      "topic": "附魅",
+      "model": "GPT 6 Astra",
+      "time": "202610091719",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/附魅_GPT-6-Astra_2610091719.txt",
+      "manual": true
+    },
+    {
+      "id": "失调_GPT-6-Astra_2610091755",
+      "topic": "失调",
+      "model": "GPT 6 Astra",
+      "time": "202610091755",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/失调_GPT-6-Astra_2610091755.txt",
       "manual": true
     }
   ]

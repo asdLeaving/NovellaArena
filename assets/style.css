@@ -182,6 +182,7 @@ button.primary, a.button.primary {
   width: min(1180px, calc(100% - 2rem));
   margin: 0 auto 0.8rem;
   overflow: auto;
+  isolation: isolate;
   max-height: calc(100vh - 11.5rem);
   border: 1px solid var(--line);
   border-radius: 16px;
@@ -288,7 +289,7 @@ th .grade-counts span {
 th:first-child, td:first-child {
   position: sticky;
   left: 0;
-  z-index: 3;
+  z-index: 1;
   min-width: 8.4rem;
 }
 th:first-child { z-index: 4; }
@@ -515,21 +516,26 @@ a.cell .badge {
 
 @media (max-width: 760px) {
   .site-header { flex-direction: column; align-items: flex-start; }
+  .topbar { gap: 0.6rem; }
+  .topbar strong { font-size: 0.9rem; }
+  .topbar a.back { white-space: nowrap; }
   .reader { display: block; }
   .toc-bar {
-    position: sticky;
-    top: 3.4rem;
-    z-index: 5;
-    margin: 0 0 0.8rem;
+    margin-left: auto;
   }
   .toc-toggle {
     display: inline-flex;
     font: inherit;
     color: inherit;
+    padding: 0.35rem 0.7rem;
+    white-space: nowrap;
   }
   .toc {
     display: none;
-    position: static;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: min(22rem, 100%);
     max-height: min(50vh, 22rem);
     margin-top: 0.45rem;
     padding: 0.45rem 0.7rem 0.7rem;
@@ -539,7 +545,7 @@ a.cell .badge {
     background: var(--bg-raise);
     box-shadow: var(--shadow);
   }
-  .reader.toc-open .toc { display: block; }
+  .toc-bar.toc-open .toc { display: block; }
   .toc a { font-size: 0.75rem; }
   .prose { font-size: 1rem; }
   .table-wrap { max-height: calc(100vh - 8rem); }

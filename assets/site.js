@@ -546,13 +546,14 @@
       var label = document.createElement("p");
       label.textContent = "目录";
       toc.appendChild(label);
+      var mobileToc = window.matchMedia("(max-width: 760px)");
       function setTocOpen(open) {
-        layout.classList.toggle("toc-open", open);
+        tocBar.classList.toggle("toc-open", open);
         tocToggle.setAttribute("aria-expanded", open ? "true" : "false");
         tocToggle.textContent = open ? "收起目录" : "目录";
       }
       tocToggle.addEventListener("click", function () {
-        var open = !layout.classList.contains("toc-open");
+        var open = !tocBar.classList.contains("toc-open");
         setTocOpen(open);
         if (open) {
           var active = toc.querySelector("a.active");
@@ -561,6 +562,18 @@
       });
       tocBar.appendChild(tocToggle);
       tocBar.appendChild(toc);
+      document.addEventListener("pointerdown", function (event) {
+        if (mobileToc.matches && !tocBar.contains(event.target)) setTocOpen(false);
+      });
+      document.addEventListener("focusin", function (event) {
+        if (mobileToc.matches && !tocBar.contains(event.target)) setTocOpen(false);
+      });
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && mobileToc.matches && tocBar.classList.contains("toc-open")) {
+          setTocOpen(false);
+          tocToggle.focus();
+        }
+      });
 
       var article = document.createElement("article");
       var head = document.createElement("div");
@@ -607,7 +620,7 @@
       }
       function jumpTo(id, target) {
         pinnedId = id;
-        if (window.matchMedia("(max-width: 760px)").matches) setTocOpen(false);
+        if (mobileToc.matches) setTocOpen(false);
         activate(id);
         target.scrollIntoView({ behavior: "smooth", block: "start" });
         history.replaceState(null, "", location.pathname + location.search + "#" + id);
@@ -705,6 +718,13 @@
       layout.appendChild(article);
       mount.textContent = "";
       mount.appendChild(layout);
+      function placeToc() {
+        setTocOpen(false);
+        if (mobileToc.matches) document.querySelector(".topbar").appendChild(tocBar);
+        else layout.insertBefore(tocBar, article);
+      }
+      placeToc();
+      mobileToc.addEventListener("change", placeToc);
 
       var readingLine = 96;
       function syncToc() {
