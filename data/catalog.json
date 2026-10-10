@@ -72,6 +72,13 @@
       "promptManual": true
     },
     {
+      "name": "逃走V2",
+      "grade": "B",
+      "promptFile": "prompts/逃走V2.txt",
+      "promptAt": "2026-10-10 14:32",
+      "promptManual": true
+    },
+    {
       "name": "母亲",
       "grade": "D",
       "promptFile": "prompts/母亲.txt",
@@ -112,6 +119,20 @@
       "promptFile": "prompts/失调.txt",
       "promptAt": "2026-10-09 07:15",
       "promptManual": true
+    },
+    {
+      "name": "恐怖黎明",
+      "grade": "C",
+      "promptFile": "prompts/恐怖黎明.txt",
+      "promptAt": "2026-10-10 17:59",
+      "promptManual": true
+    },
+    {
+      "name": "意识",
+      "grade": "A",
+      "promptFile": "prompts/意识.txt",
+      "promptAt": "2026-10-10 18:06",
+      "promptManual": true
     }
   ],
   "models": [
@@ -123,6 +144,11 @@
     {
       "name": "Gemini 3.8 Flash",
       "released": "2026-09-02",
+      "hidden": true
+    },
+    {
+      "name": "Grok 4.20",
+      "released": "2026-03-10",
       "hidden": true
     },
     {
@@ -529,7 +555,7 @@
       "time": "202610022102",
       "effort": "xhigh",
       "harness": "cursor",
-      "grade": "",
+      "grade": "D",
       "file": "texts/报道_Grok4.7_2610022102.txt",
       "manual": false
     },
@@ -804,7 +830,7 @@
       "time": "202610070047",
       "effort": "high",
       "harness": "cursor",
-      "grade": "",
+      "grade": "D",
       "file": "texts/双线_Gemini-3.8-Flash_2610070047.txt",
       "manual": true
     },
@@ -1059,6 +1085,83 @@
       "harness": "codex",
       "grade": "",
       "file": "texts/失调_GPT-6-Astra_2610091755.txt",
+      "manual": true
+    },
+    {
+      "id": "失调_Grok-4.20_2610101135",
+      "topic": "失调",
+      "model": "Grok 4.20",
+      "time": "202610101135",
+      "effort": "",
+      "harness": "grok bot",
+      "grade": "",
+      "file": "texts/失调_Grok-4.20_2610101135.txt",
+      "manual": true
+    },
+    {
+      "id": "逃走V2_GPT-5.6-Sol_2610101432",
+      "topic": "逃走V2",
+      "model": "GPT 5.6 Sol",
+      "time": "202610101432",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "C",
+      "file": "texts/逃走V2_GPT-5.6-Sol_2610101432.txt",
+      "manual": true
+    },
+    {
+      "id": "逃走V2_GPT-6-Astra_2610101611",
+      "topic": "逃走V2",
+      "model": "GPT 6 Astra",
+      "time": "202610101611",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/逃走V2_GPT-6-Astra_2610101611.txt",
+      "manual": true
+    },
+    {
+      "id": "恐怖黎明_GPT-5.6-Sol_2610101759",
+      "topic": "恐怖黎明",
+      "model": "GPT 5.6 Sol",
+      "time": "202610101759",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/恐怖黎明_GPT-5.6-Sol_2610101759.txt",
+      "manual": true
+    },
+    {
+      "id": "意识_gpt-5.6-sol_2610101806",
+      "topic": "意识",
+      "model": "GPT 5.6 Sol",
+      "time": "202610101806",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/意识_gpt-5.6-sol_2610101806.txt",
+      "manual": true
+    },
+    {
+      "id": "意识_GPT-6-Astra_2610101943",
+      "topic": "意识",
+      "model": "GPT 6 Astra",
+      "time": "202610101943",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/意识_GPT-6-Astra_2610101943.txt",
+      "manual": true
+    },
+    {
+      "id": "恐怖黎明_GPT-6-Astra_2610102020",
+      "topic": "恐怖黎明",
+      "model": "GPT 6 Astra",
+      "time": "202610102020",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/恐怖黎明_GPT-6-Astra_2610102020.txt",
       "manual": true
     }
   ]
