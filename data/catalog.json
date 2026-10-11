@@ -445,7 +445,7 @@
       "time": "202609282146",
       "effort": "xhigh",
       "harness": "cursor",
-      "grade": "",
+      "grade": "D",
       "file": "texts/同寝_Grok4.7_2609282146.txt",
       "manual": false
     },
@@ -1127,7 +1127,7 @@
       "time": "202610101759",
       "effort": "high",
       "harness": "codex",
-      "grade": "",
+      "grade": "C",
       "file": "texts/恐怖黎明_GPT-5.6-Sol_2610101759.txt",
       "manual": true
     },
@@ -1138,7 +1138,7 @@
       "time": "202610101806",
       "effort": "high",
       "harness": "codex",
-      "grade": "",
+      "grade": "C",
       "file": "texts/意识_gpt-5.6-sol_2610101806.txt",
       "manual": true
     },
