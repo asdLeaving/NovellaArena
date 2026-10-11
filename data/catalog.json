@@ -93,17 +93,17 @@
       "promptManual": true
     },
     {
-      "name": "洋葱骑士",
-      "grade": "D",
-      "promptFile": "prompts/洋葱骑士.txt",
-      "promptAt": "2026-10-06 01:03",
-      "promptManual": true
-    },
-    {
       "name": "同寝",
       "grade": "B",
       "promptFile": "prompts/同寝.txt",
       "promptAt": "2026-09-28 21:15",
+      "promptManual": true
+    },
+    {
+      "name": "洋葱骑士",
+      "grade": "D",
+      "promptFile": "prompts/洋葱骑士.txt",
+      "promptAt": "2026-10-06 01:03",
       "promptManual": true
     },
     {
@@ -144,6 +144,11 @@
     {
       "name": "Gemini 3.8 Flash",
       "released": "2026-09-02",
+      "hidden": true
+    },
+    {
+      "name": "GPT 5.5",
+      "released": "2026-04-23",
       "hidden": true
     },
     {
@@ -1072,7 +1077,7 @@
       "time": "202610091719",
       "effort": "high",
       "harness": "codex",
-      "grade": "",
+      "grade": "D",
       "file": "texts/附魅_GPT-6-Astra_2610091719.txt",
       "manual": true
     },
@@ -1162,6 +1167,39 @@
       "harness": "codex",
       "grade": "",
       "file": "texts/恐怖黎明_GPT-6-Astra_2610102020.txt",
+      "manual": true
+    },
+    {
+      "id": "逃走_gpt-5.5_2610112107",
+      "topic": "逃走",
+      "model": "GPT 5.5",
+      "time": "202610112107",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "D",
+      "file": "texts/逃走_gpt-5.5_2610112107.txt",
+      "manual": true
+    },
+    {
+      "id": "同寝_gpt-5.5_2610112110",
+      "topic": "同寝",
+      "model": "GPT 5.5",
+      "time": "202610112110",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/同寝_gpt-5.5_2610112110.txt",
+      "manual": true
+    },
+    {
+      "id": "工程师_GPT-5.5_2610112139",
+      "topic": "工程师",
+      "model": "GPT 5.5",
+      "time": "202610112139",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "C",
+      "file": "texts/工程师_GPT-5.5_2610112139.txt",
       "manual": true
     }
   ]

@@ -4,6 +4,10 @@
   function $(id) { return document.getElementById(id); }
 
   function showError(message) {
+    document.querySelectorAll("[data-loading-message]").forEach(function (status) {
+      status.textContent = status.getAttribute("data-loading-message") + "加载失败，请刷新重试。";
+      status.parentElement.setAttribute("aria-busy", "false");
+    });
     var node = document.createElement("p");
     node.className = "error";
     node.textContent = message;
@@ -236,16 +240,27 @@
         row.appendChild(clusterEl);
       });
     });
-    jobs.forEach(function (job) {
-      fetch(encodeURI(job.entry.file)).then(function (response) {
+    Promise.all(jobs.map(function (job) {
+      return fetch(encodeURI(job.entry.file)).then(function (response) {
         if (!response.ok) throw new Error("text");
         return response.text();
       }).then(function (text) {
         var title = displayTitle(parseWork(text).title, job.topic);
         job.link.textContent = job.entry.grade ? title + " " + job.entry.grade : title;
+        return true;
       }).catch(function () {
         job.link.textContent = job.entry.grade ? job.topic + " " + job.entry.grade : job.topic;
+        return false;
       });
+    })).then(function (results) {
+      root.setAttribute("aria-busy", "false");
+      var status = root.querySelector("[data-loading-message]");
+      if (!status) return;
+      if (results.every(Boolean)) status.remove();
+      else {
+        status.textContent = "部分代表作标题未加载，已显示题目名称。";
+        status.removeAttribute("data-loading-message");
+      }
     });
   }
 
@@ -398,6 +413,7 @@
       });
     }
     applyFilters();
+    wrap.setAttribute("aria-busy", "false");
   }
 
   function pageQuery() {

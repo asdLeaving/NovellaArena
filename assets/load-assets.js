@@ -21,6 +21,10 @@
     script.src = freshUrl(scripts[index]);
     script.onload = function () { loadScript(index + 1); };
     script.onerror = function () {
+      document.querySelectorAll("[data-loading-message]").forEach(function (status) {
+        status.textContent = status.getAttribute("data-loading-message") + "加载失败，请刷新重试。";
+        status.parentElement.setAttribute("aria-busy", "false");
+      });
       var message = document.createElement("p");
       message.className = "error";
       message.textContent = "网页资源没有加载出来，请刷新重试。";

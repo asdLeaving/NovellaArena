@@ -459,6 +459,8 @@ a.cell .badge {
   margin: 1rem auto;
 }
 .error { color: var(--g-e); }
+.loading-message { margin: 0.6rem 0; color: var(--muted); font-size: 0.9rem; }
+.table-wrap > .loading-message { margin: 0; padding: 1.2rem; }
 
 .drop {
   border: 1.5px dashed var(--line);
