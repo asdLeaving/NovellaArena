@@ -25,6 +25,12 @@ if ($LASTEXITCODE -ne 0) {
   Fail "当前目录不是 git 仓库。"
 }
 
+try {
+  & (Join-Path $PSScriptRoot "tools/update_asset_versions.ps1")
+} catch {
+  Fail ("资源版本更新失败：" + $_.Exception.Message)
+}
+
 git add -A
 if ($LASTEXITCODE -ne 0) {
   Fail "git add 失败。"
