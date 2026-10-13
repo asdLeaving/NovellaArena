@@ -655,7 +655,7 @@
       "time": "202610040002",
       "effort": "medium",
       "harness": "codex",
-      "grade": "",
+      "grade": "E",
       "file": "texts/哲学教授_GPT-6.1-Sol_2610040002.txt",
       "manual": false
     },
@@ -1229,6 +1229,138 @@
       "harness": "codex",
       "grade": "D",
       "file": "texts/价值_GPT-6-Astra_2610121439.txt",
+      "manual": true
+    },
+    {
+      "id": "逃走_Grok4.7_2610131511",
+      "topic": "逃走",
+      "model": "Grok 4.7",
+      "time": "202610131511",
+      "effort": "xhigh",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/逃走_Grok4.7_2610131511.txt",
+      "manual": true
+    },
+    {
+      "id": "价值_Grok4.7_2610131615",
+      "topic": "价值",
+      "model": "Grok 4.7",
+      "time": "202610131615",
+      "effort": "xhigh",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/价值_Grok4.7_2610131615.txt",
+      "manual": true
+    },
+    {
+      "id": "母亲V2_Grok4.7_2610131713",
+      "topic": "母亲V2",
+      "model": "Grok 4.7",
+      "time": "202610131713",
+      "effort": "xhigh",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/母亲V2_Grok4.7_2610131713.txt",
+      "manual": true
+    },
+    {
+      "id": "附魅_Grok4.7_2610131751",
+      "topic": "附魅",
+      "model": "Grok 4.7",
+      "time": "202610131751",
+      "effort": "xhigh",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/附魅_Grok4.7_2610131751.txt",
+      "manual": true
+    },
+    {
+      "id": "失调_Grok4.7_2610131804",
+      "topic": "失调",
+      "model": "Grok 4.7",
+      "time": "202610131804",
+      "effort": "xhigh",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/失调_Grok4.7_2610131804.txt",
+      "manual": true
+    },
+    {
+      "id": "恐怖黎明_Grok4.7_2610131941",
+      "topic": "恐怖黎明",
+      "model": "Grok 4.7",
+      "time": "202610131941",
+      "effort": "xhigh",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/恐怖黎明_Grok4.7_2610131941.txt",
+      "manual": true
+    },
+    {
+      "id": "意识_Grok4.7_2610132047",
+      "topic": "意识",
+      "model": "Grok 4.7",
+      "time": "202610132047",
+      "effort": "xhigh",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/意识_Grok4.7_2610132047.txt",
+      "manual": true
+    },
+    {
+      "id": "附魅_GPT-6.1-Sol_2610132056",
+      "topic": "附魅",
+      "model": "GPT 6.1 Sol",
+      "time": "202610132056",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/附魅_GPT-6.1-Sol_2610132056.txt",
+      "manual": true
+    },
+    {
+      "id": "母亲V2_GPT-5.5_2610132106",
+      "topic": "母亲V2",
+      "model": "GPT 5.5",
+      "time": "202610132106",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/母亲V2_GPT-5.5_2610132106.txt",
+      "manual": true
+    },
+    {
+      "id": "偏执_gpt-5.5_2610132108",
+      "topic": "偏执",
+      "model": "GPT 5.5",
+      "time": "202610132108",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/偏执_gpt-5.5_2610132108.txt",
+      "manual": true
+    },
+    {
+      "id": "哲学教授_gpt-5.5_2610132118",
+      "topic": "哲学教授",
+      "model": "GPT 5.5",
+      "time": "202610132118",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/哲学教授_gpt-5.5_2610132118.txt",
+      "manual": true
+    },
+    {
+      "id": "报道_Grok4.6_2610132132",
+      "topic": "报道",
+      "model": "Grok 4.6",
+      "time": "202610132132",
+      "effort": "xhigh",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/报道_Grok4.6_2610132132.txt",
       "manual": true
     }
   ]
