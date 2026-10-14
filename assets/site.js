@@ -193,22 +193,75 @@
     var root = $("showcase");
     if (!root) return;
     var picked = latestMap(catalog.entries).latest;
-    var jobs = [];
-    root.querySelectorAll(".showcase-row").forEach(function (row) {
-      var slots = Array.prototype.slice.call(row.querySelectorAll("[data-model][data-topic]"));
-      var clusters = [];
-      slots.forEach(function (slot) {
-        var model = slot.getAttribute("data-model") || "";
-        var topic = slot.getAttribute("data-topic") || "";
-        var last = clusters[clusters.length - 1];
-        if (!last || last.model !== model) {
-          last = { model: model, items: [] };
-          clusters.push(last);
-        }
-        last.items.push(topic);
-      });
-      row.textContent = "";
-      var vendor = clusters.length ? vendorOf(clusters[0].model) : null;
+    var list = root.querySelector(".showcase-list");
+    var slots = Array.from(list.querySelectorAll("[data-model][data-topic], [data-id]"));
+    // Keep the mobile limit aligned with the two-column cover layout.
+    var mobile = window.matchMedia("(max-width: 600px)");
+    var pages = 1;
+    var renderedCount = 0;
+    var pendingTitles = 0;
+    var titleError = false;
+    list.id = "showcase-list";
+    var more = document.createElement("button");
+    more.type = "button";
+    more.className = "button showcase-more";
+    more.textContent = "显示更多";
+    more.setAttribute("aria-controls", list.id);
+    more.hidden = true;
+    root.appendChild(more);
+
+    function renderSlot(slot, index) {
+      var id = slot.getAttribute("data-id");
+      var model = slot.getAttribute("data-model") || "";
+      var topic = slot.getAttribute("data-topic") || "";
+      var entry = id
+        ? catalog.entries.find(function (item) { return item.id === id; })
+        : picked.get(topic + "\0" + model);
+      if (entry) {
+        model = entry.model;
+        topic = entry.topic;
+      }
+      slot.textContent = "";
+      var card = document.createElement(entry ? "a" : "div");
+      card.className = "showcase-work" + (entry ? "" : " unavailable");
+      if (entry) card.href = "read.html?id=" + encodeURIComponent(entry.id);
+
+      var art = document.createElement("span");
+      art.className = "showcase-art";
+      var placeholder = document.createElement("span");
+      placeholder.className = "showcase-placeholder";
+      placeholder.textContent = "封面待补";
+      placeholder.setAttribute("aria-hidden", "true");
+      art.appendChild(placeholder);
+      if (entry && entry.file) {
+        var cover = document.createElement("img");
+        cover.className = "showcase-cover";
+        cover.alt = "";
+        cover.width = 512;
+        cover.height = 512;
+        cover.loading = index < 5 ? "eager" : "lazy";
+        cover.decoding = "async";
+        cover.addEventListener("load", function () {
+          art.classList.add("has-cover");
+        });
+        cover.addEventListener("error", function () {
+          cover.remove();
+          art.classList.remove("has-cover");
+        });
+        // 封面与文稿同名，统一放在 assets/covers 中，HTML 无需另配图片。
+        var stem = entry.file.split(/[\\/]/).pop().replace(/\.[^.]+$/, "");
+        cover.src = "assets/covers/" + encodeURIComponent(stem) + ".webp?v=20261014-3";
+        art.appendChild(cover);
+      }
+      card.appendChild(art);
+
+      var title = document.createElement("h3");
+      title.className = "showcase-title";
+      title.textContent = topic || "未找到文稿";
+      card.appendChild(title);
+      var meta = document.createElement("span");
+      meta.className = "showcase-meta";
+      var vendor = vendorOf(model);
       if (vendor) {
         var logo = document.createElement("img");
         logo.className = "showcase-logo" + (vendor.ink ? " ink" : "");
@@ -217,51 +270,75 @@
         logo.title = vendor.name;
         logo.width = 16;
         logo.height = 16;
-        row.appendChild(logo);
+        meta.appendChild(logo);
       }
-      clusters.forEach(function (cluster) {
-        var clusterEl = document.createElement("span");
-        clusterEl.className = "showcase-cluster";
-        var label = document.createElement("span");
-        label.className = "showcase-model";
-        label.textContent = cluster.model + "：";
-        clusterEl.appendChild(label);
-        cluster.items.forEach(function (topic) {
-          var entry = picked.get(topic + "\0" + cluster.model);
-          var link = document.createElement("a");
-          link.className = "showcase-work " + gradeClass(entry && entry.grade);
-          link.textContent = entry && entry.grade ? topic + " " + entry.grade : topic;
-          if (entry) {
-            link.href = "read.html?id=" + encodeURIComponent(entry.id);
-            jobs.push({ link: link, entry: entry, topic: topic });
-          }
-          clusterEl.appendChild(link);
+      var label = document.createElement("span");
+      label.className = "showcase-model";
+      label.textContent = model;
+      meta.appendChild(label);
+      var grade = document.createElement("span");
+      grade.className = "showcase-grade " + gradeClass(entry && entry.grade);
+      grade.textContent = entry ? entry.grade || "未定" : "暂无";
+      grade.title = entry ? "评级：" + (entry.grade || "未定") : "未找到文稿";
+      grade.setAttribute("aria-label", grade.title);
+      meta.appendChild(grade);
+      card.appendChild(meta);
+      slot.appendChild(card);
+      return entry ? { title: title, entry: entry, topic: topic } : null;
+    }
+
+    function loadTitles(jobs) {
+      pendingTitles += jobs.length;
+      root.setAttribute("aria-busy", pendingTitles ? "true" : "false");
+      Promise.all(jobs.map(function (job) {
+        return fetch(encodeURI(job.entry.file)).then(function (response) {
+          if (!response.ok) throw new Error("text");
+          return response.text();
+        }).then(function (text) {
+          job.title.textContent = displayTitle(parseWork(text).title, job.topic);
+          return true;
+        }).catch(function () {
+          job.title.textContent = job.topic;
+          return false;
         });
-        row.appendChild(clusterEl);
+      })).then(function (results) {
+        pendingTitles -= jobs.length;
+        titleError = titleError || !results.every(Boolean);
+        if (pendingTitles) return;
+        root.setAttribute("aria-busy", "false");
+        var status = root.querySelector("[data-loading-message]");
+        if (!status) return;
+        if (!titleError) status.remove();
+        else {
+          status.textContent = "部分代表作标题未加载，已显示题目名称。";
+          status.removeAttribute("data-loading-message");
+        }
       });
-    });
-    Promise.all(jobs.map(function (job) {
-      return fetch(encodeURI(job.entry.file)).then(function (response) {
-        if (!response.ok) throw new Error("text");
-        return response.text();
-      }).then(function (text) {
-        var title = displayTitle(parseWork(text).title, job.topic);
-        job.link.textContent = job.entry.grade ? title + " " + job.entry.grade : title;
-        return true;
-      }).catch(function () {
-        job.link.textContent = job.entry.grade ? job.topic + " " + job.entry.grade : job.topic;
-        return false;
-      });
-    })).then(function (results) {
-      root.setAttribute("aria-busy", "false");
-      var status = root.querySelector("[data-loading-message]");
-      if (!status) return;
-      if (results.every(Boolean)) status.remove();
-      else {
-        status.textContent = "部分代表作标题未加载，已显示题目名称。";
-        status.removeAttribute("data-loading-message");
+    }
+
+    function showPage() {
+      var limit = Math.min(slots.length, pages * (mobile.matches ? 8 : 15));
+      slots.forEach(function (slot, index) { slot.hidden = index >= limit; });
+      var jobs = [];
+      // Create cards and request their assets only when they are first revealed.
+      while (renderedCount < limit) {
+        var job = renderSlot(slots[renderedCount], renderedCount);
+        if (job) jobs.push(job);
+        renderedCount += 1;
       }
+      more.hidden = limit === slots.length;
+      loadTitles(jobs);
+    }
+
+    more.addEventListener("click", function () {
+      var firstNew = pages * (mobile.matches ? 8 : 15);
+      pages += 1;
+      showPage();
+      var link = slots[firstNew] && slots[firstNew].querySelector("a");
+      if (link) link.focus({ preventScroll: true });
     });
+    mobile.addEventListener("change", showPage);
+    showPage();
   }
 
   function renderIndex(catalog) {

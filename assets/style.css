@@ -232,46 +232,126 @@ th .vendor {
 }
 .showcase {
   width: min(1180px, calc(100% - 2rem));
-  margin: 0 auto 0.85rem;
+  margin: 0 auto 1.75rem;
 }
 .showcase h2 {
-  margin: 0 0 0.4rem;
+  margin: 0 0 0.8rem;
   font-family: var(--sans);
   font-size: 1rem;
   font-weight: 600;
   line-height: 1.5;
 }
-.showcase-row {
+.showcase-list {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1.5rem 1.125rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.showcase-list > li { min-width: 0; }
+.showcase-more {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.35rem 0.55rem;
-  margin: 0 0 0.4rem;
+  margin: 1.25rem auto 0;
+  min-height: 44px;
+}
+.showcase-list > [hidden], .showcase-more[hidden] { display: none; }
+.showcase-work {
+  display: block;
+  height: 100%;
+  border-radius: 10px;
+  text-decoration: none;
+}
+.showcase-art {
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 10px;
+  background: var(--bg-raise);
+  box-shadow: inset 0 0 0 1px var(--line), 0 4px 16px rgba(30, 20, 10, 0.08);
+  transition: box-shadow 180ms ease, transform 180ms ease;
+}
+.showcase-placeholder {
+  color: var(--muted);
+  font-family: var(--serif);
+  font-size: 0.9rem;
+  letter-spacing: 0.12em;
+}
+.showcase-cover {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+}
+.showcase-art.has-cover .showcase-cover { opacity: 1; }
+.showcase-art.has-cover .showcase-placeholder { visibility: hidden; }
+.showcase-title {
+  margin: 0.65rem 0 0.3rem;
+  font-family: var(--serif);
+  font-size: 1.03rem;
+  font-weight: 600;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+.showcase-meta {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.35rem;
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.5;
 }
 .showcase-logo {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
+  margin-top: 0.06rem;
   flex: none;
   object-fit: contain;
 }
-.showcase-cluster {
-  display: inline-flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.35rem;
+.showcase-model {
+  min-width: 0;
+  flex: 1;
+  overflow-wrap: anywhere;
 }
-.showcase-model { font-weight: 600; }
-.showcase-work {
-  display: inline-block;
-  border-radius: 6px;
-  padding: 0.08rem 0.42rem;
-  font-size: 0.86rem;
+.showcase-grade {
+  flex: none;
+  min-width: 1.6rem;
+  padding: 0.04rem 0.35rem;
+  border-radius: 5px;
+  font-size: 0.875rem;
   font-weight: 600;
-  line-height: 1.45;
-  text-decoration: none;
-  white-space: nowrap;
+  text-align: center;
 }
-.showcase-work:hover { filter: brightness(1.06); }
+a.showcase-work:hover .showcase-art,
+a.showcase-work:focus-visible .showcase-art {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(30, 20, 10, 0.16);
+}
+a.showcase-work:hover .showcase-title,
+a.showcase-work:focus-visible .showcase-title { color: var(--accent); }
+.showcase-work.unavailable { opacity: 0.65; }
+@media (max-width: 1040px) {
+  .showcase-list { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (max-width: 820px) {
+  .showcase-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 600px) {
+  .showcase-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem 0.85rem; }
+}
+@media (max-width: 340px) {
+  .showcase-list { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .showcase-art { transition: none; }
+  a.showcase-work:hover .showcase-art,
+  a.showcase-work:focus-visible .showcase-art { transform: none; }
+}
 th .grade-counts {
   display: flex;
   flex-wrap: wrap;
@@ -424,7 +504,7 @@ a.cell .badge {
   padding: 1.1rem 1.2rem;
   max-width: 46rem;
 }
-.remarks {
+.ratings, .remarks {
   width: min(1180px, calc(100% - 2rem));
   margin: 0 auto 2rem;
   font-family: var(--sans);
@@ -432,7 +512,7 @@ a.cell .badge {
   line-height: 1.5;
   color: var(--muted);
 }
-.remarks h2 {
+.ratings h2, .remarks h2 {
   margin: 0 0 0.55rem;
   font-family: inherit;
   font-size: inherit;
@@ -440,10 +520,16 @@ a.cell .badge {
   line-height: inherit;
   color: var(--ink);
 }
-.remarks p {
+.ratings > p, .remarks p {
   margin: 0 0 0.75em;
   overflow-wrap: break-word;
 }
+.ratings > .legend, .ratings > .toolbar, .ratings > .table-wrap {
+  width: 100%;
+  margin-inline: 0;
+}
+.ratings > .legend { font-size: inherit; }
+.ratings > .table-note { margin-top: 0.75rem; }
 .remarks-comic {
   margin: 0.35rem 0 0;
 }

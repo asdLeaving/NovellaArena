@@ -11,24 +11,23 @@
   <meta property="og:url" content="https://asdleaving.github.io/NovellaArena/">
   <meta property="og:title" content="LLM小说创作竞技场">
   <meta property="og:description" content="展示头部大模型生成的中文短篇小说。">
-  <meta property="og:image" content="https://asdleaving.github.io/NovellaArena/assets/2026%E5%9B%9B%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%86%99%E4%BD%9C%E5%9B%9B%E6%A0%BC%E6%BC%AB%E7%94%BB.png">
-  <meta property="og:image:type" content="image/png">
+  <meta property="og:image" content="https://asdleaving.github.io/NovellaArena/assets/2026%E5%9B%9B%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%86%99%E4%BD%9C%E5%9B%9B%E6%A0%BC%E6%BC%AB%E7%94%BB.webp">
+  <meta property="og:image:type" content="image/webp">
   <meta property="og:image:width" content="1254">
   <meta property="og:image:height" content="1254">
   <meta property="og:image:alt" content="2026头部大模写小说四格：Opus 5.5、5.6 Sol、6 Astra、Grok">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="LLM小说创作竞技场">
   <meta name="twitter:description" content="展示头部大模型生成的中文短篇小说。">
-  <meta name="twitter:image" content="https://asdleaving.github.io/NovellaArena/assets/2026%E5%9B%9B%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%86%99%E4%BD%9C%E5%9B%9B%E6%A0%BC%E6%BC%AB%E7%94%BB.png">
-  <link rel="stylesheet" href="assets/style.css?v=53332a1a9c8949363f16471121f70963b59348ff457af9ab19c5c5bf708dc6fb">
-  <script src="assets/load-assets.js?v=e232506c0e367be7897736cb34e66da285b2b35c1687454cfc4a8cd6b3f07a38" data-scripts="assets/site.js?v=6f3884f428e770b322d538152647593975ebbdc86378d2018b27e7ec688faac1"></script>
+  <meta name="twitter:image" content="https://asdleaving.github.io/NovellaArena/assets/2026%E5%9B%9B%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%86%99%E4%BD%9C%E5%9B%9B%E6%A0%BC%E6%BC%AB%E7%94%BB.webp">
+  <link rel="stylesheet" href="assets/style.css?v=a43499d734b56fd8714c716922963ded1653b072a35a9f450dc96c2b9e74f1c9">
+  <script src="assets/load-assets.js?v=e232506c0e367be7897736cb34e66da285b2b35c1687454cfc4a8cd6b3f07a38" data-scripts="assets/site.js?v=209474dfd5665f64fef0c81af563d054cfb63732bf7b9533f376362cec90367b"></script>
 </head>
 <body data-page="index">
   <header class="site-header">
     <div>
       <p class="brand">NovellaArena</p>
       <h1>LLM小说创作竞技场</h1>
-      <p class="lede"><strong>点击格子可阅读生成文稿</strong>，点击题目可查看prompt。</p>
       <p class="lede" id="summary"></p>
     </div>
     <div class="header-actions">
@@ -38,44 +37,42 @@
   <section class="showcase" id="showcase" aria-label="代表作" aria-busy="true">
     <h2>代表作（点开看看呗😉）</h2>
     <p class="loading-message" data-loading-message="代表作" role="status">正在加载代表作，请稍候…</p>
-    <div class="showcase-row">
-      <span data-model="Claude Opus 5.5" data-topic="偏执"></span>
-      <span data-model="Claude Opus 5.5" data-topic="高魔"></span>
-      <span data-model="Claude Opus 5.5" data-topic="哲学教授"></span>
-      <span data-model="Claude Fable 5.1" data-topic="分析者"></span>
-      <span data-model="Claude Fable 5.1" data-topic="工程师"></span>
-    </div>
-    <div class="showcase-row">
-      <span data-model="GPT 5.6 Sol" data-topic="关系户"></span>
-      <span data-model="GPT 5.6 Sol" data-topic="报道"></span>
-      <span data-model="GPT 5.6 Sol" data-topic="同寝"></span>
-      <span data-model="GPT 5.6 Sol" data-topic="逃走"></span>
-      <span data-model="GPT 5.6 Sol" data-topic="双线"></span>
-    </div>
-    <div class="showcase-row">
-      <span data-model="Grok 4.7" data-topic="工程师"></span>
-    </div>
+    <ul class="showcase-list" role="list">
+      <li data-model="Claude Opus 5.5" data-topic="偏执"></li>
+      <li data-model="Claude Opus 5.5" data-topic="高魔"></li>
+      <li data-model="Claude Opus 5.5" data-topic="哲学教授"></li>
+      <li data-model="Claude Fable 5.1" data-topic="分析者"></li>
+      <li data-model="Claude Fable 5.1" data-topic="工程师"></li>
+      <li data-model="GPT 5.6 Sol" data-topic="关系户"></li>
+      <li data-model="GPT 5.6 Sol" data-topic="报道"></li>
+      <li data-model="GPT 5.6 Sol" data-topic="同寝"></li>
+      <li data-model="GPT 5.6 Sol" data-topic="逃走"></li>
+      <li data-model="GPT 5.6 Sol" data-topic="双线"></li>
+      <li data-model="Grok 4.7" data-topic="工程师"></li>
+    </ul>
   </section>
-  <div class="legend" aria-label="评级图例">
-    <span class="swatch"><i class="g-unset"></i>未定</span>
-    <span class="swatch"><i class="g-a"></i>A</span>
-    <span class="swatch"><i class="g-b"></i>B</span>
-    <span class="swatch"><i class="g-c"></i>C</span>
-    <span class="swatch"><i class="g-d"></i>D</span>
-    <span class="swatch"><i class="g-e"></i>E</span>
-    <span>题目格反映允许模型原创的开放度，其余格反映生成小说的综合质量（纯个人主观）</span>
-  </div>
-  <div class="toolbar">
-    <input id="filter" type="search" placeholder="筛选题目" aria-label="筛选题目">
-    <input id="filter-model" type="search" placeholder="筛选模型" aria-label="筛选模型">
-    <button type="button" id="show-all" aria-pressed="false">显示全部模型</button>
-  </div>
-  <div class="table-wrap" id="table" aria-busy="true">
-    <p class="loading-message" data-loading-message="表格" role="status">正在加载表格，请稍候…</p>
-  </div>
-  <footer class="footer">
-    <p>格子里是生成时间和所用 effort、harness（为杜绝其他文章或工作内容可能造成的干扰，codex实际指关闭记忆功能的ChatGPT Work）。同一格有多篇时，左上角标明同模同题的篇数，格子显示已评级中最新的一篇，都没有评级时显示最新一篇。</p>
-  </footer>
+  <section class="ratings" aria-labelledby="ratings-heading">
+    <h2 id="ratings-heading">评级表</h2>
+    <p><strong>点击格子可阅读生成文稿</strong>，点击题目可查看prompt。</p>
+    <div class="legend" aria-label="评级图例">
+      <span class="swatch"><i class="g-unset"></i>未定</span>
+      <span class="swatch"><i class="g-a"></i>A</span>
+      <span class="swatch"><i class="g-b"></i>B</span>
+      <span class="swatch"><i class="g-c"></i>C</span>
+      <span class="swatch"><i class="g-d"></i>D</span>
+      <span class="swatch"><i class="g-e"></i>E</span>
+      <span>题目格反映允许模型原创的开放度，其余格反映生成小说的综合质量（纯个人主观）</span>
+    </div>
+    <div class="toolbar">
+      <input id="filter" type="search" placeholder="筛选题目" aria-label="筛选题目">
+      <input id="filter-model" type="search" placeholder="筛选模型" aria-label="筛选模型">
+      <button type="button" id="show-all" aria-pressed="false">显示全部模型</button>
+    </div>
+    <div class="table-wrap" id="table" aria-busy="true">
+      <p class="loading-message" data-loading-message="表格" role="status">正在加载表格，请稍候…</p>
+    </div>
+    <p class="table-note">格子里是生成时间和所用 effort、harness（为杜绝其他文章或工作内容可能造成的干扰，codex实际指关闭记忆功能的ChatGPT Work）。同一格有多篇时，左上角标明同模同题的篇数，格子显示已评级中最新的一篇，都没有评级时显示最新一篇。</p>
+  </section>
   <section class="remarks">
     <h2>主观评语</h2>
     <p>2026年头部大模的情节安排和指令遵循的能力飞跃，默认表达的廉价网文味有所减轻，<strong>Claude</strong>和<strong>5.6 Sol</strong>也没有因为适应agent汇报风而失去表达能力（<strong>GPT 6系列</strong>目前确实有问题），自主创作短篇小说（需要一定情节架构和节奏把控能力，不是不足万字的短文）的水平是有长足进步的，wish writing的可用性大幅提高。但即使是头部大模，不合理细节和描写还是不能通过自纠根除，小白表达还难以根除，影响严肃或沉郁题材的可用性。同一模型只要不大幅调整prompt就很难让大致风格和自主设计的情节发生实质变化，后续轮次要求大改时也倾向于偷懒。</p>
@@ -85,7 +82,7 @@
     <p><strong>Grok 4.6</strong>：情节设计比<strong>5.6 Sol</strong>更大众化，重戏剧性，不同章节的连贯度也有差距。廉价的AI味表达更多（“不能否认的在场，叫占用”），喜好用比较花哨的描写方式，但常显得过于刻意（“她笑着，笑意先到眼睛，再被一种急切追上，急切把笑意挤窄了”）。风格模仿能力较强，从情节设计到具体描写都更能逼近小众风格（但仍无法控制上述表达问题），安全护栏也较松。思维链较长且反复，会在thinking阶段大量模拟写正文，倾向于低估字数，总成本较高。</p>
     <p><strong>Grok 4.7</strong>：相比<strong>4.6</strong>更多的参数让情节设计和复杂指令的理解能力有所进步，但原有的表达问题反而更加严重：语气变得很平、短句非常多，常常将常见的二字词简化为一个字，还倾向于用不太贴切的借代和通感，英文直译的生硬感也更强，不过这些问题反而在描绘边缘人群时营造出合适的怪味（如工程师）。小众风格的模仿能力下滑，安全护栏明显收紧（思维链中会反复验证）。</p>
     <figure class="remarks-comic">
-      <img src="assets/2026四大模型写作四格漫画.png" alt="2026头部大模写小说四格：Opus 5.5、5.6 Sol、6 Astra、Grok">
+      <img src="assets/2026四大模型写作四格漫画.webp" width="1254" height="1254" loading="lazy" decoding="async" alt="2026头部大模写小说四格：Opus 5.5、5.6 Sol、6 Astra、Grok">
     </figure>
   </section>
 </body>
