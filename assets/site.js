@@ -550,9 +550,14 @@
     return /^[一二三四五六七八九十百零〇]{1,3}$/.test(text) || /^\d{1,2}$/.test(text);
   }
 
+  function isChapterHeading(text) {
+    return /^第[一二三四五六七八九十百千万零〇两0-9]+章(?:$|[\s　·.、:：].+)$/.test(text);
+  }
+
   function headingOf(line, prevBlank, nextText) {
     var text = line.trim();
     if (!text || !prevBlank || text.length > 42) return null;
+    if (isChapterHeading(text)) return { level: 1, text: text };
     if (/^[一二三四五六七八九十百零〇]{1,3}$/.test(text)) return { level: 1, text: text };
     if (/^[一二三四五六七八九十百零〇]{1,3}[\s　·.、:：].+/.test(text)) return { level: 1, text: text };
     if (/^【(?:场景)?[一二三四五六七八九十0-9]{1,3}】/.test(text)) return { level: 1, text: text };
@@ -587,6 +592,7 @@
       skipFirst = true;
     }
     var seenTitle = !skipFirst;
+    var inChapter = false;
     lines.forEach(function (line, index) {
       var text = line.trim();
       if (!text) return;
@@ -596,6 +602,13 @@
       }
       var prevBlank = index === 0 || !lines[index - 1].trim();
       var heading = headingOf(text, prevBlank, nextNonEmpty(lines, index));
+      if (heading) {
+        if (inChapter && /^[一二三四五六七八九十百零〇]{1,3}$/.test(text)) {
+          heading.level = 2;
+        } else if (heading.level === 1) {
+          inChapter = isChapterHeading(text);
+        }
+      }
       blocks.push(heading ? { type: "h", level: heading.level, text: heading.text } : { type: "p", text: text });
     });
     return { title: title, blocks: blocks, chars: countHan(raw) };

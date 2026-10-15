@@ -1271,7 +1271,7 @@
       "time": "202610131751",
       "effort": "xhigh",
       "harness": "cursor",
-      "grade": "",
+      "grade": "E",
       "file": "texts/附魅_Grok4.7_2610131751.txt",
       "manual": true
     },
@@ -1315,7 +1315,7 @@
       "time": "202610132056",
       "effort": "high",
       "harness": "codex",
-      "grade": "",
+      "grade": "E",
       "file": "texts/附魅_GPT-6.1-Sol_2610132056.txt",
       "manual": true
     },
@@ -1372,6 +1372,28 @@
       "harness": "cursor",
       "grade": "D",
       "file": "texts/偏执_Grok4.6_2610141420.txt",
+      "manual": true
+    },
+    {
+      "id": "附魅_Claude-Opus-5.5_2610151654",
+      "topic": "附魅",
+      "model": "Claude Opus 5.5",
+      "time": "202610151654",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/附魅_Claude-Opus-5.5_2610151654.txt",
+      "manual": true
+    },
+    {
+      "id": "价值_Claude-Opus-5.5_2610151817",
+      "topic": "价值",
+      "model": "Claude Opus 5.5",
+      "time": "202610151817",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/价值_Claude-Opus-5.5_2610151817.txt",
       "manual": true
     }
   ]
