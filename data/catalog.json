@@ -108,7 +108,7 @@
     },
     {
       "name": "附魅",
-      "grade": "A",
+      "grade": "B",
       "promptFile": "prompts/附魅.txt",
       "promptAt": "2026-10-09 07:09",
       "promptManual": true
@@ -1641,7 +1641,7 @@
       "time": "202610161849",
       "effort": "high",
       "harness": "cursor",
-      "grade": "",
+      "grade": "B",
       "file": "texts/价值_Claude-Opus-5.5_2610161849.txt",
       "manual": true
     }
