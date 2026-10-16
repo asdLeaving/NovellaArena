@@ -140,9 +140,49 @@
       "promptFile": "prompts/价值.txt",
       "promptAt": "2026-10-12 14:12",
       "promptManual": true
+    },
+    {
+      "name": "美院",
+      "grade": "A",
+      "promptFile": "prompts/美院.txt",
+      "promptAt": "2026-10-16 10:02",
+      "promptManual": true
+    },
+    {
+      "name": "大公司",
+      "grade": "A",
+      "promptFile": "prompts/大公司.txt",
+      "promptAt": "2026-10-16 10:07",
+      "promptManual": true
+    },
+    {
+      "name": "电工",
+      "grade": "B",
+      "promptFile": "prompts/电工.txt",
+      "promptAt": "2026-10-16 10:14",
+      "promptManual": true
+    },
+    {
+      "name": "酒保",
+      "grade": "A",
+      "promptFile": "prompts/酒保.txt",
+      "promptAt": "2026-10-16 10:22",
+      "promptManual": true
+    },
+    {
+      "name": "画师",
+      "grade": "A",
+      "promptFile": "prompts/画师.txt",
+      "promptAt": "2026-10-16 10:35",
+      "promptManual": true
     }
   ],
   "models": [
+    {
+      "name": "Gemini 4 Argon",
+      "released": "2026-10-13",
+      "hidden": false
+    },
     {
       "name": "Muse Spark 1.3",
       "released": "2026-09-02",
@@ -176,7 +216,7 @@
     {
       "name": "GPT 6.1 Sol",
       "released": "2026-09-29",
-      "hidden": false
+      "hidden": true
     },
     {
       "name": "Claude Opus 5.5",
@@ -1381,7 +1421,7 @@
       "time": "202610151654",
       "effort": "high",
       "harness": "cursor",
-      "grade": "",
+      "grade": "C",
       "file": "texts/附魅_Claude-Opus-5.5_2610151654.txt",
       "manual": true
     },
@@ -1392,8 +1432,206 @@
       "time": "202610151817",
       "effort": "high",
       "harness": "cursor",
-      "grade": "",
+      "grade": "B",
       "file": "texts/价值_Claude-Opus-5.5_2610151817.txt",
+      "manual": true
+    },
+    {
+      "id": "意识_Claude-Opus-5.5_2610152226",
+      "topic": "意识",
+      "model": "Claude Opus 5.5",
+      "time": "202610152226",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "C",
+      "file": "texts/意识_Claude-Opus-5.5_2610152226.txt",
+      "manual": true
+    },
+    {
+      "id": "失调_claude-opus-5.5_2610152231",
+      "topic": "失调",
+      "model": "Claude Opus 5.5",
+      "time": "202610152231",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/失调_claude-opus-5.5_2610152231.txt",
+      "manual": true
+    },
+    {
+      "id": "母亲V2_Gemini-4-Argon_2610152255",
+      "topic": "母亲V2",
+      "model": "Gemini 4 Argon",
+      "time": "202610152255",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/母亲V2_Gemini-4-Argon_2610152255.txt",
+      "manual": true
+    },
+    {
+      "id": "附魅_Gemini-4-Argon_2610152312",
+      "topic": "附魅",
+      "model": "Gemini 4 Argon",
+      "time": "202610152312",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "E",
+      "file": "texts/附魅_Gemini-4-Argon_2610152312.txt",
+      "manual": true
+    },
+    {
+      "id": "同寝_Claude-Opus-5.5_2610160944",
+      "topic": "同寝",
+      "model": "Claude Opus 5.5",
+      "time": "202610160944",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/同寝_Claude-Opus-5.5_2610160944.txt",
+      "manual": true
+    },
+    {
+      "id": "美院_GPT-5.6-Sol_2610161002",
+      "topic": "美院",
+      "model": "GPT 5.6 Sol",
+      "time": "202610161002",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/美院_GPT-5.6-Sol_2610161002.txt",
+      "manual": true
+    },
+    {
+      "id": "大公司_GPT-5.6-Sol_2610161007",
+      "topic": "大公司",
+      "model": "GPT 5.6 Sol",
+      "time": "202610161007",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/大公司_GPT-5.6-Sol_2610161007.txt",
+      "manual": true
+    },
+    {
+      "id": "电工_gpt-5.6-sol_2610161014",
+      "topic": "电工",
+      "model": "GPT 5.6 Sol",
+      "time": "202610161014",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/电工_gpt-5.6-sol_2610161014.txt",
+      "manual": true
+    },
+    {
+      "id": "酒保_GPT-5.6-Sol_2610161022",
+      "topic": "酒保",
+      "model": "GPT 5.6 Sol",
+      "time": "202610161022",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/酒保_GPT-5.6-Sol_2610161022.txt",
+      "manual": true
+    },
+    {
+      "id": "电工_gpt-5.6-sol_2610161025",
+      "topic": "电工",
+      "model": "GPT 5.6 Sol",
+      "time": "202610161025",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/电工_gpt-5.6-sol_2610161025.txt",
+      "manual": true
+    },
+    {
+      "id": "画师_gpt-5.6-sol_2610161035",
+      "topic": "画师",
+      "model": "GPT 5.6 Sol",
+      "time": "202610161035",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/画师_gpt-5.6-sol_2610161035.txt",
+      "manual": true
+    },
+    {
+      "id": "大公司_Grok4.7_2610161157",
+      "topic": "大公司",
+      "model": "Grok 4.7",
+      "time": "202610161157",
+      "effort": "xhigh",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/大公司_Grok4.7_2610161157.txt",
+      "manual": true
+    },
+    {
+      "id": "美院_Grok4.7_2610161223",
+      "topic": "美院",
+      "model": "Grok 4.7",
+      "time": "202610161223",
+      "effort": "xhigh",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/美院_Grok4.7_2610161223.txt",
+      "manual": true
+    },
+    {
+      "id": "酒保_Grok4.7_2610161307",
+      "topic": "酒保",
+      "model": "Grok 4.7",
+      "time": "202610161307",
+      "effort": "xhigh",
+      "harness": "cursor",
+      "grade": "E",
+      "file": "texts/酒保_Grok4.7_2610161307.txt",
+      "manual": true
+    },
+    {
+      "id": "电工_Grok4.7_2610161358",
+      "topic": "电工",
+      "model": "Grok 4.7",
+      "time": "202610161358",
+      "effort": "xhigh",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/电工_Grok4.7_2610161358.txt",
+      "manual": true
+    },
+    {
+      "id": "画师_Grok4.7_2610161446",
+      "topic": "画师",
+      "model": "Grok 4.7",
+      "time": "202610161446",
+      "effort": "xhigh",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/画师_Grok4.7_2610161446.txt",
+      "manual": true
+    },
+    {
+      "id": "酒保_Grok4.6_2610161724",
+      "topic": "酒保",
+      "model": "Grok 4.6",
+      "time": "202610161724",
+      "effort": "xhigh",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/酒保_Grok4.6_2610161724.txt",
+      "manual": true
+    },
+    {
+      "id": "附魅_Grok4.6_2610161756",
+      "topic": "附魅",
+      "model": "Grok 4.6",
+      "time": "202610161756",
+      "effort": "xhigh",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/附魅_Grok4.6_2610161756.txt",
       "manual": true
     }
   ]

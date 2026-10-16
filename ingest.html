@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>导入文稿 · NovellaArena</title>
   <link rel="stylesheet" href="assets/style.css?v=a43499d734b56fd8714c716922963ded1653b072a35a9f450dc96c2b9e74f1c9">
-  <script src="assets/load-assets.js?v=e232506c0e367be7897736cb34e66da285b2b35c1687454cfc4a8cd6b3f07a38" data-scripts="assets/models.js?v=426d7754554ce4709293fe90357797b0634cff55dce688018d625c1b31241624 assets/ingest.js?v=16417d777a7214a1dde809d54e4fb0d97ef177a7a68a7a2ecc7ac469124e1093"></script>
+  <script src="assets/load-assets.js?v=e232506c0e367be7897736cb34e66da285b2b35c1687454cfc4a8cd6b3f07a38" data-scripts="assets/models.js?v=426d7754554ce4709293fe90357797b0634cff55dce688018d625c1b31241624 assets/ingest.js?v=952034f9fe1ac11045250490e8e1f5b554776d9ff0291c0010c357aba73f481e"></script>
 </head>
 <body>
   <div class="topbar">
@@ -72,6 +72,19 @@
         <label>生成 prompt（可留空；填写后会写入或更新这道题目的 prompt）
           <textarea id="prompt"></textarea>
         </label>
+        <div class="field">
+          <span id="promptGradeLabel">Prompt 开放度（可选）</span>
+          <div class="choice-row" id="promptGrade" role="radiogroup" aria-labelledby="promptGradeLabel" aria-describedby="promptGradeHelp">
+            <button type="button" class="on" data-value="__keep" aria-pressed="true">保持原评级</button>
+            <button type="button" class="g-unset" data-value="">未定</button>
+            <button type="button" class="g-a" data-value="A">A</button>
+            <button type="button" class="g-b" data-value="B">B</button>
+            <button type="button" class="g-c" data-value="C">C</button>
+            <button type="button" class="g-d" data-value="D">D</button>
+            <button type="button" class="g-e" data-value="E">E</button>
+          </div>
+          <p class="note" id="promptGradeHelp">表示允许模型原创的开放度，保存后显示在主页题目格。可单独更新评级，无需填写 prompt；选择「未定」可清除已有评级，新题目默认未定。</p>
+        </div>
       </div>
       <div class="actions">
         <button class="primary" id="save" type="button">加入网页</button>

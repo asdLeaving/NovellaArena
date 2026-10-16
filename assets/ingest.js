@@ -74,6 +74,7 @@
     setChoice($("harness"), preset.harness);
     setChoice($("effort"), preset.effort);
     setChoice($("grade"), "");
+    setChoice($("promptGrade"), "__keep");
     $("prompt").value = "";
     syncCustom($("harness"), $("harnessCustomWrap"));
     syncCustom($("effort"), $("effortCustomWrap"));
@@ -244,10 +245,11 @@
         }
       }
       var promptText = $("prompt").value.trim();
+      var promptGrade = choiceValue($("promptGrade"));
       if (!rootHandle) {
         var catalogResponse = await fetch("data/catalog.json");
         var catalog = await catalogResponse.json();
-        var wrotePrompt = applyToCatalog(catalog, parsed, text, harness, effort, grade, released, promptText);
+        var wrotePrompt = applyToCatalog(catalog, parsed, text, harness, effort, grade, released, promptText, promptGrade);
         download("catalog.json", JSON.stringify(catalog, null, 2) + "\n");
         download(parsed.filename, text.endsWith("\n") ? text : text + "\n");
         if (wrotePrompt) download(parsed.topic + ".txt", promptText + "\n");
@@ -258,7 +260,7 @@
         return;
       }
       var catalog = await readCatalog(rootHandle);
-      var wrotePrompt = applyToCatalog(catalog, parsed, text, harness, effort, grade, released, promptText);
+      var wrotePrompt = applyToCatalog(catalog, parsed, text, harness, effort, grade, released, promptText, promptGrade);
       await writeText(rootHandle, ["texts", parsed.filename], text.endsWith("\n") ? text : text + "\n");
       if (wrotePrompt) {
         await writeText(rootHandle, ["prompts", parsed.topic + ".txt"], promptText + "\n");
@@ -277,7 +279,7 @@
     $("save").disabled = false;
   }
 
-  function applyToCatalog(catalog, parsed, text, harness, effort, grade, released, promptText) {
+  function applyToCatalog(catalog, parsed, text, harness, effort, grade, released, promptText, promptGrade) {
     catalog.models = catalog.models || [];
     catalog.topics = catalog.topics || [];
     catalog.entries = catalog.entries || [];
@@ -312,8 +314,11 @@
       catalog.entries.sort(function (a, b) { return a.time < b.time ? -1 : a.time > b.time ? 1 : 0; });
     }
     var wrotePrompt = false;
+    var topic = catalog.topics.find(function (item) { return item.name === parsed.topic; });
+    if (topic && ["", "A", "B", "C", "D", "E"].indexOf(promptGrade) !== -1) {
+      topic.grade = promptGrade;
+    }
     if (promptText) {
-      var topic = catalog.topics.find(function (item) { return item.name === parsed.topic; });
       if (topic) {
         topic.promptFile = "prompts/" + parsed.topic + ".txt";
         topic.promptManual = true;
@@ -360,6 +365,7 @@
   });
   bindChoices($("effort"), function () { syncCustom($("effort"), $("effortCustomWrap")); });
   bindChoices($("grade"), function () {});
+  bindChoices($("promptGrade"), function () {});
   bindDatePart($("releaseYear"), $("releaseMonth"), 4);
   bindDatePart($("releaseMonth"), $("releaseDay"), 2);
   bindDatePart($("releaseDay"), null, 2);
