@@ -547,14 +547,22 @@
   }
 
   function isPureNumeral(text) {
-    return /^[一二三四五六七八九十百零〇]{1,3}$/.test(text) || /^\d{1,2}$/.test(text);
+    return /^[一二三四五六七八九十百零〇]{1,3}$/.test(text) || /^\d{1,2}(?:\.\d{1,2})?$/.test(text);
   }
 
   function isChapterHeading(text) {
     return /^第[一二三四五六七八九十百千万零〇两0-9]+章(?:$|[\s　·.、:：].+)$/.test(text);
   }
 
-  function headingOf(line, prevBlank, nextText) {
+  function isNumberedSection(text, sectionNumbers) {
+    var number = /^(\d{1,2})\.(\d{1,2})$/.exec(text);
+    if (!number || !sectionNumbers) return false;
+    var prefix = number[1] + ".";
+    var section = Number(number[2]);
+    return sectionNumbers.has(prefix + (section - 1)) || sectionNumbers.has(prefix + (section + 1));
+  }
+
+  function headingOf(line, prevBlank, nextText, sectionNumbers) {
     var text = line.trim();
     if (!text || !prevBlank || text.length > 42) return null;
     if (isChapterHeading(text)) return { level: 1, text: text };
@@ -567,7 +575,7 @@
     if (/^[\u4e00-\u9fff]{2,4}$/.test(text) && /^(\d{1,3}|[一二三四五六七八九十]{2,5})岁$/.test(nextText)) {
       return { level: 1, text: text };
     }
-    if (/^\d{1,2}$/.test(text)) return { level: 2, text: text };
+    if (/^\d{1,2}$/.test(text) || isNumberedSection(text, sectionNumbers)) return { level: 2, text: text };
     return null;
   }
 
@@ -580,6 +588,10 @@
 
   function parseWork(raw) {
     var lines = raw.replace(/^\uFEFF/, "").replace(/\r\n/g, "\n").replace(/\r/g, "\n").split("\n");
+    // A neighboring section number distinguishes headings such as 1.1/1.2 from standalone decimals.
+    var sectionNumbers = new Set(lines.filter(function (line, index) {
+      return (index === 0 || !lines[index - 1].trim()) && /^\d{1,2}\.\d{1,2}$/.test(line.trim());
+    }).map(function (line) { return line.trim(); }));
     var blocks = [];
     var first = "";
     for (var i = 0; i < lines.length; i += 1) {
@@ -587,7 +599,7 @@
     }
     var title = "";
     var skipFirst = false;
-    if (first && first.length <= 22 && !/[。！？]$/.test(first) && !headingOf(first, true, "")) {
+    if (first && first.length <= 22 && !/[。！？]$/.test(first) && !headingOf(first, true, "", sectionNumbers)) {
       title = first;
       skipFirst = true;
     }
@@ -601,7 +613,7 @@
         return;
       }
       var prevBlank = index === 0 || !lines[index - 1].trim();
-      var heading = headingOf(text, prevBlank, nextNonEmpty(lines, index));
+      var heading = headingOf(text, prevBlank, nextNonEmpty(lines, index), sectionNumbers);
       if (heading) {
         if (inChapter && /^[一二三四五六七八九十百零〇]{1,3}$/.test(text)) {
           heading.level = 2;

@@ -1454,7 +1454,7 @@
       "time": "202610152231",
       "effort": "high",
       "harness": "cursor",
-      "grade": "",
+      "grade": "C",
       "file": "texts/失调_claude-opus-5.5_2610152231.txt",
       "manual": true
     },
@@ -1487,7 +1487,7 @@
       "time": "202610160944",
       "effort": "high",
       "harness": "cursor",
-      "grade": "",
+      "grade": "A",
       "file": "texts/同寝_Claude-Opus-5.5_2610160944.txt",
       "manual": true
     },
@@ -1632,6 +1632,17 @@
       "harness": "cursor",
       "grade": "",
       "file": "texts/附魅_Grok4.6_2610161756.txt",
+      "manual": true
+    },
+    {
+      "id": "价值_Claude-Opus-5.5_2610161849",
+      "topic": "价值",
+      "model": "Claude Opus 5.5",
+      "time": "202610161849",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/价值_Claude-Opus-5.5_2610161849.txt",
       "manual": true
     }
   ]
