@@ -1494,7 +1494,7 @@
       "time": "202610160944",
       "effort": "high",
       "harness": "cursor",
-      "grade": "A",
+      "grade": "B",
       "file": "texts/同寝_Claude-Opus-5.5_2610160944.txt",
       "manual": true
     },
@@ -1681,7 +1681,7 @@
       "time": "202610171808",
       "effort": "high",
       "harness": "cursor",
-      "grade": "",
+      "grade": "B",
       "file": "texts/美院_Claude-Opus-5.5_2610171808.txt",
       "manual": true
     },
@@ -1692,7 +1692,7 @@
       "time": "202610171906",
       "effort": "high",
       "harness": "codex",
-      "grade": "",
+      "grade": "B",
       "file": "texts/异途_GPT-5.6-Sol_2610171906.txt",
       "manual": true
     },
@@ -1703,7 +1703,7 @@
       "time": "202610171912",
       "effort": "high",
       "harness": "cursor",
-      "grade": "",
+      "grade": "B",
       "file": "texts/异途_Claude-Opus-5.5_2610171912.txt",
       "manual": true
     },
@@ -1716,6 +1716,72 @@
       "harness": "cursor",
       "grade": "",
       "file": "texts/异途_Grok4.7_2610171958.txt",
+      "manual": true
+    },
+    {
+      "id": "大公司_Claude-Opus-5.5_2610172330",
+      "topic": "大公司",
+      "model": "Claude Opus 5.5",
+      "time": "202610172330",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/大公司_Claude-Opus-5.5_2610172330.txt",
+      "manual": true
+    },
+    {
+      "id": "电工_Claude-Opus-5.5_2610180000",
+      "topic": "电工",
+      "model": "Claude Opus 5.5",
+      "time": "202610180000",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/电工_Claude-Opus-5.5_2610180000.txt",
+      "manual": true
+    },
+    {
+      "id": "酒保_Claude-Opus-5.5_2610180030",
+      "topic": "酒保",
+      "model": "Claude Opus 5.5",
+      "time": "202610180030",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/酒保_Claude-Opus-5.5_2610180030.txt",
+      "manual": true
+    },
+    {
+      "id": "画师_Claude-Opus-5.5_2610180051",
+      "topic": "画师",
+      "model": "Claude Opus 5.5",
+      "time": "202610180051",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/画师_Claude-Opus-5.5_2610180051.txt",
+      "manual": true
+    },
+    {
+      "id": "恐怖黎明_Claude-Opus-5.5_2610180105",
+      "topic": "恐怖黎明",
+      "model": "Claude Opus 5.5",
+      "time": "202610180105",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/恐怖黎明_Claude-Opus-5.5_2610180105.txt",
+      "manual": true
+    },
+    {
+      "id": "逃走V2_Claude-Opus-5.5_2610180121",
+      "topic": "逃走V2",
+      "model": "Claude Opus 5.5",
+      "time": "202610180121",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/逃走V2_Claude-Opus-5.5_2610180121.txt",
       "manual": true
     }
   ]
