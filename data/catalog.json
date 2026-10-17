@@ -65,15 +65,22 @@
       "promptManual": true
     },
     {
+      "name": "同寝",
+      "grade": "B",
+      "promptFile": "prompts/同寝.txt",
+      "promptAt": "2026-09-28 21:15",
+      "promptManual": true
+    },
+    {
       "name": "逃走",
-      "grade": "A",
+      "grade": "B",
       "promptFile": "prompts/逃走.txt",
       "promptAt": "2026-10-08 02:22",
       "promptManual": true
     },
     {
       "name": "逃走V2",
-      "grade": "B",
+      "grade": "C",
       "promptFile": "prompts/逃走V2.txt",
       "promptAt": "2026-10-10 14:32",
       "promptManual": true
@@ -93,10 +100,10 @@
       "promptManual": true
     },
     {
-      "name": "同寝",
+      "name": "附魅",
       "grade": "B",
-      "promptFile": "prompts/同寝.txt",
-      "promptAt": "2026-09-28 21:15",
+      "promptFile": "prompts/附魅.txt",
+      "promptAt": "2026-10-09 07:09",
       "promptManual": true
     },
     {
@@ -104,13 +111,6 @@
       "grade": "D",
       "promptFile": "prompts/洋葱骑士.txt",
       "promptAt": "2026-10-06 01:03",
-      "promptManual": true
-    },
-    {
-      "name": "附魅",
-      "grade": "B",
-      "promptFile": "prompts/附魅.txt",
-      "promptAt": "2026-10-09 07:09",
       "promptManual": true
     },
     {
@@ -1630,7 +1630,7 @@
       "time": "202610161756",
       "effort": "xhigh",
       "harness": "cursor",
-      "grade": "",
+      "grade": "D",
       "file": "texts/附魅_Grok4.6_2610161756.txt",
       "manual": true
     },
@@ -1643,6 +1643,17 @@
       "harness": "cursor",
       "grade": "B",
       "file": "texts/价值_Claude-Opus-5.5_2610161849.txt",
+      "manual": true
+    },
+    {
+      "id": "意识_ClaudeFable5.1_2610171257",
+      "topic": "意识",
+      "model": "Claude Fable 5.1",
+      "time": "202610171257",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/意识_ClaudeFable5.1_2610171257.txt",
       "manual": true
     }
   ]
