@@ -349,6 +349,31 @@
     }
     renderShowcase(catalog);
     var groups = latestMap(catalog.entries);
+    var selectedGrade = null;
+    var gradeButtons = document.querySelectorAll(".legend button[data-grade]");
+    function renderWorkCell(td, topic, model) {
+      var key = topic + "\0" + model;
+      var entry = groups.latest.get(key);
+      td.textContent = "";
+      td.classList.toggle("empty", !entry);
+      delete td.dataset.grade;
+      if (!entry) {
+        td.textContent = "·";
+        return;
+      }
+      td.dataset.grade = entry.grade || "";
+      var count = groups.count.get(key) || 1;
+      var mark = null;
+      if (count > 1) {
+        mark = document.createElement("span");
+        mark.className = "count";
+        mark.textContent = String(count);
+        mark.title = selectedGrade === null
+          ? "同题同模型共 " + count + " 篇。有评级时显示其中最新的一篇，否则显示最新一篇"
+          : "同题同模型符合当前评级的作品共 " + count + " 篇，显示其中最新的一篇";
+      }
+      td.appendChild(cellLink(entry, mark));
+    }
     function markColumn(el, model) {
       el.dataset.model = model.name;
       if (model.hidden) el.dataset.hidden = "1";
@@ -432,22 +457,7 @@
       models.forEach(function (model) {
         var td = document.createElement("td");
         markColumn(td, model);
-        var key = topic.name + "\0" + model.name;
-        var entry = groups.latest.get(key);
-        if (!entry) {
-          td.className = "empty";
-          td.textContent = "·";
-        } else {
-          var count = groups.count.get(key) || 1;
-          var mark = null;
-          if (count > 1) {
-            mark = document.createElement("span");
-            mark.className = "count";
-            mark.textContent = String(count);
-            mark.title = "同题同模型共 " + count + " 篇。有评级时显示其中最新的一篇，否则显示最新一篇";
-          }
-          td.appendChild(cellLink(entry, mark));
-        }
+        renderWorkCell(td, topic.name, model.name);
         tr.appendChild(td);
       });
       tbody.appendChild(tr);
@@ -456,6 +466,12 @@
     var wrap = $("table");
     wrap.textContent = "";
     wrap.appendChild(table);
+    var emptyStatus = document.createElement("p");
+    emptyStatus.className = "table-note";
+    emptyStatus.setAttribute("role", "status");
+    emptyStatus.hidden = true;
+    emptyStatus.textContent = "没有符合当前筛选条件的作品。";
+    wrap.appendChild(emptyStatus);
 
     var topicFilter = $("filter");
     var modelFilter = $("filter-model");
@@ -470,16 +486,41 @@
     function applyFilters() {
       var topicQ = topicFilter ? topicFilter.value.trim() : "";
       var modelQ = modelFilter ? modelFilter.value.trim().toLowerCase() : "";
+      var visibleRows = 0;
       tbody.querySelectorAll("tr").forEach(function (row) {
-        row.hidden = Boolean(topicQ) && row.dataset.topic.indexOf(topicQ) === -1;
+        var hasMatchingWork = false;
         row.querySelectorAll("td[data-model]").forEach(function (cell) {
-          cell.classList.toggle("col-hidden", columnHidden(cell, modelQ));
+          var hidden = columnHidden(cell, modelQ);
+          cell.classList.toggle("col-hidden", hidden);
+          if (!hidden && cell.dataset.grade === selectedGrade) hasMatchingWork = true;
         });
+        row.hidden = (Boolean(topicQ) && row.dataset.topic.indexOf(topicQ) === -1)
+          || (selectedGrade !== null && !hasMatchingWork);
+        if (!row.hidden) visibleRows += 1;
       });
       headRow.querySelectorAll("th[data-model]").forEach(function (th) {
         th.classList.toggle("col-hidden", columnHidden(th, modelQ));
       });
+      emptyStatus.hidden = visibleRows > 0;
     }
+    gradeButtons.forEach(function (button) {
+      button.addEventListener("click", function () {
+        selectedGrade = selectedGrade === button.dataset.grade ? null : button.dataset.grade;
+        gradeButtons.forEach(function (item) {
+          item.setAttribute("aria-pressed", item.dataset.grade === selectedGrade ? "true" : "false");
+        });
+        // Filter before choosing the displayed version so older matching works remain available.
+        groups = latestMap(catalog.entries.filter(function (entry) {
+          return selectedGrade === null || (entry.grade || "") === selectedGrade;
+        }));
+        tbody.querySelectorAll("tr").forEach(function (row) {
+          row.querySelectorAll("td[data-model]").forEach(function (cell) {
+            renderWorkCell(cell, row.dataset.topic, cell.dataset.model);
+          });
+        });
+        applyFilters();
+      });
+    });
     if (topicFilter) topicFilter.addEventListener("input", applyFilters);
     if (modelFilter) modelFilter.addEventListener("input", applyFilters);
     if (showAll) {
@@ -512,7 +553,13 @@
     return catalog.entries.find(function (entry) { return entry.id === id; }) || null;
   }
 
-  function byTimeDesc(a, b) {
+  function byGradeThenTimeDesc(a, b) {
+    var grades = ["A", "B", "C", "D", "E"];
+    var aGrade = grades.indexOf(a.grade);
+    var bGrade = grades.indexOf(b.grade);
+    if (aGrade < 0) aGrade = grades.length;
+    if (bGrade < 0) bGrade = grades.length;
+    if (aGrade !== bGrade) return aGrade - bGrade;
     return a.time < b.time ? 1 : a.time > b.time ? -1 : 0;
   }
 
@@ -528,9 +575,9 @@
       else if (sameTopic) topicOnly.push(item);
       else if (sameModel) modelOnly.push(item);
     });
-    both.sort(byTimeDesc);
-    topicOnly.sort(byTimeDesc);
-    modelOnly.sort(byTimeDesc);
+    both.sort(byGradeThenTimeDesc);
+    topicOnly.sort(byGradeThenTimeDesc);
+    modelOnly.sort(byGradeThenTimeDesc);
     return [
       { title: "同题目、同模型", items: both, kind: "both" },
       { title: "仅题目相同", items: topicOnly, kind: "topic" },

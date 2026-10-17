@@ -152,6 +152,20 @@ button.primary, a.button.primary {
   border-radius: 3px;
   display: inline-block;
 }
+button.swatch {
+  padding: 0.3rem 0.55rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg-raise);
+  cursor: pointer;
+}
+button.swatch:hover { border-color: var(--accent); }
+button.swatch[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--accent-ink);
+  box-shadow: 0 0 0 1px var(--accent);
+}
 .g-unset { background: var(--g-unset); color: var(--g-unset-ink); }
 .g-a { background: var(--g-a); color: var(--g-a-ink); }
 .g-b { background: var(--g-b); color: var(--g-b-ink); }

@@ -175,6 +175,13 @@
       "promptFile": "prompts/画师.txt",
       "promptAt": "2026-10-16 10:35",
       "promptManual": true
+    },
+    {
+      "name": "异途",
+      "grade": "C",
+      "promptFile": "prompts/异途.txt",
+      "promptAt": "2026-10-17 19:06",
+      "promptManual": true
     }
   ],
   "models": [
@@ -1498,7 +1505,7 @@
       "time": "202610161002",
       "effort": "high",
       "harness": "codex",
-      "grade": "",
+      "grade": "C",
       "file": "texts/美院_GPT-5.6-Sol_2610161002.txt",
       "manual": true
     },
@@ -1663,8 +1670,52 @@
       "time": "202610171434",
       "effort": "high",
       "harness": "cursor",
-      "grade": "",
+      "grade": "B",
       "file": "texts/附魅_ClaudeFable5.1_2610171434.txt",
+      "manual": true
+    },
+    {
+      "id": "美院_Claude-Opus-5.5_2610171808",
+      "topic": "美院",
+      "model": "Claude Opus 5.5",
+      "time": "202610171808",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/美院_Claude-Opus-5.5_2610171808.txt",
+      "manual": true
+    },
+    {
+      "id": "异途_GPT-5.6-Sol_2610171906",
+      "topic": "异途",
+      "model": "GPT 5.6 Sol",
+      "time": "202610171906",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/异途_GPT-5.6-Sol_2610171906.txt",
+      "manual": true
+    },
+    {
+      "id": "异途_Claude-Opus-5.5_2610171912",
+      "topic": "异途",
+      "model": "Claude Opus 5.5",
+      "time": "202610171912",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/异途_Claude-Opus-5.5_2610171912.txt",
+      "manual": true
+    },
+    {
+      "id": "异途_Grok4.7_2610171958",
+      "topic": "异途",
+      "model": "Grok 4.7",
+      "time": "202610171958",
+      "effort": "xhigh",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/异途_Grok4.7_2610171958.txt",
       "manual": true
     }
   ]
