@@ -600,7 +600,7 @@
     var title = "";
     var skipFirst = false;
     if (first && first.length <= 22 && !/[。！？]$/.test(first) && !headingOf(first, true, "", sectionNumbers)) {
-      title = first;
+      title = displayTitle(first, "");
       skipFirst = true;
     }
     var seenTitle = !skipFirst;
@@ -624,6 +624,27 @@
       blocks.push(heading ? { type: "h", level: heading.level, text: heading.text } : { type: "p", text: text });
     });
     return { title: title, blocks: blocks, chars: countHan(raw) };
+  }
+
+  function loadReaderCover(entry, title, onLoad) {
+    if (!entry.file) return;
+    var stem = entry.file.split(/[\\/]/).pop().replace(/\.[^.]+$/, "");
+    var extensions = ["webp", "png", "jpg", "jpeg", "avif", "gif"];
+    var index = 0;
+    var cover = document.createElement("img");
+    cover.className = "reader-cover";
+    cover.alt = title + "封面";
+    cover.decoding = "async";
+    cover.addEventListener("load", function () { onLoad(cover); });
+    cover.addEventListener("error", function () {
+      index += 1;
+      if (index < extensions.length) tryNext();
+    });
+    function tryNext() {
+      cover.src = "assets/covers/" + encodeURIComponent(stem) + "." + extensions[index];
+    }
+    // 直接尝试同名图片，无需服务器提供目录列表；成功加载后才插入正文页。
+    tryNext();
   }
 
   function renderRead(catalog) {
@@ -891,6 +912,15 @@
       scrollToHash();
       requestAnimationFrame(function () {
         scrollToHash();
+        syncToc();
+      });
+      loadReaderCover(entry, work.title || entry.topic, function (cover) {
+        var before = prose.getBoundingClientRect().top;
+        article.insertBefore(cover, prose);
+        // 封面晚于正文加载时，保持正在阅读的段落或章节锚点位置。
+        if (before < readingLine) {
+          window.scrollBy(0, prose.getBoundingClientRect().top - before);
+        }
         syncToc();
       });
     }).catch(function () {

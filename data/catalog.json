@@ -849,7 +849,7 @@
       "time": "202610061745",
       "effort": "high",
       "harness": "cursor",
-      "grade": "B",
+      "grade": "C",
       "file": "texts/报道_Claude-Opus-5.5_2610061745.txt",
       "manual": true
     },
@@ -1652,8 +1652,19 @@
       "time": "202610171257",
       "effort": "high",
       "harness": "cursor",
-      "grade": "",
+      "grade": "B",
       "file": "texts/意识_ClaudeFable5.1_2610171257.txt",
+      "manual": true
+    },
+    {
+      "id": "附魅_ClaudeFable5.1_2610171434",
+      "topic": "附魅",
+      "model": "Claude Fable 5.1",
+      "time": "202610171434",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/附魅_ClaudeFable5.1_2610171434.txt",
       "manual": true
     }
   ]

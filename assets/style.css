@@ -444,6 +444,15 @@ a.cell .badge {
 }
 .subhead { margin: 0 0 0.35rem; font-size: 1.05rem; }
 .meta-line { color: var(--muted); margin: 0 0 1.2rem; font-size: 0.92rem; }
+.reader-cover {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: min(100%, 40rem);
+  max-height: 70vh;
+  margin: 0 0 1.5rem;
+  border-radius: 8px;
+}
 .prose {
   max-width: 40rem;
   font-family: var(--serif);
