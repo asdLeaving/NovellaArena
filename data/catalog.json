@@ -182,12 +182,24 @@
       "promptFile": "prompts/异途.txt",
       "promptAt": "2026-10-17 19:06",
       "promptManual": true
+    },
+    {
+      "name": "埃德尔斯坦",
+      "grade": "D",
+      "promptFile": "prompts/埃德尔斯坦.txt",
+      "promptAt": "2026-10-18 10:25",
+      "promptManual": true
     }
   ],
   "models": [
     {
       "name": "Gemini 4 Argon",
       "released": "2026-10-13",
+      "hidden": true
+    },
+    {
+      "name": "Muse Wonder",
+      "released": "2026-10-12",
       "hidden": false
     },
     {
@@ -1175,7 +1187,7 @@
       "time": "202610101611",
       "effort": "high",
       "harness": "codex",
-      "grade": "",
+      "grade": "D",
       "file": "texts/逃走V2_GPT-6-Astra_2610101611.txt",
       "manual": true
     },
@@ -1719,6 +1731,28 @@
       "manual": true
     },
     {
+      "id": "埃德尔斯坦_gpt-5.6-sol_2610172000",
+      "topic": "埃德尔斯坦",
+      "model": "GPT 5.6 Sol",
+      "time": "202610172000",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/埃德尔斯坦_gpt-5.6-sol_2610172000.txt",
+      "manual": true
+    },
+    {
+      "id": "埃德尔斯坦_GPT-6-Astra_2610172046",
+      "topic": "埃德尔斯坦",
+      "model": "GPT 6 Astra",
+      "time": "202610172046",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/埃德尔斯坦_GPT-6-Astra_2610172046.txt",
+      "manual": true
+    },
+    {
       "id": "大公司_Claude-Opus-5.5_2610172330",
       "topic": "大公司",
       "model": "Claude Opus 5.5",
@@ -1780,8 +1814,74 @@
       "time": "202610180121",
       "effort": "high",
       "harness": "cursor",
-      "grade": "",
+      "grade": "B",
       "file": "texts/逃走V2_Claude-Opus-5.5_2610180121.txt",
+      "manual": true
+    },
+    {
+      "id": "埃德尔斯坦_claude-opus-5.5_2610181025",
+      "topic": "埃德尔斯坦",
+      "model": "Claude Opus 5.5",
+      "time": "202610181025",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/埃德尔斯坦_claude-opus-5.5_2610181025.txt",
+      "manual": true
+    },
+    {
+      "id": "附魅_MuseWonder_2610181045",
+      "topic": "附魅",
+      "model": "Muse Wonder",
+      "time": "202610181045",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/附魅_MuseWonder_2610181045.txt",
+      "manual": true
+    },
+    {
+      "id": "母亲V2_ClaudeFable5.1_2610181121",
+      "topic": "母亲V2",
+      "model": "Claude Fable 5.1",
+      "time": "202610181121",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/母亲V2_ClaudeFable5.1_2610181121.txt",
+      "manual": true
+    },
+    {
+      "id": "埃德尔斯坦_Grok4.7_2610181214",
+      "topic": "埃德尔斯坦",
+      "model": "Grok 4.7",
+      "time": "202610181214",
+      "effort": "xhigh",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/埃德尔斯坦_Grok4.7_2610181214.txt",
+      "manual": true
+    },
+    {
+      "id": "逃走V2_Grok4.7_2610181307",
+      "topic": "逃走V2",
+      "model": "Grok 4.7",
+      "time": "202610181307",
+      "effort": "xhigh",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/逃走V2_Grok4.7_2610181307.txt",
+      "manual": true
+    },
+    {
+      "id": "异途_GPT-6-Astra_2610181336",
+      "topic": "异途",
+      "model": "GPT 6 Astra",
+      "time": "202610181336",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/异途_GPT-6-Astra_2610181336.txt",
       "manual": true
     }
   ]

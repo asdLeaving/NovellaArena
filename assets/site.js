@@ -598,6 +598,7 @@
   }
 
   function isChapterHeading(text) {
+    text = text.replace(/^【([^【】]+)】$/, "$1").trim();
     return /^第[一二三四五六七八九十百千万零〇两0-9]+章(?:$|[\s　·.、:：].+)$/.test(text);
   }
 
@@ -612,13 +613,18 @@
   function headingOf(line, prevBlank, nextText, sectionNumbers) {
     var text = line.trim();
     if (!text || !prevBlank || text.length > 42) return null;
+    var wrapped = /^【([^【】]+)】$/.exec(text);
+    if (wrapped) {
+      var heading = headingOf(wrapped[1], prevBlank, nextText, sectionNumbers);
+      if (heading) return { level: heading.level, text: text };
+    }
     if (isChapterHeading(text)) return { level: 1, text: text };
     if (/^[一二三四五六七八九十百零〇]{1,3}$/.test(text)) return { level: 1, text: text };
     if (/^[一二三四五六七八九十百零〇]{1,3}[\s　·.、:：].+/.test(text)) return { level: 1, text: text };
     if (/^【(?:场景)?[一二三四五六七八九十0-9]{1,3}】/.test(text)) return { level: 1, text: text };
     if (/^No\.?\s*\d+/i.test(text)) return { level: 1, text: text };
     if (/^(尾声|序章|楔子|终章|后记|引子|序|跋)$/.test(text)) return { level: 1, text: text };
-    if (/^(序|跋)[\s　·.、:：].+/.test(text)) return { level: 1, text: text };
+    if (/^(尾声|序章|楔子|终章|后记|引子|序|跋)[\s　·.、:：].+/.test(text)) return { level: 1, text: text };
     if (/^[\u4e00-\u9fff]{2,4}$/.test(text) && /^(\d{1,3}|[一二三四五六七八九十]{2,5})岁$/.test(nextText)) {
       return { level: 1, text: text };
     }
