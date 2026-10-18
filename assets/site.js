@@ -599,7 +599,7 @@
 
   function isChapterHeading(text) {
     text = text.replace(/^【([^【】]+)】$/, "$1").trim();
-    return /^第[一二三四五六七八九十百千万零〇两0-9]+章(?:$|[\s　·.、:：].+)$/.test(text);
+    return /^第[一二三四五六七八九十百千万零〇两0-9]+[章幕](?:$|[\s　·.、:：].+)$/.test(text);
   }
 
   function isNumberedSection(text, sectionNumbers) {
@@ -628,6 +628,7 @@
     if (/^[\u4e00-\u9fff]{2,4}$/.test(text) && /^(\d{1,3}|[一二三四五六七八九十]{2,5})岁$/.test(nextText)) {
       return { level: 1, text: text };
     }
+    if (/^(?:（\d{1,3}）|\(\d{1,3}\))/.test(text)) return { level: 2, text: text };
     if (/^\d{1,2}$/.test(text) || isNumberedSection(text, sectionNumbers)) return { level: 2, text: text };
     return null;
   }
