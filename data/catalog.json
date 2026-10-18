@@ -1564,7 +1564,7 @@
       "time": "202610161022",
       "effort": "high",
       "harness": "codex",
-      "grade": "",
+      "grade": "C",
       "file": "texts/酒保_GPT-5.6-Sol_2610161022.txt",
       "manual": true
     },
@@ -1795,7 +1795,7 @@
       "time": "202610180030",
       "effort": "high",
       "harness": "cursor",
-      "grade": "",
+      "grade": "B",
       "file": "texts/酒保_Claude-Opus-5.5_2610180030.txt",
       "manual": true
     },
@@ -1984,6 +1984,17 @@
       "harness": "cursor",
       "grade": "",
       "file": "texts/写作者_Grok 4.7_2610181744.txt",
+      "manual": true
+    },
+    {
+      "id": "酒保_GPT-6-Astra_2610181908",
+      "topic": "酒保",
+      "model": "GPT 6 Astra",
+      "time": "202610181908",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/酒保_GPT-6-Astra_2610181908.txt",
       "manual": true
     }
   ]
