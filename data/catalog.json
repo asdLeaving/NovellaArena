@@ -203,6 +203,20 @@
       "promptFile": "prompts/写作者.txt",
       "promptAt": "2026-10-18 16:11",
       "promptManual": true
+    },
+    {
+      "name": "研究院",
+      "grade": "B",
+      "promptFile": "prompts/研究院.txt",
+      "promptAt": "2026-10-19 15:23",
+      "promptManual": true
+    },
+    {
+      "name": "连接",
+      "grade": "A",
+      "promptFile": "prompts/连接.txt",
+      "promptAt": "2026-10-19 17:22",
+      "promptManual": true
     }
   ],
   "models": [
@@ -959,7 +973,7 @@
       "time": "202610070159",
       "effort": "high",
       "harness": "codex",
-      "grade": "",
+      "grade": "B",
       "file": "texts/偏执_GPT-6-Astra_2610070159.txt",
       "manual": true
     },
@@ -1234,7 +1248,7 @@
       "time": "202610101943",
       "effort": "high",
       "harness": "codex",
-      "grade": "",
+      "grade": "C",
       "file": "texts/意识_GPT-6-Astra_2610101943.txt",
       "manual": true
     },
@@ -1542,7 +1556,7 @@
       "time": "202610161007",
       "effort": "high",
       "harness": "codex",
-      "grade": "",
+      "grade": "C",
       "file": "texts/大公司_GPT-5.6-Sol_2610161007.txt",
       "manual": true
     },
@@ -1652,7 +1666,7 @@
       "time": "202610161724",
       "effort": "xhigh",
       "harness": "cursor",
-      "grade": "",
+      "grade": "E",
       "file": "texts/酒保_Grok4.6_2610161724.txt",
       "manual": true
     },
@@ -1685,7 +1699,7 @@
       "time": "202610171257",
       "effort": "high",
       "harness": "cursor",
-      "grade": "B",
+      "grade": "C",
       "file": "texts/意识_ClaudeFable5.1_2610171257.txt",
       "manual": true
     },
@@ -1773,7 +1787,7 @@
       "time": "202610172330",
       "effort": "high",
       "harness": "cursor",
-      "grade": "",
+      "grade": "B",
       "file": "texts/大公司_Claude-Opus-5.5_2610172330.txt",
       "manual": true
     },
@@ -1894,7 +1908,7 @@
       "time": "202610181336",
       "effort": "high",
       "harness": "codex",
-      "grade": "",
+      "grade": "B",
       "file": "texts/异途_GPT-6-Astra_2610181336.txt",
       "manual": true
     },
@@ -1993,8 +2007,74 @@
       "time": "202610181908",
       "effort": "high",
       "harness": "codex",
-      "grade": "",
+      "grade": "E",
       "file": "texts/酒保_GPT-6-Astra_2610181908.txt",
+      "manual": true
+    },
+    {
+      "id": "研究院_gpt-5.6-sol_2610191523",
+      "topic": "研究院",
+      "model": "GPT 5.6 Sol",
+      "time": "202610191523",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/研究院_gpt-5.6-sol_2610191523.txt",
+      "manual": true
+    },
+    {
+      "id": "连接_GPT-5.6-Sol_2610191722",
+      "topic": "连接",
+      "model": "GPT 5.6 Sol",
+      "time": "202610191722",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/连接_GPT-5.6-Sol_2610191722.txt",
+      "manual": true
+    },
+    {
+      "id": "连接_GPT-6-Astra_2610191739",
+      "topic": "连接",
+      "model": "GPT 6 Astra",
+      "time": "202610191739",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/连接_GPT-6-Astra_2610191739.txt",
+      "manual": true
+    },
+    {
+      "id": "连接_Grok4.7_2610191749",
+      "topic": "连接",
+      "model": "Grok 4.7",
+      "time": "202610191749",
+      "effort": "xhigh",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/连接_Grok4.7_2610191749.txt",
+      "manual": true
+    },
+    {
+      "id": "研究院_Grok4.7_2610191832",
+      "topic": "研究院",
+      "model": "Grok 4.7",
+      "time": "202610191832",
+      "effort": "xhigh",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/研究院_Grok4.7_2610191832.txt",
+      "manual": true
+    },
+    {
+      "id": "研究院_GPT-6-Astra_2610192125",
+      "topic": "研究院",
+      "model": "GPT 6 Astra",
+      "time": "202610192125",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/研究院_GPT-6-Astra_2610192125.txt",
       "manual": true
     }
   ]

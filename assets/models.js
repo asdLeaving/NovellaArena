@@ -83,11 +83,9 @@
     return /^GPT\b/.test(name);
   }
 
-  /* cursor：Claude 为 high，GPT 与 Grok 为 xhigh，其余为可选最高档 max。 */
+  /* 导入页 cursor 默认值：Grok 为 xhigh，其余模型统一为 high。 */
   function cursorEffort(name) {
-    if (/^Claude\b/.test(name)) return "high";
-    if (/^GPT\b/.test(name) || /^Grok\b/.test(name)) return "xhigh";
-    return "max";
+    return /^Grok\b/.test(name) ? "xhigh" : "high";
   }
 
   /* 10月3日12:00起至10月4日12:00前：codex / medium。10月4日12:00起：codex / high。 */
