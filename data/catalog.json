@@ -1600,7 +1600,7 @@
       "time": "202610161035",
       "effort": "high",
       "harness": "codex",
-      "grade": "",
+      "grade": "B",
       "file": "texts/画师_gpt-5.6-sol_2610161035.txt",
       "manual": true
     },
@@ -1820,7 +1820,7 @@
       "time": "202610180051",
       "effort": "high",
       "harness": "cursor",
-      "grade": "",
+      "grade": "C",
       "file": "texts/画师_Claude-Opus-5.5_2610180051.txt",
       "manual": true
     },
