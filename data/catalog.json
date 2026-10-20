@@ -1589,7 +1589,7 @@
       "time": "202610161025",
       "effort": "high",
       "harness": "codex",
-      "grade": "",
+      "grade": "D",
       "file": "texts/电工_gpt-5.6-sol_2610161025.txt",
       "manual": true
     },
@@ -1930,7 +1930,7 @@
       "time": "202610181610",
       "effort": "high",
       "harness": "codex",
-      "grade": "",
+      "grade": "B",
       "file": "texts/附魅V2_GPT-5.6-Sol_2610181610.txt",
       "manual": true
     },
@@ -2075,6 +2075,83 @@
       "harness": "codex",
       "grade": "",
       "file": "texts/研究院_GPT-6-Astra_2610192125.txt",
+      "manual": true
+    },
+    {
+      "id": "电工_GPT-5.6-Sol_2610201153",
+      "topic": "电工",
+      "model": "GPT 5.6 Sol",
+      "time": "202610201153",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/电工_GPT-5.6-Sol_2610201153.txt",
+      "manual": true
+    },
+    {
+      "id": "研究院_Claude-Opus-5.5_2610201335",
+      "topic": "研究院",
+      "model": "Claude Opus 5.5",
+      "time": "202610201335",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/研究院_Claude-Opus-5.5_2610201335.txt",
+      "manual": true
+    },
+    {
+      "id": "连接_Claude-Opus-5.5_2610201342",
+      "topic": "连接",
+      "model": "Claude Opus 5.5",
+      "time": "202610201342",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/连接_Claude-Opus-5.5_2610201342.txt",
+      "manual": true
+    },
+    {
+      "id": "意识_MuseWonder_2610201411",
+      "topic": "意识",
+      "model": "Muse Wonder",
+      "time": "202610201411",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "D",
+      "file": "texts/意识_MuseWonder_2610201411.txt",
+      "manual": true
+    },
+    {
+      "id": "酒保_MuseWonder_2610201543",
+      "topic": "酒保",
+      "model": "Muse Wonder",
+      "time": "202610201543",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "E",
+      "file": "texts/酒保_MuseWonder_2610201543.txt",
+      "manual": true
+    },
+    {
+      "id": "酒保_Gemini-4-Argon_2610201635",
+      "topic": "酒保",
+      "model": "Gemini 4 Argon",
+      "time": "202610201635",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "E",
+      "file": "texts/酒保_Gemini-4-Argon_2610201635.txt",
+      "manual": true
+    },
+    {
+      "id": "报道_Claude-Opus-5.5_2610201725",
+      "topic": "报道",
+      "model": "Claude Opus 5.5",
+      "time": "202610201725",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/报道_Claude-Opus-5.5_2610201725.txt",
       "manual": true
     }
   ]

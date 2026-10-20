@@ -54,7 +54,7 @@
     wrap.classList.toggle("hidden", choiceValue(group) !== "__custom");
   }
 
-  function showFile(file) {
+  async function showFile(file) {
     var parsed = parseName(file.name);
     $("panel").classList.remove("hidden");
     $("message").textContent = "";
@@ -65,11 +65,11 @@
       $("releaseWrap").classList.add("hidden");
       return;
     }
-    pending = { file: file, parsed: parsed };
-    $("save").disabled = false;
-    var known = modelsApi.modelReleased(parsed.model);
+    var selection = { file: file, parsed: parsed, checking: true };
+    pending = selection;
+    $("save").disabled = true;
     $("preview").textContent = parsed.topic + "  ·  " + parsed.model + "  ·  " + parsed.time
-      + (known ? "  ·  模型发布于 " + known : "  ·  这是新的模型名，可补一个发布日期");
+      + "  ·  正在核对最新模型列表…";
     var preset = modelsApi.presetHarnessEffort(parsed.model, parsed.time);
     setChoice($("harness"), preset.harness);
     setChoice($("effort"), preset.effort);
@@ -78,8 +78,35 @@
     $("prompt").value = "";
     syncCustom($("harness"), $("harnessCustomWrap"));
     syncCustom($("effort"), $("effortCustomWrap"));
+    $("releaseWrap").classList.add("hidden");
+    setReleased("");
+    try {
+      var catalog = await latestCatalog();
+      if (pending !== selection) return;
+      showModelInfo(parsed, catalog);
+    } catch (error) {
+      if (pending !== selection) return;
+      $("preview").textContent = parsed.topic + "  ·  " + parsed.model + "  ·  " + parsed.time
+        + "  ·  暂时无法核对模型列表";
+      $("message").textContent = "未能读取最新 catalog。保存时会重新读取；选择网站文件夹后，以该文件夹中的模型列表为准。";
+      $("releaseWrap").classList.remove("hidden");
+      setReleased(modelsApi.modelReleased(parsed.model));
+    } finally {
+      if (pending === selection) {
+        selection.checking = false;
+        $("save").disabled = false;
+      }
+    }
+  }
+
+  function showModelInfo(parsed, catalog) {
+    var known = (catalog.models || []).find(function (item) { return item.name === parsed.model; });
+    var released = known ? known.released : modelsApi.modelReleased(parsed.model);
+    $("preview").textContent = parsed.topic + "  ·  " + parsed.model + "  ·  " + parsed.time
+      + (known ? (released ? "  ·  模型发布于 " + released : "  ·  已有模型，未记录发布日期")
+        : "  ·  这是新的模型名，可补一个发布日期");
     $("releaseWrap").classList.toggle("hidden", Boolean(known));
-    setReleased(known || "");
+    setReleased(released || "");
   }
 
   function setReleased(value) {
@@ -201,6 +228,13 @@
     return JSON.parse(text);
   }
 
+  async function latestCatalog() {
+    if (rootHandle) return readCatalog(rootHandle);
+    var response = await fetch("data/catalog.json", { cache: "no-store" });
+    if (!response.ok) throw new Error("catalog");
+    return response.json();
+  }
+
   function download(name, text) {
     var link = document.createElement("a");
     link.href = URL.createObjectURL(new Blob([text], { type: "application/json;charset=utf-8" }));
@@ -213,8 +247,9 @@
   }
 
   async function save() {
-    if (!pending) return;
-    var parsed = pending.parsed;
+    if (!pending || pending.checking) return;
+    var selection = pending;
+    var parsed = selection.parsed;
     var harness = choiceValue($("harness")) === "__custom" ? $("harnessCustom").value.trim() : choiceValue($("harness"));
     var effort = choiceValue($("effort")) === "__custom" ? $("effortCustom").value.trim() : choiceValue($("effort"));
     if (!harness) {
@@ -226,8 +261,8 @@
       return;
     }
     var grade = choiceValue($("grade"));
-    var text = await pending.file.text();
-    var released = modelsApi.modelReleased(parsed.model) || readReleased();
+    var text = await selection.file.text();
+    var released = readReleased();
 
     $("save").disabled = true;
     $("message").textContent = "正在写入…";
@@ -247,8 +282,7 @@
       var promptText = $("prompt").value.trim();
       var promptGrade = choiceValue($("promptGrade"));
       if (!rootHandle) {
-        var catalogResponse = await fetch("data/catalog.json");
-        var catalog = await catalogResponse.json();
+        var catalog = await latestCatalog();
         var wrotePrompt = applyToCatalog(catalog, parsed, text, harness, effort, grade, released, promptText, promptGrade);
         download("catalog.json", JSON.stringify(catalog, null, 2) + "\n");
         download(parsed.filename, text.endsWith("\n") ? text : text + "\n");
@@ -266,6 +300,7 @@
         await writeText(rootHandle, ["prompts", parsed.topic + ".txt"], promptText + "\n");
       }
       await writeText(rootHandle, ["data", "catalog.json"], JSON.stringify(catalog, null, 2) + "\n");
+      if (pending === selection) showModelInfo(parsed, catalog);
       $("dirLabel").textContent = "已写入所选网站文件夹";
       $("message").textContent = "已加入。返回主页刷新即可看到。";
     } catch (error) {

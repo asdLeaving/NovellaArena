@@ -105,7 +105,7 @@
     return GRADE[grade] || "g-unset";
   }
 
-  function latestMap(entries) {
+  function latestMap(entries, compare) {
     var map = new Map();
     var count = new Map();
     entries.forEach(function (entry) {
@@ -114,6 +114,10 @@
       var prev = map.get(key);
       if (!prev) {
         map.set(key, entry);
+        return;
+      }
+      if (compare) {
+        if (compare(entry, prev) < 0) map.set(key, entry);
         return;
       }
       var prevGraded = Boolean(prev.grade);
@@ -348,7 +352,7 @@
       summary.textContent = catalog.topics.length + " 道题目 · " + catalog.models.length + " 个模型 · " + catalog.entries.length + " 篇";
     }
     renderShowcase(catalog);
-    var groups = latestMap(catalog.entries);
+    var groups = latestMap(catalog.entries, byGradeThenTimeDesc);
     var selectedGrade = null;
     var gradeButtons = document.querySelectorAll(".legend button[data-grade]");
     function renderWorkCell(td, topic, model) {
@@ -369,7 +373,7 @@
         mark.className = "count";
         mark.textContent = String(count);
         mark.title = selectedGrade === null
-          ? "同题同模型共 " + count + " 篇。有评级时显示其中最新的一篇，否则显示最新一篇"
+          ? "同题同模型共 " + count + " 篇。显示评级最高的一篇，同级取生成时间最新的一篇，未评级排在 E 之后"
           : "同题同模型符合当前评级的作品共 " + count + " 篇，显示其中最新的一篇";
       }
       td.appendChild(cellLink(entry, mark));
@@ -512,7 +516,7 @@
         // Filter before choosing the displayed version so older matching works remain available.
         groups = latestMap(catalog.entries.filter(function (entry) {
           return selectedGrade === null || (entry.grade || "") === selectedGrade;
-        }));
+        }), byGradeThenTimeDesc);
         tbody.querySelectorAll("tr").forEach(function (row) {
           row.querySelectorAll("td[data-model]").forEach(function (cell) {
             renderWorkCell(cell, row.dataset.topic, cell.dataset.model);
