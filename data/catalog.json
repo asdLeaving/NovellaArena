@@ -2255,7 +2255,7 @@
       "time": "202610211538",
       "effort": "high",
       "harness": "codex",
-      "grade": "",
+      "grade": "C",
       "file": "texts/二人V2_GPT-5.6-Sol_2610211538.txt",
       "manual": true
     },
@@ -2266,7 +2266,7 @@
       "time": "202610211608",
       "effort": "high",
       "harness": "cursor",
-      "grade": "",
+      "grade": "A",
       "file": "texts/二人V2_Claude-Opus-5.5_2610211608.txt",
       "manual": true
     },
