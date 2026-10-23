@@ -2108,7 +2108,7 @@
       "time": "202610192125",
       "effort": "high",
       "harness": "codex",
-      "grade": "",
+      "grade": "E",
       "file": "texts/研究院_GPT-6-Astra_2610192125.txt",
       "manual": true
     },
@@ -2187,6 +2187,116 @@
       "harness": "cursor",
       "grade": "C",
       "file": "texts/报道_Claude-Opus-5.5_2610201725.txt",
+      "manual": true
+    },
+    {
+      "id": "分析者_GPT-6-Astra_2610202109",
+      "topic": "分析者",
+      "model": "GPT 6 Astra",
+      "time": "202610202109",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/分析者_GPT-6-Astra_2610202109.txt",
+      "manual": true
+    },
+    {
+      "id": "高魔_GPT-6-Astra_2610202110",
+      "topic": "高魔",
+      "model": "GPT 6 Astra",
+      "time": "202610202110",
+      "effort": "medium",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/高魔_GPT-6-Astra_2610202110.txt",
+      "manual": true
+    },
+    {
+      "id": "酒保_GPT-6-Astra_2610202113",
+      "topic": "酒保",
+      "model": "GPT 6 Astra",
+      "time": "202610202113",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "E",
+      "file": "texts/酒保_GPT-6-Astra_2610202113.txt",
+      "manual": true
+    },
+    {
+      "id": "哲学教授_GPT-6-Astra_2610202129",
+      "topic": "哲学教授",
+      "model": "GPT 6 Astra",
+      "time": "202610202129",
+      "effort": "medium",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/哲学教授_GPT-6-Astra_2610202129.txt",
+      "manual": true
+    },
+    {
+      "id": "母亲_GPT-6-Astra_2610202131",
+      "topic": "母亲",
+      "model": "GPT 6 Astra",
+      "time": "202610202131",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/母亲_GPT-6-Astra_2610202131.txt",
+      "manual": true
+    },
+    {
+      "id": "价值_GPT-6-Astra_2610202141",
+      "topic": "价值",
+      "model": "GPT 6 Astra",
+      "time": "202610202141",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/价值_GPT-6-Astra_2610202141.txt",
+      "manual": true
+    },
+    {
+      "id": "双线_GPT-6-Astra_2610202149",
+      "topic": "双线",
+      "model": "GPT 6 Astra",
+      "time": "202610202149",
+      "effort": "medium",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/双线_GPT-6-Astra_2610202149.txt",
+      "manual": true
+    },
+    {
+      "id": "报道_GPT-6-Astra_2610202152",
+      "topic": "报道",
+      "model": "GPT 6 Astra",
+      "time": "202610202152",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "D",
+      "file": "texts/报道_GPT-6-Astra_2610202152.txt",
+      "manual": true
+    },
+    {
+      "id": "逃走V2_GPT-6-Astra_2610202201",
+      "topic": "逃走V2",
+      "model": "GPT 6 Astra",
+      "time": "202610202201",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/逃走V2_GPT-6-Astra_2610202201.txt",
+      "manual": true
+    },
+    {
+      "id": "附魅_GPT-6-Astra_2610202210",
+      "topic": "附魅",
+      "model": "GPT 6 Astra",
+      "time": "202610202210",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/附魅_GPT-6-Astra_2610202210.txt",
       "manual": true
     },
     {
@@ -2383,7 +2493,7 @@
       "time": "202610230841",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "C",
       "file": "texts/偏执_gpt-5.6-sol_2610230841.txt",
       "manual": true
     },
@@ -2396,6 +2506,28 @@
       "harness": "codex",
       "grade": "",
       "file": "texts/母亲V2_gpt-5.6-sol_2610230912.txt",
+      "manual": true
+    },
+    {
+      "id": "研究院_gpt-5.6-sol_2610231204",
+      "topic": "研究院",
+      "model": "GPT 5.6 Sol",
+      "time": "202610231204",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "E",
+      "file": "texts/研究院_gpt-5.6-sol_2610231204.txt",
+      "manual": true
+    },
+    {
+      "id": "价值_GPT-6-Astra_2610231336",
+      "topic": "价值",
+      "model": "GPT 6 Astra",
+      "time": "202610231336",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/价值_GPT-6-Astra_2610231336.txt",
       "manual": true
     }
   ]
