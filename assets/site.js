@@ -1,5 +1,6 @@
 (function () {
   var GRADE = { "": "g-unset", A: "g-a", B: "g-b", C: "g-c", D: "g-d", E: "g-e" };
+  var coverFiles = {};
 
   function $(id) { return document.getElementById(id); }
 
@@ -8,10 +9,15 @@
       status.textContent = status.getAttribute("data-loading-message") + "加载失败，请刷新重试。";
       status.parentElement.setAttribute("aria-busy", "false");
     });
-    var node = document.createElement("p");
-    node.className = "error";
+    var node = $("catalog-error");
+    if (!node) {
+      node = document.createElement("p");
+      node.id = "catalog-error";
+      node.className = "error";
+      node.setAttribute("role", "status");
+      document.body.prepend(node);
+    }
     node.textContent = message;
-    document.body.prepend(node);
   }
 
   async function loadCatalog() {
@@ -30,6 +36,26 @@
       parseError.catalogKind = "parse";
       throw parseError;
     }
+  }
+
+  async function loadCoverFiles() {
+    try {
+      var response = await fetch("data/covers.json", { cache: "no-store" });
+      if (!response.ok) return null;
+      var manifest = await response.json();
+      return manifest.covers || null;
+    } catch (error) {
+      // Covers are optional; a failed index request must not block the manuscripts.
+      return null;
+    }
+  }
+
+  function coverUrl(entry) {
+    if (!entry.file) return "";
+    var stem = entry.file.split(/[\\/]/).pop().replace(/\.[^.]+$/, "");
+    var cover = coverFiles[stem];
+    if (!cover || !cover.file || !cover.version) return "";
+    return "assets/covers/" + encodeURIComponent(cover.file) + "?v=" + encodeURIComponent(cover.version);
   }
 
   function effortText(value) {
@@ -237,7 +263,8 @@
       placeholder.textContent = "封面待补";
       placeholder.setAttribute("aria-hidden", "true");
       art.appendChild(placeholder);
-      if (entry && entry.file) {
+      var coverSrc = entry ? coverUrl(entry) : "";
+      if (coverSrc) {
         var cover = document.createElement("img");
         cover.className = "showcase-cover";
         cover.alt = "";
@@ -252,9 +279,7 @@
           cover.remove();
           art.classList.remove("has-cover");
         });
-        // 封面与文稿同名，统一放在 assets/covers 中，HTML 无需另配图片。
-        var stem = entry.file.split(/[\\/]/).pop().replace(/\.[^.]+$/, "");
-        cover.src = "assets/covers/" + encodeURIComponent(stem) + ".webp?v=20261014-3";
+        cover.src = coverSrc;
         art.appendChild(cover);
       }
       card.appendChild(art);
@@ -396,12 +421,13 @@
       name.textContent = model.name;
       th.appendChild(name);
       var tally = {};
-      catalog.entries.forEach(function (entry) {
+      groups.latest.forEach(function (entry) {
         if (entry.model !== model.name || !entry.grade) return;
         tally[entry.grade] = (tally[entry.grade] || 0) + 1;
       });
       var counts = document.createElement("span");
       counts.className = "grade-counts";
+      counts.title = "同题同模型只统计一次，计入最高评级";
       ["A", "B", "C", "D", "E"].forEach(function (grade) {
         if (!tally[grade]) return;
         var tag = document.createElement("span");
@@ -687,24 +713,14 @@
   }
 
   function loadReaderCover(entry, title, onLoad) {
-    if (!entry.file) return;
-    var stem = entry.file.split(/[\\/]/).pop().replace(/\.[^.]+$/, "");
-    var extensions = ["webp", "png", "jpg", "jpeg", "avif", "gif"];
-    var index = 0;
+    var src = coverUrl(entry);
+    if (!src) return;
     var cover = document.createElement("img");
     cover.className = "reader-cover";
     cover.alt = title + "封面";
     cover.decoding = "async";
     cover.addEventListener("load", function () { onLoad(cover); });
-    cover.addEventListener("error", function () {
-      index += 1;
-      if (index < extensions.length) tryNext();
-    });
-    function tryNext() {
-      cover.src = "assets/covers/" + encodeURIComponent(stem) + "." + extensions[index];
-    }
-    // 直接尝试同名图片，无需服务器提供目录列表；成功加载后才插入正文页。
-    tryNext();
+    cover.src = src;
   }
 
   function renderRead(catalog) {
@@ -1084,14 +1100,54 @@
   }
 
   var page = document.body.dataset.page;
-  loadCatalog().then(function (catalog) {
-    if (page === "index") renderIndex(catalog);
-    else if (page === "read") renderRead(catalog);
-    else if (page === "prompt") renderPrompt(catalog);
-  }).catch(function (error) {
-    var message = error && error.catalogKind
-      ? error.message
-      : "打不开 data/catalog.json。请双击「打开网页.bat」，或在发布后通过 GitHub Pages 访问。直接双击 html 时，浏览器不允许读取旁边的数据文件。";
-    showError(message);
-  });
+  var renderedCatalog = null;
+  var catalogRequest = 0;
+  var reloadPending = false;
+
+  function refreshCatalog() {
+    if (reloadPending) return;
+    var request = ++catalogRequest;
+    return Promise.all([loadCatalog(), page === "index" || page === "read" ? loadCoverFiles() : Promise.resolve(null)]).then(function (results) {
+      // A request suspended with the old page must not replace a newer response.
+      if (request !== catalogRequest) return;
+      var catalog = results[0];
+      if (results[1]) coverFiles = results[1];
+      var errorNode = $("catalog-error");
+      if (errorNode) errorNode.remove();
+      var snapshot = JSON.stringify({ catalog: catalog, covers: coverFiles });
+      if (page === "index" && renderedCatalog !== null) {
+        // Reload changed data once, keeping one set of filters and showcase listeners.
+        if (snapshot !== renderedCatalog) {
+          reloadPending = true;
+          window.location.reload();
+        }
+        return;
+      }
+      if (page === "index") renderIndex(catalog);
+      else if (page === "read") renderRead(catalog);
+      else if (page === "prompt") renderPrompt(catalog);
+      renderedCatalog = snapshot;
+    }).catch(function (error) {
+      if (request !== catalogRequest) return;
+      if (renderedCatalog !== null) {
+        showError("暂时无法核对最新文稿，当前保留上次加载的内容。请确认网络或本地网页服务已启动，再刷新页面。");
+        return;
+      }
+      var message = error && error.catalogKind
+        ? error.message
+        : "打不开 data/catalog.json。请双击「打开网页.bat」，或在发布后通过 GitHub Pages 访问。直接双击 html 时，浏览器不允许读取旁边的数据文件。";
+      showError(message);
+    });
+  }
+
+  if (page === "index") {
+    window.addEventListener("pageshow", function (event) {
+      if (event.persisted) refreshCatalog();
+    });
+    document.addEventListener("visibilitychange", function () {
+      if (document.visibilityState === "visible") refreshCatalog();
+    });
+    window.addEventListener("focus", refreshCatalog);
+  }
+  refreshCatalog();
 })();

@@ -135,13 +135,6 @@
       "promptManual": true
     },
     {
-      "name": "失调V2",
-      "grade": "B",
-      "promptFile": "prompts/失调V2.txt",
-      "promptAt": "2026-10-21 17:37",
-      "promptManual": true
-    },
-    {
       "name": "恐怖黎明",
       "grade": "C",
       "promptFile": "prompts/恐怖黎明.txt",
@@ -244,6 +237,20 @@
       "grade": "E",
       "promptFile": "prompts/二人V2.txt",
       "promptAt": "2026-10-21 15:38",
+      "promptManual": true
+    },
+    {
+      "name": "二人V3",
+      "grade": "E",
+      "promptFile": "prompts/二人V3.txt",
+      "promptAt": "2026-10-22 22:30",
+      "promptManual": true
+    },
+    {
+      "name": "美国梦",
+      "grade": "A",
+      "promptFile": "prompts/美国梦.txt",
+      "promptAt": "2026-10-22 20:26",
       "promptManual": true
     }
   ],
@@ -2046,7 +2053,7 @@
       "time": "202610191523",
       "effort": "high",
       "harness": "codex",
-      "grade": "",
+      "grade": "E",
       "file": "texts/研究院_gpt-5.6-sol_2610191523.txt",
       "manual": true
     },
@@ -2123,7 +2130,7 @@
       "time": "202610201335",
       "effort": "high",
       "harness": "cursor",
-      "grade": "",
+      "grade": "D",
       "file": "texts/研究院_Claude-Opus-5.5_2610201335.txt",
       "manual": true
     },
@@ -2244,7 +2251,7 @@
       "time": "202610211527",
       "effort": "high",
       "harness": "cursor",
-      "grade": "",
+      "grade": "C",
       "file": "texts/二人_Claude-Opus-5.5_2610211527.txt",
       "manual": true
     },
@@ -2293,25 +2300,25 @@
       "manual": true
     },
     {
-      "id": "失调V2_GPT-5.6-Sol_2610211737",
-      "topic": "失调V2",
+      "id": "失调_GPT-5.6-Sol_2610211737",
+      "topic": "失调",
       "model": "GPT 5.6 Sol",
       "time": "202610211737",
       "effort": "high",
       "harness": "codex",
-      "grade": "",
-      "file": "texts/失调V2_GPT-5.6-Sol_2610211737.txt",
+      "grade": "D",
+      "file": "texts/失调_GPT-5.6-Sol_2610211737.txt",
       "manual": true
     },
     {
-      "id": "失调V2_Claude-Opus-5.5_2610211740",
-      "topic": "失调V2",
+      "id": "失调_Claude-Opus-5.5_2610211740",
+      "topic": "失调",
       "model": "Claude Opus 5.5",
       "time": "202610211740",
       "effort": "high",
       "harness": "cursor",
-      "grade": "",
-      "file": "texts/失调V2_Claude-Opus-5.5_2610211740.txt",
+      "grade": "C",
+      "file": "texts/失调_Claude-Opus-5.5_2610211740.txt",
       "manual": true
     },
     {
@@ -2323,6 +2330,72 @@
       "harness": "cursor",
       "grade": "",
       "file": "texts/二人V2_MuseWonder_2610211810.txt",
+      "manual": true
+    },
+    {
+      "id": "美国梦_GPT-5.6-Sol_2610222026",
+      "topic": "美国梦",
+      "model": "GPT 5.6 Sol",
+      "time": "202610222026",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/美国梦_GPT-5.6-Sol_2610222026.txt",
+      "manual": true
+    },
+    {
+      "id": "研究院_GPT-5.6-Sol_2610222048",
+      "topic": "研究院",
+      "model": "GPT 5.6 Sol",
+      "time": "202610222048",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "E",
+      "file": "texts/研究院_GPT-5.6-Sol_2610222048.txt",
+      "manual": true
+    },
+    {
+      "id": "二人V3_GPT-5.6-Sol_2610222230",
+      "topic": "二人V3",
+      "model": "GPT 5.6 Sol",
+      "time": "202610222230",
+      "effort": "high",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/二人V3_GPT-5.6-Sol_2610222230.txt",
+      "manual": true
+    },
+    {
+      "id": "价值_GPT-5.6-Sol_2610230829",
+      "topic": "价值",
+      "model": "GPT 5.6 Sol",
+      "time": "202610230829",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/价值_GPT-5.6-Sol_2610230829.txt",
+      "manual": true
+    },
+    {
+      "id": "偏执_gpt-5.6-sol_2610230841",
+      "topic": "偏执",
+      "model": "GPT 5.6 Sol",
+      "time": "202610230841",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/偏执_gpt-5.6-sol_2610230841.txt",
+      "manual": true
+    },
+    {
+      "id": "母亲V2_gpt-5.6-sol_2610230912",
+      "topic": "母亲V2",
+      "model": "GPT 5.6 Sol",
+      "time": "202610230912",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/母亲V2_gpt-5.6-sol_2610230912.txt",
       "manual": true
     }
   ]

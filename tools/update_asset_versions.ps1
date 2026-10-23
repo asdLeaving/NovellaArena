@@ -4,6 +4,28 @@ param([string]$SiteRoot = (Split-Path -Parent $PSScriptRoot))
 $ErrorActionPreference = "Stop"
 $sitePath = (Resolve-Path -LiteralPath $SiteRoot).Path
 $utf8 = [System.Text.UTF8Encoding]::new($false)
+# GitHub Pages uses this static index; the local server builds the same index live.
+$coverExtensions = @(".webp", ".png", ".jpg", ".jpeg", ".avif", ".gif")
+$covers = [ordered]@{}
+$coverDirectory = Join-Path $sitePath "assets/covers"
+if (Test-Path -LiteralPath $coverDirectory) {
+  Get-ChildItem -LiteralPath $coverDirectory -File |
+    Where-Object { $_.Extension.ToLowerInvariant() -in $coverExtensions } |
+    Sort-Object @{ Expression = { [array]::IndexOf($coverExtensions, $_.Extension.ToLowerInvariant()) } }, Name |
+    ForEach-Object {
+      if (-not $covers.Contains($_.BaseName)) {
+        $covers[$_.BaseName] = [ordered]@{
+          file = $_.Name
+          version = (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+        }
+      }
+    }
+}
+$coverManifest = Join-Path $sitePath "data/covers.json"
+$coverJson = ([ordered]@{ covers = $covers } | ConvertTo-Json -Depth 4) + "`n"
+if (-not (Test-Path -LiteralPath $coverManifest) -or [System.IO.File]::ReadAllText($coverManifest, $utf8) -cne $coverJson) {
+  [System.IO.File]::WriteAllText($coverManifest, $coverJson, $utf8)
+}
 $versions = @{}
 $sha = [System.Security.Cryptography.SHA256]::Create()
 try {
