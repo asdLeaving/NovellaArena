@@ -1844,7 +1844,7 @@
       "time": "202610180000",
       "effort": "high",
       "harness": "cursor",
-      "grade": "",
+      "grade": "B",
       "file": "texts/电工_Claude-Opus-5.5_2610180000.txt",
       "manual": true
     },
@@ -2130,7 +2130,7 @@
       "time": "202610201153",
       "effort": "high",
       "harness": "codex",
-      "grade": "",
+      "grade": "D",
       "file": "texts/电工_GPT-5.6-Sol_2610201153.txt",
       "manual": true
     },
@@ -2141,7 +2141,7 @@
       "time": "202610201335",
       "effort": "high",
       "harness": "cursor",
-      "grade": "D",
+      "grade": "C",
       "file": "texts/研究院_Claude-Opus-5.5_2610201335.txt",
       "manual": true
     },
@@ -2339,7 +2339,7 @@
       "time": "202610210037",
       "effort": "high",
       "harness": "cursor",
-      "grade": "",
+      "grade": "B",
       "file": "texts/冒险家们_Claude-Opus-5.5_2610210037.txt",
       "manual": true
     },
@@ -2548,7 +2548,7 @@
       "time": "202610232025",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "E",
       "file": "texts/研究院_GPT-6-Astra_2610232025.txt",
       "manual": true
     },
@@ -2559,8 +2559,19 @@
       "time": "202610241436",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "D",
       "file": "texts/研究院_gpt-5.6-sol_2610241436.txt",
+      "manual": true
+    },
+    {
+      "id": "研究院_GPT-5.6-Sol_2610241642",
+      "topic": "研究院",
+      "model": "GPT 5.6 Sol",
+      "time": "202610241642",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/研究院_GPT-5.6-Sol_2610241642.txt",
       "manual": true
     }
   ]

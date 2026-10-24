@@ -282,6 +282,15 @@
         cover.src = coverSrc;
         art.appendChild(cover);
       }
+      var complexity = (slot.getAttribute("complexity") || "中").trim();
+      if (["高", "中", "低"].indexOf(complexity) < 0) complexity = "中";
+      var complexityTag = document.createElement("span");
+      complexityTag.className = "showcase-complexity complexity-"
+        + (complexity === "高" ? "high" : complexity === "低" ? "low" : "medium");
+      complexityTag.textContent = complexity;
+      complexityTag.title = "严肃程度：" + complexity;
+      complexityTag.setAttribute("aria-label", complexityTag.title);
+      art.appendChild(complexityTag);
       card.appendChild(art);
 
       var title = document.createElement("h3");
@@ -649,6 +658,7 @@
       if (heading) return { level: heading.level, text: text };
     }
     if (isChapterHeading(text)) return { level: 1, text: text };
+    if (/^(?:One|Two|Three|Four|Five|Six|Seven|Eight|Nine|Ten|Eleven|Twelve|Thirteen|Fourteen|Fifteen|Sixteen|Seventeen|Eighteen|Nineteen|Twenty)$/i.test(text)) return { level: 1, text: text };
     if (/^[一二三四五六七八九十百零〇]{1,3}$/.test(text)) return { level: 1, text: text };
     // 带句末标点的中文编号条目是正文陈述，避免将短公文条款识别为章节。
     if (/^[一二三四五六七八九十百零〇]{1,3}[\s　·.、:：].+/.test(text)

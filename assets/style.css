@@ -304,6 +304,22 @@ th .vendor {
 }
 .showcase-art.has-cover .showcase-cover { opacity: 1; }
 .showcase-art.has-cover .showcase-placeholder { visibility: hidden; }
+.showcase-complexity {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 0.55rem;
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 2rem;
+  padding: 0 0 0.3rem;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 82%, 0 100%);
+  font: 600 0.75rem/1 var(--sans);
+}
+.showcase-complexity.complexity-high { background: #b73535; color: #fff; }
+.showcase-complexity.complexity-medium { background: #efc64a; color: #342607; }
+.showcase-complexity.complexity-low { background: #287d4b; color: #fff; }
 .showcase-title {
   margin: 0.65rem 0 0.3rem;
   font-family: var(--serif);
