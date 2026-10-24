@@ -1541,13 +1541,24 @@
       "manual": true
     },
     {
+      "id": "母亲V2_Gemini-4-Argon_2610152250",
+      "topic": "母亲V2",
+      "model": "Gemini 4 Argon",
+      "time": "202610152250",
+      "effort": "high",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/母亲V2_Gemini-4-Argon_2610152250.txt",
+      "manual": true
+    },
+    {
       "id": "母亲V2_Gemini-4-Argon_2610152255",
       "topic": "母亲V2",
       "model": "Gemini 4 Argon",
       "time": "202610152255",
       "effort": "high",
       "harness": "cursor",
-      "grade": "",
+      "grade": "E",
       "file": "texts/母亲V2_Gemini-4-Argon_2610152255.txt",
       "manual": true
     },
@@ -1591,7 +1602,7 @@
       "time": "202610161007",
       "effort": "high",
       "harness": "codex",
-      "grade": "C",
+      "grade": "D",
       "file": "texts/大公司_GPT-5.6-Sol_2610161007.txt",
       "manual": true
     },
@@ -1822,7 +1833,7 @@
       "time": "202610172330",
       "effort": "high",
       "harness": "cursor",
-      "grade": "B",
+      "grade": "C",
       "file": "texts/大公司_Claude-Opus-5.5_2610172330.txt",
       "manual": true
     },
@@ -2482,7 +2493,7 @@
       "time": "202610230829",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "B",
       "file": "texts/价值_GPT-5.6-Sol_2610230829.txt",
       "manual": true
     },
@@ -2504,7 +2515,7 @@
       "time": "202610230912",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "C",
       "file": "texts/母亲V2_gpt-5.6-sol_2610230912.txt",
       "manual": true
     },
@@ -2526,8 +2537,30 @@
       "time": "202610231336",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "D",
       "file": "texts/价值_GPT-6-Astra_2610231336.txt",
+      "manual": true
+    },
+    {
+      "id": "研究院_GPT-6-Astra_2610232025",
+      "topic": "研究院",
+      "model": "GPT 6 Astra",
+      "time": "202610232025",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/研究院_GPT-6-Astra_2610232025.txt",
+      "manual": true
+    },
+    {
+      "id": "研究院_gpt-5.6-sol_2610241436",
+      "topic": "研究院",
+      "model": "GPT 5.6 Sol",
+      "time": "202610241436",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/研究院_gpt-5.6-sol_2610241436.txt",
       "manual": true
     }
   ]

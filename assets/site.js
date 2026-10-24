@@ -522,10 +522,10 @@
         row.querySelectorAll("td[data-model]").forEach(function (cell) {
           var hidden = columnHidden(cell, modelQ);
           cell.classList.toggle("col-hidden", hidden);
-          if (!hidden && cell.dataset.grade === selectedGrade) hasMatchingWork = true;
+          if (!hidden && !cell.classList.contains("empty")) hasMatchingWork = true;
         });
         row.hidden = (Boolean(topicQ) && row.dataset.topic.indexOf(topicQ) === -1)
-          || (selectedGrade !== null && !hasMatchingWork);
+          || !hasMatchingWork;
         if (!row.hidden) visibleRows += 1;
       });
       headRow.querySelectorAll("th[data-model]").forEach(function (th) {
