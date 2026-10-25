@@ -83,26 +83,27 @@
     return /^GPT\b/.test(name);
   }
 
-  /* 导入页 cursor 默认值：Grok 为 xhigh，其余模型统一为 high。 */
-  function cursorEffort(name) {
+  /* 导入页 effort 默认值：GPT、Claude 为 max，Grok 为 xhigh，其余为 high。 */
+  function defaultEffort(name) {
+    if (isGpt(name) || /^Claude\b/.test(name)) return "max";
     return /^Grok\b/.test(name) ? "xhigh" : "high";
   }
 
-  /* 10月3日12:00起至10月4日12:00前：codex / medium。10月4日12:00起：codex / high。 */
+  /* Claude 默认 claude code；GPT 沿用 10月3日12:00起默认 codex 的规则。 */
   function presetHarnessEffort(modelName, time12) {
-    if (isGpt(modelName) && time12 >= "202610031200" && time12 < "202610041200") {
-      return { harness: "codex", effort: "medium" };
+    if (/^Claude\b/.test(modelName)) {
+      return { harness: "claude code", effort: "max" };
     }
-    if (isGpt(modelName) && time12 >= "202610041200") {
-      return { harness: "codex", effort: "high" };
+    if (isGpt(modelName) && time12 >= "202610031200") {
+      return { harness: "codex", effort: "max" };
     }
-    return { harness: "cursor", effort: cursorEffort(modelName) };
+    return { harness: "cursor", effort: defaultEffort(modelName) };
   }
 
   window.ArenaModels = {
     canonicalModel: canonicalModel,
     modelReleased: modelReleased,
-    cursorEffort: cursorEffort,
+    defaultEffort: defaultEffort,
     presetHarnessEffort: presetHarnessEffort
   };
 })();

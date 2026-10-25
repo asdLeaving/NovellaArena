@@ -391,11 +391,7 @@
   bindChoices($("harness"), function (value) {
     syncCustom($("harness"), $("harnessCustomWrap"));
     if (!pending || value === "__custom") return;
-    if (value === "cursor") setChoice($("effort"), modelsApi.cursorEffort(pending.parsed.model));
-    else if (value === "codex") {
-      var preset = modelsApi.presetHarnessEffort(pending.parsed.model, pending.parsed.time);
-      if (preset.harness === "codex") setChoice($("effort"), preset.effort);
-    }
+    setChoice($("effort"), modelsApi.defaultEffort(pending.parsed.model));
     syncCustom($("effort"), $("effortCustomWrap"));
   });
   bindChoices($("effort"), function () { syncCustom($("effort"), $("effortCustomWrap")); });

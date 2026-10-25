@@ -72,10 +72,31 @@
       "promptManual": true
     },
     {
-      "name": "意识",
+      "name": "酒保",
       "grade": "A",
-      "promptFile": "prompts/意识.txt",
-      "promptAt": "2026-10-10 18:06",
+      "promptFile": "prompts/酒保.txt",
+      "promptAt": "2026-10-16 10:22",
+      "promptManual": true
+    },
+    {
+      "name": "附魅",
+      "grade": "B",
+      "promptFile": "prompts/附魅.txt",
+      "promptAt": "2026-10-09 07:09",
+      "promptManual": true
+    },
+    {
+      "name": "附魅V2",
+      "grade": "B",
+      "promptFile": "prompts/附魅V2.txt",
+      "promptAt": "2026-10-18 15:57",
+      "promptManual": true
+    },
+    {
+      "name": "价值",
+      "grade": "C",
+      "promptFile": "prompts/价值.txt",
+      "promptAt": "2026-10-12 14:12",
       "promptManual": true
     },
     {
@@ -107,17 +128,17 @@
       "promptManual": true
     },
     {
-      "name": "附魅",
-      "grade": "B",
-      "promptFile": "prompts/附魅.txt",
-      "promptAt": "2026-10-09 07:09",
+      "name": "意识",
+      "grade": "A",
+      "promptFile": "prompts/意识.txt",
+      "promptAt": "2026-10-10 18:06",
       "promptManual": true
     },
     {
-      "name": "附魅V2",
+      "name": "意识V2",
       "grade": "B",
-      "promptFile": "prompts/附魅V2.txt",
-      "promptAt": "2026-10-18 15:57",
+      "promptFile": "prompts/意识V2.txt",
+      "promptAt": "2026-10-25 18:59",
       "promptManual": true
     },
     {
@@ -142,13 +163,6 @@
       "promptManual": true
     },
     {
-      "name": "价值",
-      "grade": "C",
-      "promptFile": "prompts/价值.txt",
-      "promptAt": "2026-10-12 14:12",
-      "promptManual": true
-    },
-    {
       "name": "美院",
       "grade": "A",
       "promptFile": "prompts/美院.txt",
@@ -167,13 +181,6 @@
       "grade": "B",
       "promptFile": "prompts/电工.txt",
       "promptAt": "2026-10-16 10:14",
-      "promptManual": true
-    },
-    {
-      "name": "酒保",
-      "grade": "A",
-      "promptFile": "prompts/酒保.txt",
-      "promptAt": "2026-10-16 10:22",
       "promptManual": true
     },
     {
@@ -251,6 +258,13 @@
       "grade": "A",
       "promptFile": "prompts/美国梦.txt",
       "promptAt": "2026-10-22 20:26",
+      "promptManual": true
+    },
+    {
+      "name": "同理心",
+      "grade": "B",
+      "promptFile": "prompts/同理心.txt",
+      "promptAt": "2026-10-25 18:48",
       "promptManual": true
     }
   ],
@@ -1811,7 +1825,7 @@
       "time": "202610172000",
       "effort": "high",
       "harness": "codex",
-      "grade": "",
+      "grade": "C",
       "file": "texts/埃德尔斯坦_gpt-5.6-sol_2610172000.txt",
       "manual": true
     },
@@ -1899,7 +1913,7 @@
       "time": "202610181025",
       "effort": "high",
       "harness": "cursor",
-      "grade": "",
+      "grade": "C",
       "file": "texts/埃德尔斯坦_claude-opus-5.5_2610181025.txt",
       "manual": true
     },
@@ -1987,7 +2001,7 @@
       "time": "202610181611",
       "effort": "high",
       "harness": "cursor",
-      "grade": "",
+      "grade": "B",
       "file": "texts/写作者_Claude-Opus-5.5_2610181611.txt",
       "manual": true
     },
@@ -2009,7 +2023,7 @@
       "time": "202610181619",
       "effort": "high",
       "harness": "codex",
-      "grade": "",
+      "grade": "D",
       "file": "texts/写作者_GPT-5.6-Sol_2610181619.txt",
       "manual": true
     },
@@ -2075,7 +2089,7 @@
       "time": "202610191722",
       "effort": "high",
       "harness": "codex",
-      "grade": "",
+      "grade": "C",
       "file": "texts/连接_GPT-5.6-Sol_2610191722.txt",
       "manual": true
     },
@@ -2152,7 +2166,7 @@
       "time": "202610201342",
       "effort": "high",
       "harness": "cursor",
-      "grade": "",
+      "grade": "C",
       "file": "texts/连接_Claude-Opus-5.5_2610201342.txt",
       "manual": true
     },
@@ -2570,7 +2584,7 @@
       "time": "202610241642",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "E",
       "file": "texts/研究院_GPT-5.6-Sol_2610241642.txt",
       "manual": true
     },
@@ -2581,8 +2595,41 @@
       "time": "202610242228",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "E",
       "file": "texts/大公司_GPT-5.6-Sol_2610242228.txt",
+      "manual": true
+    },
+    {
+      "id": "写作者_GPT-5.6-Sol_2610251240",
+      "topic": "写作者",
+      "model": "GPT 5.6 Sol",
+      "time": "202610251240",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/写作者_GPT-5.6-Sol_2610251240.txt",
+      "manual": true
+    },
+    {
+      "id": "同理心_GPT-5.6-Sol_2610251848",
+      "topic": "同理心",
+      "model": "GPT 5.6 Sol",
+      "time": "202610251848",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/同理心_GPT-5.6-Sol_2610251848.txt",
+      "manual": true
+    },
+    {
+      "id": "意识V2_gpt-5.6-sol_2610251859",
+      "topic": "意识V2",
+      "model": "GPT 5.6 Sol",
+      "time": "202610251859",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/意识V2_gpt-5.6-sol_2610251859.txt",
       "manual": true
     }
   ]
