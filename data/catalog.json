@@ -2317,7 +2317,7 @@
       "time": "202610202353",
       "effort": "high",
       "harness": "codex",
-      "grade": "",
+      "grade": "C",
       "file": "texts/冒险家们_gpt-5.6-sol_2610202353.txt",
       "manual": true
     },
@@ -2328,7 +2328,7 @@
       "time": "202610210037",
       "effort": "high",
       "harness": "codex",
-      "grade": "",
+      "grade": "C",
       "file": "texts/冒险家们_GPT-5.6-Sol_2610210037.txt",
       "manual": true
     },
@@ -2572,6 +2572,17 @@
       "harness": "codex",
       "grade": "",
       "file": "texts/研究院_GPT-5.6-Sol_2610241642.txt",
+      "manual": true
+    },
+    {
+      "id": "大公司_GPT-5.6-Sol_2610242228",
+      "topic": "大公司",
+      "model": "GPT 5.6 Sol",
+      "time": "202610242228",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/大公司_GPT-5.6-Sol_2610242228.txt",
       "manual": true
     }
   ]
