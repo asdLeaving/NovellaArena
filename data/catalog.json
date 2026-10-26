@@ -2606,7 +2606,7 @@
       "time": "202610251240",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "C",
       "file": "texts/写作者_GPT-5.6-Sol_2610251240.txt",
       "manual": true
     },
@@ -2628,8 +2628,41 @@
       "time": "202610251859",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "D",
       "file": "texts/意识V2_gpt-5.6-sol_2610251859.txt",
+      "manual": true
+    },
+    {
+      "id": "意识V2_Claude-Opus-5.5_2610261419",
+      "topic": "意识V2",
+      "model": "Claude Opus 5.5",
+      "time": "202610261419",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/意识V2_Claude-Opus-5.5_2610261419.txt",
+      "manual": true
+    },
+    {
+      "id": "二人V3_Claude-Opus-5.5_2610261526",
+      "topic": "二人V3",
+      "model": "Claude Opus 5.5",
+      "time": "202610261526",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/二人V3_Claude-Opus-5.5_2610261526.txt",
+      "manual": true
+    },
+    {
+      "id": "研究院_claude-opus-5.5_2610261752",
+      "topic": "研究院",
+      "model": "Claude Opus 5.5",
+      "time": "202610261752",
+      "effort": "max",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/研究院_claude-opus-5.5_2610261752.txt",
       "manual": true
     }
   ]
