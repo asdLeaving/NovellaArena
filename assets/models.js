@@ -89,10 +89,10 @@
     return /^Grok\b/.test(name) ? "xhigh" : "high";
   }
 
-  /* Claude 默认 claude code；GPT 沿用 10月3日12:00起默认 codex 的规则。 */
+  /* Claude 默认 claude chat；GPT 沿用 10月3日12:00起默认 codex 的规则。 */
   function presetHarnessEffort(modelName, time12) {
     if (/^Claude\b/.test(modelName)) {
-      return { harness: "claude code", effort: "max" };
+      return { harness: "claude chat", effort: "max" };
     }
     if (isGpt(modelName) && time12 >= "202610031200") {
       return { harness: "codex", effort: "max" };

@@ -2633,13 +2633,24 @@
       "manual": true
     },
     {
+      "id": "同理心_claude-opus-5.5_2610261207",
+      "topic": "同理心",
+      "model": "Claude Opus 5.5",
+      "time": "202610261207",
+      "effort": "max",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/同理心_claude-opus-5.5_2610261207.txt",
+      "manual": true
+    },
+    {
       "id": "意识V2_Claude-Opus-5.5_2610261419",
       "topic": "意识V2",
       "model": "Claude Opus 5.5",
       "time": "202610261419",
       "effort": "high",
       "harness": "claude chat",
-      "grade": "",
+      "grade": "C",
       "file": "texts/意识V2_Claude-Opus-5.5_2610261419.txt",
       "manual": true
     },
@@ -2661,8 +2672,63 @@
       "time": "202610261752",
       "effort": "max",
       "harness": "claude chat",
-      "grade": "",
+      "grade": "C",
       "file": "texts/研究院_claude-opus-5.5_2610261752.txt",
+      "manual": true
+    },
+    {
+      "id": "美国梦_claude-opus-5.5_2610262107",
+      "topic": "美国梦",
+      "model": "Claude Opus 5.5",
+      "time": "202610262107",
+      "effort": "max",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/美国梦_claude-opus-5.5_2610262107.txt",
+      "manual": true
+    },
+    {
+      "id": "研究院_claude-opus-5.5_2610262354",
+      "topic": "研究院",
+      "model": "Claude Opus 5.5",
+      "time": "202610262354",
+      "effort": "max",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/研究院_claude-opus-5.5_2610262354.txt",
+      "manual": true
+    },
+    {
+      "id": "洋葱骑士_claude-opus-5.5_2610270105",
+      "topic": "洋葱骑士",
+      "model": "Claude Opus 5.5",
+      "time": "202610270105",
+      "effort": "max",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/洋葱骑士_claude-opus-5.5_2610270105.txt",
+      "manual": true
+    },
+    {
+      "id": "埃德尔斯坦_claude-opus-5.5_2610271043",
+      "topic": "埃德尔斯坦",
+      "model": "Claude Opus 5.5",
+      "time": "202610271043",
+      "effort": "max",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/埃德尔斯坦_claude-opus-5.5_2610271043.txt",
+      "manual": true
+    },
+    {
+      "id": "连接_claude-opus-5.5_2610271727",
+      "topic": "连接",
+      "model": "Claude Opus 5.5",
+      "time": "202610271727",
+      "effort": "max",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/连接_claude-opus-5.5_2610271727.txt",
       "manual": true
     }
   ]

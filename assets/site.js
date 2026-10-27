@@ -638,7 +638,7 @@
 
   function isChapterHeading(text) {
     text = text.replace(/^【([^【】]+)】$/, "$1").trim();
-    return /^第[一二三四五六七八九十百千万零〇两0-9]+[章幕篇](?:$|[\s　·.、:：].+)$/.test(text);
+    return /^第[一二三四五六七八九十百千万零〇两0-9]+(?:[章幕篇]|部分)(?:$|[\s　·.、:：].+)$/.test(text);
   }
 
   function isNumberedSection(text, sectionNumbers) {
