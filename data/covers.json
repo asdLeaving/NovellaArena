@@ -1,5 +1,9 @@
 {
     "covers":  {
+                   "埃德尔斯坦_claude-opus-5.5_2610271043":  {
+                                                            "file":  "埃德尔斯坦_claude-opus-5.5_2610271043.webp",
+                                                            "version":  "f3f66e8871adc2960025e3b9f2955f9ba2c21558ce80e7de7d67f2b99ed2c9ed"
+                                                        },
                    "报道_gpt-5.6-sol_2610041919":  {
                                                      "file":  "报道_gpt-5.6-sol_2610041919.webp",
                                                      "version":  "e1e6cec82cf534b9848636d8d6a12aa7ffeca9e1587ba2fa05dc446384e1df0e"
@@ -136,6 +140,10 @@
                                                           "file":  "写作者_Claude-Opus-5.5_2610181611.webp",
                                                           "version":  "63394f0bf90bf20bc85e7eef506d0a5ddf2320481c61642a940469b3d473155e"
                                                       },
+                   "洋葱骑士_claude-opus-5.5_2610270105":  {
+                                                           "file":  "洋葱骑士_claude-opus-5.5_2610270105.webp",
+                                                           "version":  "45fb6e876a8cee98b28f6b356aa4b8206d89b7e06fae2d184dd4e9e4c7dea20c"
+                                                       },
                    "异途_Claude-Opus-5.5_2610171912":  {
                                                          "file":  "异途_Claude-Opus-5.5_2610171912.webp",
                                                          "version":  "05a5f5c95c985dae3ab63681165ed4ca7f54a118fa31b6e459d1830e66e0ff56"

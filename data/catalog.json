@@ -1627,7 +1627,7 @@
       "time": "202610161014",
       "effort": "high",
       "harness": "codex",
-      "grade": "",
+      "grade": "C",
       "file": "texts/电工_gpt-5.6-sol_2610161014.txt",
       "manual": true
     },
@@ -2639,7 +2639,7 @@
       "time": "202610261207",
       "effort": "max",
       "harness": "claude chat",
-      "grade": "",
+      "grade": "C",
       "file": "texts/同理心_claude-opus-5.5_2610261207.txt",
       "manual": true
     },
@@ -2694,7 +2694,7 @@
       "time": "202610262354",
       "effort": "max",
       "harness": "claude chat",
-      "grade": "",
+      "grade": "C",
       "file": "texts/研究院_claude-opus-5.5_2610262354.txt",
       "manual": true
     },
@@ -2705,7 +2705,7 @@
       "time": "202610270105",
       "effort": "max",
       "harness": "claude chat",
-      "grade": "",
+      "grade": "B",
       "file": "texts/洋葱骑士_claude-opus-5.5_2610270105.txt",
       "manual": true
     },
@@ -2716,7 +2716,7 @@
       "time": "202610271043",
       "effort": "max",
       "harness": "claude chat",
-      "grade": "",
+      "grade": "B",
       "file": "texts/埃德尔斯坦_claude-opus-5.5_2610271043.txt",
       "manual": true
     },

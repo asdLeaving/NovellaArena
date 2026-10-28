@@ -660,9 +660,10 @@
     if (isChapterHeading(text)) return { level: 1, text: text };
     if (/^(?:One|Two|Three|Four|Five|Six|Seven|Eight|Nine|Ten|Eleven|Twelve|Thirteen|Fourteen|Fifteen|Sixteen|Seventeen|Eighteen|Nineteen|Twenty)$/i.test(text)) return { level: 1, text: text };
     if (/^[一二三四五六七八九十百零〇]{1,3}$/.test(text)) return { level: 1, text: text };
-    // 带句末标点的中文编号条目是正文陈述，避免将短公文条款识别为章节。
+    // 排除以句末标点、省略号结尾的正文，以及同一行内列出多项的编号条目。
     if (/^[一二三四五六七八九十百零〇]{1,3}[\s　·.、:：].+/.test(text)
-        && !/[。！？][”’"」』]*$/.test(text)) return { level: 1, text: text };
+        && !/(?:[。！？…]|\.{3})[”’"」』]*$/.test(text)
+        && !/[；;]\s*[一二三四五六七八九十百零〇]{1,3}、/.test(text)) return { level: 1, text: text };
     if (/^【(?:场景)?[一二三四五六七八九十0-9]{1,3}】/.test(text)) return { level: 1, text: text };
     if (/^No\.?\s*\d+/i.test(text)) return { level: 1, text: text };
     if (/^(尾声|序章|楔子|终章|后记|引子|序|跋)$/.test(text)) return { level: 1, text: text };
