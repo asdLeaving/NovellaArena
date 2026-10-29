@@ -266,6 +266,13 @@
       "promptFile": "prompts/同理心.txt",
       "promptAt": "2026-10-25 18:48",
       "promptManual": true
+    },
+    {
+      "name": "侦探",
+      "grade": "A",
+      "promptFile": "prompts/侦探.txt",
+      "promptAt": "2026-10-29 11:16",
+      "promptManual": true
     }
   ],
   "models": [
@@ -1231,7 +1238,7 @@
       "time": "202610091755",
       "effort": "high",
       "harness": "codex",
-      "grade": "",
+      "grade": "C",
       "file": "texts/失调_GPT-6-Astra_2610091755.txt",
       "manual": true
     },
@@ -2617,7 +2624,7 @@
       "time": "202610251848",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "D",
       "file": "texts/同理心_GPT-5.6-Sol_2610251848.txt",
       "manual": true
     },
@@ -2683,7 +2690,7 @@
       "time": "202610262107",
       "effort": "max",
       "harness": "claude chat",
-      "grade": "",
+      "grade": "C",
       "file": "texts/美国梦_claude-opus-5.5_2610262107.txt",
       "manual": true
     },
@@ -2729,6 +2736,50 @@
       "harness": "claude chat",
       "grade": "",
       "file": "texts/连接_claude-opus-5.5_2610271727.txt",
+      "manual": true
+    },
+    {
+      "id": "电工_claude-opus-5.5_2610282144",
+      "topic": "电工",
+      "model": "Claude Opus 5.5",
+      "time": "202610282144",
+      "effort": "max",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/电工_claude-opus-5.5_2610282144.txt",
+      "manual": true
+    },
+    {
+      "id": "同理心_claude-opus-5.5_2610290954",
+      "topic": "同理心",
+      "model": "Claude Opus 5.5",
+      "time": "202610290954",
+      "effort": "max",
+      "harness": "claude chat",
+      "grade": "D",
+      "file": "texts/同理心_claude-opus-5.5_2610290954.txt",
+      "manual": true
+    },
+    {
+      "id": "侦探_GPT-5.6-Sol_2610291116",
+      "topic": "侦探",
+      "model": "GPT 5.6 Sol",
+      "time": "202610291116",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/侦探_GPT-5.6-Sol_2610291116.txt",
+      "manual": true
+    },
+    {
+      "id": "侦探_claude-opus-5.5_2610291603",
+      "topic": "侦探",
+      "model": "Claude Opus 5.5",
+      "time": "202610291603",
+      "effort": "max",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/侦探_claude-opus-5.5_2610291603.txt",
       "manual": true
     }
   ]
