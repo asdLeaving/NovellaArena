@@ -222,7 +222,7 @@
   function renderShowcase(catalog) {
     var root = $("showcase");
     if (!root) return;
-    var picked = latestMap(catalog.entries).latest;
+    var picked = latestMap(catalog.entries, byGradeThenTimeDesc).latest;
     var list = root.querySelector(".showcase-list");
     var slots = Array.from(list.querySelectorAll("[data-model][data-topic], [data-id]"));
     // Keep the mobile limit aligned with the two-column cover layout.
