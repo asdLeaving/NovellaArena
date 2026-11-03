@@ -175,6 +175,10 @@
                    "哲学教授_gpt-5.6-sol_2610031229":  {
                                                        "file":  "哲学教授_gpt-5.6-sol_2610031229.webp",
                                                        "version":  "11bf9f6898e64a2ddf2f50cf1c7c1d3e1d05bcddc4b33fbec0db3f4ab8b65e13"
-                                                   }
+                                                   },
+                   "侦探_claude-opus-5.5_2610291603":  {
+                                                         "file":  "侦探_claude-opus-5.5_2610291603.webp",
+                                                         "version":  "98d13526c6a9af5133d5920fc9c334a4eed98faba38f21e390ad27833c216ee6"
+                                                     }
                }
 }

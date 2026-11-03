@@ -996,7 +996,7 @@
       "time": "202610070102",
       "effort": "xhigh",
       "harness": "cursor",
-      "grade": "",
+      "grade": "D",
       "file": "texts/高魔_Grok4.6_2610070102.txt",
       "manual": true
     },
@@ -2283,7 +2283,7 @@
       "time": "202610202141",
       "effort": "high",
       "harness": "codex",
-      "grade": "",
+      "grade": "C",
       "file": "texts/价值_GPT-6-Astra_2610202141.txt",
       "manual": true
     },
@@ -2481,7 +2481,7 @@
       "time": "202610222026",
       "effort": "high",
       "harness": "codex",
-      "grade": "",
+      "grade": "C",
       "file": "texts/美国梦_GPT-5.6-Sol_2610222026.txt",
       "manual": true
     },
@@ -2778,8 +2778,63 @@
       "time": "202610291603",
       "effort": "max",
       "harness": "claude chat",
-      "grade": "",
+      "grade": "B",
       "file": "texts/侦探_claude-opus-5.5_2610291603.txt",
+      "manual": true
+    },
+    {
+      "id": "大公司_GPT-6-Astra_2611031036",
+      "topic": "大公司",
+      "model": "GPT 6 Astra",
+      "time": "202611031036",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/大公司_GPT-6-Astra_2611031036.txt",
+      "manual": true
+    },
+    {
+      "id": "冒险家们_GPT-6-Astra_2611031119",
+      "topic": "冒险家们",
+      "model": "GPT 6 Astra",
+      "time": "202611031119",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/冒险家们_GPT-6-Astra_2611031119.txt",
+      "manual": true
+    },
+    {
+      "id": "意识V2_GPT-6-Astra_2611031121",
+      "topic": "意识V2",
+      "model": "GPT 6 Astra",
+      "time": "202611031121",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/意识V2_GPT-6-Astra_2611031121.txt",
+      "manual": true
+    },
+    {
+      "id": "同理心_GPT-6-Astra_2611031205",
+      "topic": "同理心",
+      "model": "GPT 6 Astra",
+      "time": "202611031205",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/同理心_GPT-6-Astra_2611031205.txt",
+      "manual": true
+    },
+    {
+      "id": "美国梦_GPT-6-Astra_2611031521",
+      "topic": "美国梦",
+      "model": "GPT 6 Astra",
+      "time": "202611031521",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/美国梦_GPT-6-Astra_2611031521.txt",
       "manual": true
     }
   ]
