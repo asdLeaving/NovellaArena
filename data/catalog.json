@@ -273,6 +273,62 @@
       "promptFile": "prompts/侦探.txt",
       "promptAt": "2026-10-29 11:16",
       "promptManual": true
+    },
+    {
+      "name": "侦探V2",
+      "grade": "A",
+      "promptFile": "prompts/侦探V2.txt",
+      "promptAt": "2026-11-05 19:50",
+      "promptManual": true
+    },
+    {
+      "name": "骑手",
+      "grade": "B",
+      "promptFile": "prompts/骑手.txt",
+      "promptAt": "2026-11-05 09:45",
+      "promptManual": true
+    },
+    {
+      "name": "废土",
+      "grade": "A",
+      "promptFile": "prompts/废土.txt",
+      "promptAt": "2026-11-05 11:45",
+      "promptManual": true
+    },
+    {
+      "name": "闭锁",
+      "grade": "B",
+      "promptFile": "prompts/闭锁.txt",
+      "promptAt": "2026-11-05 11:54",
+      "promptManual": true
+    },
+    {
+      "name": "美国人",
+      "grade": "A",
+      "promptFile": "prompts/美国人.txt",
+      "promptAt": "2026-11-05 12:03",
+      "promptManual": true
+    },
+    {
+      "name": "决定",
+      "grade": "B",
+      "promptFile": "prompts/决定.txt",
+      "promptAt": "2026-11-05 17:08",
+      "promptManual": true
+    },
+    {
+      "name": "极乐",
+      "grade": "A",
+      "promptFile": "prompts/极乐.txt",
+      "promptAt": "2026-11-05 19:21",
+      "promptManual": true
+    },
+    {
+      "name": "身份",
+      "grade": "B",
+      "promptFile": "prompts/身份.txt",
+      "promptAt": "2026-11-05 19:15",
+      "promptManual": true
     }
   ],
   "models": [
@@ -2668,7 +2724,7 @@
       "time": "202610261526",
       "effort": "high",
       "harness": "claude chat",
-      "grade": "",
+      "grade": "B",
       "file": "texts/二人V3_Claude-Opus-5.5_2610261526.txt",
       "manual": true
     },
@@ -2734,7 +2790,7 @@
       "time": "202610271727",
       "effort": "max",
       "harness": "claude chat",
-      "grade": "",
+      "grade": "C",
       "file": "texts/连接_claude-opus-5.5_2610271727.txt",
       "manual": true
     },
@@ -2767,7 +2823,7 @@
       "time": "202610291116",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "D",
       "file": "texts/侦探_GPT-5.6-Sol_2610291116.txt",
       "manual": true
     },
@@ -2789,7 +2845,7 @@
       "time": "202611031036",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "D",
       "file": "texts/大公司_GPT-6-Astra_2611031036.txt",
       "manual": true
     },
@@ -2811,7 +2867,7 @@
       "time": "202611031121",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "D",
       "file": "texts/意识V2_GPT-6-Astra_2611031121.txt",
       "manual": true
     },
@@ -2835,6 +2891,105 @@
       "harness": "codex",
       "grade": "",
       "file": "texts/美国梦_GPT-6-Astra_2611031521.txt",
+      "manual": true
+    },
+    {
+      "id": "骑手_GPT-5.6-Sol_2611050945",
+      "topic": "骑手",
+      "model": "GPT 5.6 Sol",
+      "time": "202611050945",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/骑手_GPT-5.6-Sol_2611050945.txt",
+      "manual": true
+    },
+    {
+      "id": "骑手_GPT-5.6-Sol_2611051001",
+      "topic": "骑手",
+      "model": "GPT 5.6 Sol",
+      "time": "202611051001",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "B",
+      "file": "texts/骑手_GPT-5.6-Sol_2611051001.txt",
+      "manual": true
+    },
+    {
+      "id": "废土_GPT-5.6-Sol_2611051145",
+      "topic": "废土",
+      "model": "GPT 5.6 Sol",
+      "time": "202611051145",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/废土_GPT-5.6-Sol_2611051145.txt",
+      "manual": true
+    },
+    {
+      "id": "闭锁_GPT-5.6-Sol_2611051154",
+      "topic": "闭锁",
+      "model": "GPT 5.6 Sol",
+      "time": "202611051154",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "B",
+      "file": "texts/闭锁_GPT-5.6-Sol_2611051154.txt",
+      "manual": true
+    },
+    {
+      "id": "美国人_GPT-5.6-Sol_2611051203",
+      "topic": "美国人",
+      "model": "GPT 5.6 Sol",
+      "time": "202611051203",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/美国人_GPT-5.6-Sol_2611051203.txt",
+      "manual": true
+    },
+    {
+      "id": "决定_GPT-5.6-Sol_2611051708",
+      "topic": "决定",
+      "model": "GPT 5.6 Sol",
+      "time": "202611051708",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/决定_GPT-5.6-Sol_2611051708.txt",
+      "manual": true
+    },
+    {
+      "id": "身份_GPT-5.6-Sol_2611051915",
+      "topic": "身份",
+      "model": "GPT 5.6 Sol",
+      "time": "202611051915",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/身份_GPT-5.6-Sol_2611051915.txt",
+      "manual": true
+    },
+    {
+      "id": "极乐_GPT-5.6-Sol_2611051921",
+      "topic": "极乐",
+      "model": "GPT 5.6 Sol",
+      "time": "202611051921",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/极乐_GPT-5.6-Sol_2611051921.txt",
+      "manual": true
+    },
+    {
+      "id": "侦探V2_GPT-5.6-Sol_2611051950",
+      "topic": "侦探V2",
+      "model": "GPT 5.6 Sol",
+      "time": "202611051950",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/侦探V2_GPT-5.6-Sol_2611051950.txt",
       "manual": true
     }
   ]
