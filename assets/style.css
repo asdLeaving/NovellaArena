@@ -422,6 +422,19 @@ a.cell:hover { filter: brightness(1.06); }
 a.cell .time { font-variant-numeric: tabular-nums; font-size: 0.74rem; letter-spacing: -0.03em; white-space: nowrap; }
 a.cell .meta { font-size: 0.72rem; opacity: 0.86; }
 a.cell .topic-name { font-family: var(--serif); font-size: 1.02rem; white-space: nowrap; }
+a.cell.has-reference .topic-name { transform: translateY(-0.45rem); }
+a.cell .topic-reference {
+  position: absolute;
+  left: 0.4rem;
+  right: 0.4rem;
+  bottom: 0.35rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.7rem;
+  line-height: 1.2;
+  opacity: 0.8;
+}
 a.cell .count {
   position: absolute;
   top: 0.22rem;

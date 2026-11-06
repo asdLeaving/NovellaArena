@@ -379,6 +379,32 @@
     showPage();
   }
 
+  function promptReferenceTitle(text) {
+    var firstLine = String(text || "").split(/\r\n?|\n/, 1)[0].trim();
+    var match = /^[（(]\s*《([^《》]+)》[^\r\n]*[）)]\s*$/.exec(firstLine);
+    return match ? match[1].trim() : "";
+  }
+
+  function appendTopicReference(topic, link) {
+    if (!topic.promptFile) return;
+    fetch(encodeURI(topic.promptFile), { cache: "no-store" }).then(function (response) {
+      if (!response.ok) throw new Error("prompt");
+      return response.text();
+    }).then(function (text) {
+      var reference = promptReferenceTitle(text);
+      if (!reference) return;
+      var label = document.createElement("span");
+      label.className = "topic-reference";
+      label.textContent = reference;
+      label.title = "参考作品：《" + reference + "》";
+      label.setAttribute("aria-label", label.title);
+      link.classList.add("has-reference");
+      link.appendChild(label);
+    }).catch(function () {
+      // An optional reference must not prevent the rating table from loading.
+    });
+  }
+
   function renderIndex(catalog) {
     var models = catalog.models.slice().sort(compareModels);
     var summary = $("summary");
@@ -490,6 +516,7 @@
       name.textContent = topic.name;
       topicLink.appendChild(name);
       topicLink.title = topic.promptFile ? "查看生成 prompt" : "对话记录里没有找到 prompt";
+      appendTopicReference(topic, topicLink);
       topicCell.appendChild(topicLink);
       tr.appendChild(topicCell);
 

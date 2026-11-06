@@ -205,6 +205,13 @@
       "promptManual": true
     },
     {
+      "name": "写作者V2",
+      "grade": "B",
+      "promptFile": "prompts/写作者V2.txt",
+      "promptAt": "2026-11-05 20:32",
+      "promptManual": true
+    },
+    {
       "name": "埃德尔斯坦",
       "grade": "D",
       "promptFile": "prompts/埃德尔斯坦.txt",
@@ -328,6 +335,13 @@
       "grade": "B",
       "promptFile": "prompts/身份.txt",
       "promptAt": "2026-11-05 19:15",
+      "promptManual": true
+    },
+    {
+      "name": "行商",
+      "grade": "A",
+      "promptFile": "prompts/行商.txt",
+      "promptAt": "2026-11-05 20:47",
       "promptManual": true
     }
   ],
@@ -2922,7 +2936,7 @@
       "time": "202611051145",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "C",
       "file": "texts/废土_GPT-5.6-Sol_2611051145.txt",
       "manual": true
     },
@@ -2966,7 +2980,7 @@
       "time": "202611051915",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "D",
       "file": "texts/身份_GPT-5.6-Sol_2611051915.txt",
       "manual": true
     },
@@ -2977,7 +2991,7 @@
       "time": "202611051921",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "C",
       "file": "texts/极乐_GPT-5.6-Sol_2611051921.txt",
       "manual": true
     },
@@ -2990,6 +3004,28 @@
       "harness": "codex",
       "grade": "",
       "file": "texts/侦探V2_GPT-5.6-Sol_2611051950.txt",
+      "manual": true
+    },
+    {
+      "id": "写作者V2_GPT-5.6-Sol_2611052032",
+      "topic": "写作者V2",
+      "model": "GPT 5.6 Sol",
+      "time": "202611052032",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "D",
+      "file": "texts/写作者V2_GPT-5.6-Sol_2611052032.txt",
+      "manual": true
+    },
+    {
+      "id": "行商_gpt-5.6-sol_2611052047",
+      "topic": "行商",
+      "model": "GPT 5.6 Sol",
+      "time": "202611052047",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/行商_gpt-5.6-sol_2611052047.txt",
       "manual": true
     }
   ]
