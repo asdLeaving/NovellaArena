@@ -1065,7 +1065,7 @@
     }
     var meta = document.createElement("p");
     meta.className = "meta-line";
-    meta.textContent = topic.promptAt ? "采用对话记录中较新的一版" : "对话记录中没有找到生成 prompt";
+    meta.textContent = topic.promptAt ? "其中一版prompt，不同篇目可能有所调整" : "对话记录中没有找到生成 prompt";
     mount.appendChild(meta);
     if (!topic.promptFile) {
       appendTopicWorks(mount, catalog, topic.name);

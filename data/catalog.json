@@ -357,6 +357,13 @@
       "promptFile": "prompts/算子.txt",
       "promptAt": "2026-11-07 12:12",
       "promptManual": true
+    },
+    {
+      "name": "奔现",
+      "grade": "C",
+      "promptFile": "prompts/奔现.txt",
+      "promptAt": "2026-11-07 16:06",
+      "promptManual": true
     }
   ],
   "models": [
@@ -2983,7 +2990,7 @@
       "time": "202611051708",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "B",
       "file": "texts/决定_GPT-5.6-Sol_2611051708.txt",
       "manual": true
     },
@@ -3071,8 +3078,52 @@
       "time": "202611071239",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "D",
       "file": "texts/投射_gpt-5.6-sol_2611071239.txt",
+      "manual": true
+    },
+    {
+      "id": "奔现_GPT-5.6-Sol_2611071537",
+      "topic": "奔现",
+      "model": "GPT 5.6 Sol",
+      "time": "202611071537",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "B",
+      "file": "texts/奔现_GPT-5.6-Sol_2611071537.txt",
+      "manual": true
+    },
+    {
+      "id": "奔现_gpt-5.6-sol_2611071606",
+      "topic": "奔现",
+      "model": "GPT 5.6 Sol",
+      "time": "202611071606",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "C",
+      "file": "texts/奔现_gpt-5.6-sol_2611071606.txt",
+      "manual": true
+    },
+    {
+      "id": "废土_GPT-5.6-Sol_2611071812",
+      "topic": "废土",
+      "model": "GPT 5.6 Sol",
+      "time": "202611071812",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/废土_GPT-5.6-Sol_2611071812.txt",
+      "manual": true
+    },
+    {
+      "id": "算子_gpt-5.6-sol_2611072103",
+      "topic": "算子",
+      "model": "GPT 5.6 Sol",
+      "time": "202611072103",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/算子_gpt-5.6-sol_2611072103.txt",
       "manual": true
     }
   ]
