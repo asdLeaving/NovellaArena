@@ -343,13 +343,27 @@
       "promptFile": "prompts/行商.txt",
       "promptAt": "2026-11-05 20:47",
       "promptManual": true
+    },
+    {
+      "name": "投射",
+      "grade": "B",
+      "promptFile": "prompts/投射.txt",
+      "promptAt": "2026-11-07 12:39",
+      "promptManual": true
+    },
+    {
+      "name": "算子",
+      "grade": "A",
+      "promptFile": "prompts/算子.txt",
+      "promptAt": "2026-11-07 12:12",
+      "promptManual": true
     }
   ],
   "models": [
     {
       "name": "Gemini 4 Argon",
       "released": "2026-10-13",
-      "hidden": true
+      "hidden": false
     },
     {
       "name": "Muse Wonder",
@@ -414,7 +428,7 @@
     {
       "name": "Grok 4.6",
       "released": "2026-08-12",
-      "hidden": false
+      "hidden": true
     },
     {
       "name": "Claude Opus 5",
@@ -1913,7 +1927,7 @@
       "time": "202610172046",
       "effort": "high",
       "harness": "codex",
-      "grade": "",
+      "grade": "D",
       "file": "texts/埃德尔斯坦_GPT-6-Astra_2610172046.txt",
       "manual": true
     },
@@ -3002,7 +3016,7 @@
       "time": "202611051950",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "D",
       "file": "texts/侦探V2_GPT-5.6-Sol_2611051950.txt",
       "manual": true
     },
@@ -3026,6 +3040,39 @@
       "harness": "codex",
       "grade": "",
       "file": "texts/行商_gpt-5.6-sol_2611052047.txt",
+      "manual": true
+    },
+    {
+      "id": "算子_GPT-5.6-Sol_2611071212",
+      "topic": "算子",
+      "model": "GPT 5.6 Sol",
+      "time": "202611071212",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/算子_GPT-5.6-Sol_2611071212.txt",
+      "manual": true
+    },
+    {
+      "id": "算子_GPT-5.6-Sol_2611071227",
+      "topic": "算子",
+      "model": "GPT 5.6 Sol",
+      "time": "202611071227",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/算子_GPT-5.6-Sol_2611071227.txt",
+      "manual": true
+    },
+    {
+      "id": "投射_gpt-5.6-sol_2611071239",
+      "topic": "投射",
+      "model": "GPT 5.6 Sol",
+      "time": "202611071239",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/投射_gpt-5.6-sol_2611071239.txt",
       "manual": true
     }
   ]
