@@ -2957,7 +2957,7 @@
       "time": "202611051145",
       "effort": "max",
       "harness": "codex",
-      "grade": "C",
+      "grade": "D",
       "file": "texts/废土_GPT-5.6-Sol_2611051145.txt",
       "manual": true
     },
@@ -3012,7 +3012,7 @@
       "time": "202611051921",
       "effort": "max",
       "harness": "codex",
-      "grade": "C",
+      "grade": "D",
       "file": "texts/极乐_GPT-5.6-Sol_2611051921.txt",
       "manual": true
     },
@@ -3056,7 +3056,7 @@
       "time": "202611071212",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "E",
       "file": "texts/算子_GPT-5.6-Sol_2611071212.txt",
       "manual": true
     },
@@ -3067,7 +3067,7 @@
       "time": "202611071227",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "E",
       "file": "texts/算子_GPT-5.6-Sol_2611071227.txt",
       "manual": true
     },
@@ -3111,7 +3111,7 @@
       "time": "202611071812",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "E",
       "file": "texts/废土_GPT-5.6-Sol_2611071812.txt",
       "manual": true
     },
@@ -3122,8 +3122,52 @@
       "time": "202611072103",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "D",
       "file": "texts/算子_gpt-5.6-sol_2611072103.txt",
+      "manual": true
+    },
+    {
+      "id": "废土_gpt-5.6-sol_2611072206",
+      "topic": "废土",
+      "model": "GPT 5.6 Sol",
+      "time": "202611072206",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/废土_gpt-5.6-sol_2611072206.txt",
+      "manual": true
+    },
+    {
+      "id": "极乐_gpt-5.6-sol_2611072223",
+      "topic": "极乐",
+      "model": "GPT 5.6 Sol",
+      "time": "202611072223",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/极乐_gpt-5.6-sol_2611072223.txt",
+      "manual": true
+    },
+    {
+      "id": "算子_gpt-5.6-sol_2611081029",
+      "topic": "算子",
+      "model": "GPT 5.6 Sol",
+      "time": "202611081029",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/算子_gpt-5.6-sol_2611081029.txt",
+      "manual": true
+    },
+    {
+      "id": "写作者_GPT-6-Astra_2611081104",
+      "topic": "写作者",
+      "model": "GPT 6 Astra",
+      "time": "202611081104",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/写作者_GPT-6-Astra_2611081104.txt",
       "manual": true
     }
   ]
