@@ -185,7 +185,7 @@
     },
     {
       "name": "画师",
-      "grade": "A",
+      "grade": "B",
       "promptFile": "prompts/画师.txt",
       "promptAt": "2026-10-16 10:35",
       "promptManual": true
@@ -262,7 +262,7 @@
     },
     {
       "name": "美国梦",
-      "grade": "A",
+      "grade": "B",
       "promptFile": "prompts/美国梦.txt",
       "promptAt": "2026-10-22 20:26",
       "promptManual": true
@@ -276,28 +276,28 @@
     },
     {
       "name": "侦探",
-      "grade": "A",
+      "grade": "B",
       "promptFile": "prompts/侦探.txt",
       "promptAt": "2026-10-29 11:16",
       "promptManual": true
     },
     {
       "name": "侦探V2",
-      "grade": "A",
+      "grade": "B",
       "promptFile": "prompts/侦探V2.txt",
       "promptAt": "2026-11-05 19:50",
       "promptManual": true
     },
     {
       "name": "骑手",
-      "grade": "B",
+      "grade": "C",
       "promptFile": "prompts/骑手.txt",
       "promptAt": "2026-11-05 09:45",
       "promptManual": true
     },
     {
       "name": "废土",
-      "grade": "A",
+      "grade": "B",
       "promptFile": "prompts/废土.txt",
       "promptAt": "2026-11-05 11:45",
       "promptManual": true
@@ -325,7 +325,7 @@
     },
     {
       "name": "极乐",
-      "grade": "A",
+      "grade": "B",
       "promptFile": "prompts/极乐.txt",
       "promptAt": "2026-11-05 19:21",
       "promptManual": true
@@ -346,14 +346,14 @@
     },
     {
       "name": "投射",
-      "grade": "B",
+      "grade": "C",
       "promptFile": "prompts/投射.txt",
       "promptAt": "2026-11-07 12:39",
       "promptManual": true
     },
     {
       "name": "算子",
-      "grade": "A",
+      "grade": "B",
       "promptFile": "prompts/算子.txt",
       "promptAt": "2026-11-07 12:12",
       "promptManual": true
@@ -2110,7 +2110,7 @@
       "time": "202610181617",
       "effort": "high",
       "harness": "codex",
-      "grade": "",
+      "grade": "E",
       "file": "texts/写作者_GPT-6-Astra_2610181617.txt",
       "manual": true
     },
@@ -3122,7 +3122,7 @@
       "time": "202611072103",
       "effort": "max",
       "harness": "codex",
-      "grade": "D",
+      "grade": "E",
       "file": "texts/算子_gpt-5.6-sol_2611072103.txt",
       "manual": true
     },
@@ -3133,7 +3133,7 @@
       "time": "202611072206",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "B",
       "file": "texts/废土_gpt-5.6-sol_2611072206.txt",
       "manual": true
     },
@@ -3144,7 +3144,7 @@
       "time": "202611072223",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "C",
       "file": "texts/极乐_gpt-5.6-sol_2611072223.txt",
       "manual": true
     },
@@ -3155,7 +3155,7 @@
       "time": "202611081029",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "C",
       "file": "texts/算子_gpt-5.6-sol_2611081029.txt",
       "manual": true
     },
