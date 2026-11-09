@@ -186,6 +186,7 @@
     { re: /^Grok\b/, src: "assets/logos/xai.svg", name: "xAI", ink: true },
     { re: /^Gemini\b/, src: "assets/logos/google.svg", name: "Google", ink: false },
     { re: /^Kimi\b/, src: "assets/logos/moonshot.svg", name: "Moonshot AI", ink: true },
+    { re: /^DeepSeek\b/, src: "assets/logos/deepseek.svg?v=f62e2b4142b6d09ea1b8d7517d02df57c7910da5b5873f6c4fcef7bfa10a878f", name: "DeepSeek", ink: false },
     { re: /^Muse\b/, src: "assets/logos/meta.svg", name: "Meta", ink: false }
   ];
 
@@ -198,6 +199,11 @@
 
   function releasedOf(model) {
     return String(model.released || "").trim();
+  }
+
+  function modelDisplayName(name) {
+    // Hide a separated MMDD suffix in table headings, preserving the model identity.
+    return String(name || "").replace(/\s+(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])$/, "");
   }
 
   /* 发布日期留空的排在最左（彼此按名称），其余从新到旧。 */
@@ -453,7 +459,8 @@
       markColumn(th, model);
       var name = document.createElement("span");
       name.className = "model-name";
-      name.textContent = model.name;
+      name.textContent = modelDisplayName(model.name);
+      name.title = model.name;
       th.appendChild(name);
       var tally = {};
       groups.latest.forEach(function (entry) {
@@ -710,6 +717,26 @@
     return "";
   }
 
+  function isAppendixStart(line) {
+    var text = line.trim().replace(/^#{1,6}\s*/, "").replace(/\*\*/g, "").replace(/^[【（(\[]\s*/, "");
+    return /^(?:注释|注解|脚注|尾注|附注|参考资料|参考文献|资料来源|生成情况(?:备注|说明)?|生成说明|生成备注|创作与资料说明|创作说明|写作说明|素材说明|修订记|修订说明)\s*(?:[：:】）)\]]|$)/.test(text);
+  }
+
+  function countWorkHan(lines, sectionNumbers) {
+    var end = lines.length;
+    // 只查找最后一个正文标题之后的附加内容；不改变页面上的原文和目录。
+    for (var i = lines.length - 1; i > 0; i -= 1) {
+      var text = lines[i].trim();
+      if (!text) continue;
+      if (isAppendixStart(text)) {
+        end = i;
+      } else if (headingOf(text, !lines[i - 1].trim(), nextNonEmpty(lines, i), sectionNumbers)) {
+        break;
+      }
+    }
+    return countHan(lines.slice(0, end).join("\n"));
+  }
+
   function parseWork(raw) {
     var lines = raw.replace(/^\uFEFF/, "").replace(/\r\n/g, "\n").replace(/\r/g, "\n").split("\n");
     // A neighboring section number distinguishes headings such as 1.1/1.2 from standalone decimals.
@@ -747,7 +774,7 @@
       }
       blocks.push(heading ? { type: "h", level: heading.level, text: heading.text } : { type: "p", text: text });
     });
-    return { title: title, blocks: blocks, chars: countHan(raw) };
+    return { title: title, blocks: blocks, chars: countWorkHan(lines, sectionNumbers) };
   }
 
   function loadReaderCover(entry, title, onLoad) {

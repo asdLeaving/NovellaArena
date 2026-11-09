@@ -59,6 +59,7 @@
     var s = String(raw || "").trim();
     s = s.replace(/网页.*$/, "").trim();
     s = s.replace(/([a-z])([A-Z])/g, "$1 $2");
+    s = s.replace(/\bdeep\s+seek\b/gi, "DeepSeek");
     s = s.replace(/[_\-]+/g, " ");
     s = s.replace(/([A-Za-z]{2,})(\d)/g, "$1 $2");
     s = s.replace(/(\d)([A-Za-z])/g, "$1 $2");
@@ -83,14 +84,17 @@
     return /^GPT\b/.test(name);
   }
 
-  /* 导入页 effort 默认值：GPT、Claude 为 max，Grok 为 xhigh，其余为 high。 */
+  /* 导入页 effort 默认值：GPT、Claude、DeepSeek 为 max，Grok 为 xhigh，其余为 high。 */
   function defaultEffort(name) {
-    if (isGpt(name) || /^Claude\b/.test(name)) return "max";
+    if (isGpt(name) || /^Claude\b/.test(name) || /^DeepSeek\b/.test(name)) return "max";
     return /^Grok\b/.test(name) ? "xhigh" : "high";
   }
 
-  /* Claude 默认 claude chat；GPT 沿用 10月3日12:00起默认 codex 的规则。 */
+  /* DeepSeek 默认 opencode，Claude 默认 claude chat；GPT 沿用按时间选择 codex 的规则。 */
   function presetHarnessEffort(modelName, time12) {
+    if (/^DeepSeek\b/.test(modelName)) {
+      return { harness: "opencode", effort: "max" };
+    }
     if (/^Claude\b/.test(modelName)) {
       return { harness: "claude chat", effort: "max" };
     }

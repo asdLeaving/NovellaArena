@@ -364,9 +364,21 @@
       "promptFile": "prompts/奔现.txt",
       "promptAt": "2026-11-07 16:06",
       "promptManual": true
+    },
+    {
+      "name": "故事集",
+      "grade": "B",
+      "promptFile": "prompts/故事集.txt",
+      "promptAt": "2026-11-08 22:18",
+      "promptManual": true
     }
   ],
   "models": [
+    {
+      "name": "DeepSeek V4.1 Flash 1017",
+      "released": "2026-10-17",
+      "hidden": true
+    },
     {
       "name": "Gemini 4 Argon",
       "released": "2026-10-13",
@@ -2913,7 +2925,7 @@
       "time": "202611031205",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "D",
       "file": "texts/同理心_GPT-6-Astra_2611031205.txt",
       "manual": true
     },
@@ -3168,6 +3180,94 @@
       "harness": "codex",
       "grade": "",
       "file": "texts/写作者_GPT-6-Astra_2611081104.txt",
+      "manual": true
+    },
+    {
+      "id": "故事集_GPT-5.6-Sol_2611082218",
+      "topic": "故事集",
+      "model": "GPT 5.6 Sol",
+      "time": "202611082218",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/故事集_GPT-5.6-Sol_2611082218.txt",
+      "manual": true
+    },
+    {
+      "id": "身份_gpt-5.6-sol_2611082219",
+      "topic": "身份",
+      "model": "GPT 5.6 Sol",
+      "time": "202611082219",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "D",
+      "file": "texts/身份_gpt-5.6-sol_2611082219.txt",
+      "manual": true
+    },
+    {
+      "id": "意识V2_gpt-5.6-sol_2611082219",
+      "topic": "意识V2",
+      "model": "GPT 5.6 Sol",
+      "time": "202611082219",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "D",
+      "file": "texts/意识V2_gpt-5.6-sol_2611082219.txt",
+      "manual": true
+    },
+    {
+      "id": "投射_GPT-5.6-Sol_2611082232",
+      "topic": "投射",
+      "model": "GPT 5.6 Sol",
+      "time": "202611082232",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/投射_GPT-5.6-Sol_2611082232.txt",
+      "manual": true
+    },
+    {
+      "id": "写作者V2_GPT-5.6-Sol_2611082233",
+      "topic": "写作者V2",
+      "model": "GPT 5.6 Sol",
+      "time": "202611082233",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/写作者V2_GPT-5.6-Sol_2611082233.txt",
+      "manual": true
+    },
+    {
+      "id": "故事集_GPT-5.6-Sol_2611082245",
+      "topic": "故事集",
+      "model": "GPT 5.6 Sol",
+      "time": "202611082245",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/故事集_GPT-5.6-Sol_2611082245.txt",
+      "manual": true
+    },
+    {
+      "id": "意识V2_DeepSeekV4.1Flash1017_2611091121",
+      "topic": "意识V2",
+      "model": "DeepSeek V4.1 Flash 1017",
+      "time": "202611091121",
+      "effort": "max",
+      "harness": "opencode",
+      "grade": "",
+      "file": "texts/意识V2_DeepSeekV4.1Flash1017_2611091121.txt",
+      "manual": true
+    },
+    {
+      "id": "酒保_DeepSeek-V4.1-Flash-1017_2611091210",
+      "topic": "酒保",
+      "model": "DeepSeek V4.1 Flash 1017",
+      "time": "202611091210",
+      "effort": "max",
+      "harness": "opencode",
+      "grade": "",
+      "file": "texts/酒保_DeepSeek-V4.1-Flash-1017_2611091210.txt",
       "manual": true
     }
   ]
