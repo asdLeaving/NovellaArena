@@ -2903,7 +2903,7 @@
       "time": "202611031119",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "D",
       "file": "texts/冒险家们_GPT-6-Astra_2611031119.txt",
       "manual": true
     },
@@ -2991,7 +2991,7 @@
       "time": "202611051203",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "C",
       "file": "texts/美国人_GPT-5.6-Sol_2611051203.txt",
       "manual": true
     },
@@ -3057,7 +3057,7 @@
       "time": "202611052047",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "C",
       "file": "texts/行商_gpt-5.6-sol_2611052047.txt",
       "manual": true
     },
@@ -3178,7 +3178,7 @@
       "time": "202611081104",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "D",
       "file": "texts/写作者_GPT-6-Astra_2611081104.txt",
       "manual": true
     },
@@ -3222,7 +3222,7 @@
       "time": "202611082232",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "E",
       "file": "texts/投射_GPT-5.6-Sol_2611082232.txt",
       "manual": true
     },
@@ -3233,7 +3233,7 @@
       "time": "202611082233",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "D",
       "file": "texts/写作者V2_GPT-5.6-Sol_2611082233.txt",
       "manual": true
     },
@@ -3244,7 +3244,7 @@
       "time": "202611082245",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "C",
       "file": "texts/故事集_GPT-5.6-Sol_2611082245.txt",
       "manual": true
     },
@@ -3266,8 +3266,30 @@
       "time": "202611091210",
       "effort": "max",
       "harness": "opencode",
-      "grade": "",
+      "grade": "E",
       "file": "texts/酒保_DeepSeek-V4.1-Flash-1017_2611091210.txt",
+      "manual": true
+    },
+    {
+      "id": "投射_GPT-6-Astra_2611111806",
+      "topic": "投射",
+      "model": "GPT 6 Astra",
+      "time": "202611111806",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/投射_GPT-6-Astra_2611111806.txt",
+      "manual": true
+    },
+    {
+      "id": "故事集_GPT-6-Astra_2611111916",
+      "topic": "故事集",
+      "model": "GPT 6 Astra",
+      "time": "202611111916",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/故事集_GPT-6-Astra_2611111916.txt",
       "manual": true
     }
   ]
