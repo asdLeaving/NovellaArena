@@ -187,6 +187,7 @@
     { re: /^Gemini\b/, src: "assets/logos/google.svg", name: "Google", ink: false },
     { re: /^Kimi\b/, src: "assets/logos/moonshot.svg", name: "Moonshot AI", ink: true },
     { re: /^DeepSeek\b/, src: "assets/logos/deepseek.svg?v=f62e2b4142b6d09ea1b8d7517d02df57c7910da5b5873f6c4fcef7bfa10a878f", name: "DeepSeek", ink: false },
+    { re: /^Qwen\b/, src: "assets/logos/qwen.png", name: "Qwen", ink: false },
     { re: /^Muse\b/, src: "assets/logos/meta.svg", name: "Meta", ink: false }
   ];
 

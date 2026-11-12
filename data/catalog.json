@@ -375,6 +375,11 @@
   ],
   "models": [
     {
+      "name": "Qwen 4 Max Preview",
+      "released": "2026-11-11",
+      "hidden": true
+    },
+    {
       "name": "DeepSeek V4.1 Flash 1017",
       "released": "2026-10-17",
       "hidden": true
@@ -2089,7 +2094,7 @@
       "time": "202610181557",
       "effort": "high",
       "harness": "codex",
-      "grade": "",
+      "grade": "D",
       "file": "texts/附魅V2_GPT-6-Astra_2610181557.txt",
       "manual": true
     },
@@ -3277,7 +3282,7 @@
       "time": "202611111806",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "E",
       "file": "texts/投射_GPT-6-Astra_2611111806.txt",
       "manual": true
     },
@@ -3288,8 +3293,96 @@
       "time": "202611111916",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "E",
       "file": "texts/故事集_GPT-6-Astra_2611111916.txt",
+      "manual": true
+    },
+    {
+      "id": "意识V2_Qwen4-Max-Preview_2611112058",
+      "topic": "意识V2",
+      "model": "Qwen 4 Max Preview",
+      "time": "202611112058",
+      "effort": "N/A",
+      "harness": "Qwen网页Agent模式",
+      "grade": "",
+      "file": "texts/意识V2_Qwen4-Max-Preview_2611112058.txt",
+      "manual": true
+    },
+    {
+      "id": "写作者V2_GPT-5.6-Sol_2611120849",
+      "topic": "写作者V2",
+      "model": "GPT 5.6 Sol",
+      "time": "202611120849",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "B",
+      "file": "texts/写作者V2_GPT-5.6-Sol_2611120849.txt",
+      "manual": true
+    },
+    {
+      "id": "意识V2_gpt-5.6-sol_2611120851",
+      "topic": "意识V2",
+      "model": "GPT 5.6 Sol",
+      "time": "202611120851",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "C",
+      "file": "texts/意识V2_gpt-5.6-sol_2611120851.txt",
+      "manual": true
+    },
+    {
+      "id": "身份_GPT-6-Astra_2611120941",
+      "topic": "身份",
+      "model": "GPT 6 Astra",
+      "time": "202611120941",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/身份_GPT-6-Astra_2611120941.txt",
+      "manual": true
+    },
+    {
+      "id": "侦探_GPT-6-Astra_2611121005",
+      "topic": "侦探",
+      "model": "GPT 6 Astra",
+      "time": "202611121005",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/侦探_GPT-6-Astra_2611121005.txt",
+      "manual": true
+    },
+    {
+      "id": "意识V2_Grok4.7_2611121032",
+      "topic": "意识V2",
+      "model": "Grok 4.7",
+      "time": "202611121032",
+      "effort": "medium",
+      "harness": "cursor",
+      "grade": "",
+      "file": "texts/意识V2_Grok4.7_2611121032.txt",
+      "manual": true
+    },
+    {
+      "id": "身份_gpt-5.6-sol_2611121145",
+      "topic": "身份",
+      "model": "GPT 5.6 Sol",
+      "time": "202611121145",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/身份_gpt-5.6-sol_2611121145.txt",
+      "manual": true
+    },
+    {
+      "id": "同理心_GPT-5.6-Sol_2611121146",
+      "topic": "同理心",
+      "model": "GPT 5.6 Sol",
+      "time": "202611121146",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/同理心_GPT-5.6-Sol_2611121146.txt",
       "manual": true
     }
   ]

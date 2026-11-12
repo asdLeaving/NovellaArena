@@ -84,9 +84,9 @@
     return /^GPT\b/.test(name);
   }
 
-  /* 导入页 effort 默认值：GPT、Claude、DeepSeek 为 max，Grok 为 xhigh，其余为 high。 */
+  /* 导入页 effort 默认值：GPT、DeepSeek 为 max，Grok 为 xhigh，其余为 high。 */
   function defaultEffort(name) {
-    if (isGpt(name) || /^Claude\b/.test(name) || /^DeepSeek\b/.test(name)) return "max";
+    if (isGpt(name) || /^DeepSeek\b/.test(name)) return "max";
     return /^Grok\b/.test(name) ? "xhigh" : "high";
   }
 
