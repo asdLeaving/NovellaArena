@@ -371,6 +371,41 @@
       "promptFile": "prompts/故事集.txt",
       "promptAt": "2026-11-08 22:18",
       "promptManual": true
+    },
+    {
+      "name": "普洱",
+      "grade": "B",
+      "promptFile": "prompts/普洱.txt",
+      "promptAt": "2026-11-13 11:59",
+      "promptManual": true
+    },
+    {
+      "name": "自闭",
+      "grade": "C",
+      "promptFile": "prompts/自闭.txt",
+      "promptAt": "2026-11-13 13:37",
+      "promptManual": true
+    },
+    {
+      "name": "科技乌托邦",
+      "grade": "B",
+      "promptFile": "prompts/科技乌托邦.txt",
+      "promptAt": "2026-11-13 13:46",
+      "promptManual": true
+    },
+    {
+      "name": "魔力",
+      "grade": "B",
+      "promptFile": "prompts/魔力.txt",
+      "promptAt": "2026-11-13 15:45",
+      "promptManual": true
+    },
+    {
+      "name": "祛魅",
+      "grade": "B",
+      "promptFile": "prompts/祛魅.txt",
+      "promptAt": "2026-11-13 16:00",
+      "promptManual": true
     }
   ],
   "models": [
@@ -393,6 +428,11 @@
       "name": "Muse Wonder",
       "released": "2026-10-12",
       "hidden": false
+    },
+    {
+      "name": "Claude Sonnet 5.5",
+      "released": "2026-09-28",
+      "hidden": true
     },
     {
       "name": "Muse Spark 1.3",
@@ -482,14 +522,14 @@
   ],
   "entries": [
     {
-      "id": "双线_Human_2502161804",
+      "id": "双线_Human_2502170204",
       "topic": "双线",
       "model": "Human",
-      "time": "202502161804",
+      "time": "202502170204",
       "effort": "medium",
       "harness": "life",
       "grade": "B",
-      "file": "texts/双线_Human_2502161804.txt",
+      "file": "texts/双线_Human_2502170204.txt",
       "manual": true
     },
     {
@@ -3309,6 +3349,17 @@
       "manual": true
     },
     {
+      "id": "意识V2_ClaudeSonnet5.5_2611112359",
+      "topic": "意识V2",
+      "model": "Claude Sonnet 5.5",
+      "time": "202611112359",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "C",
+      "file": "texts/意识V2_ClaudeSonnet5.5_2611112359.txt",
+      "manual": true
+    },
+    {
       "id": "写作者V2_GPT-5.6-Sol_2611120849",
       "topic": "写作者V2",
       "model": "GPT 5.6 Sol",
@@ -3326,7 +3377,7 @@
       "time": "202611120851",
       "effort": "max",
       "harness": "codex",
-      "grade": "C",
+      "grade": "D",
       "file": "texts/意识V2_gpt-5.6-sol_2611120851.txt",
       "manual": true
     },
@@ -3383,6 +3434,116 @@
       "harness": "codex",
       "grade": "",
       "file": "texts/同理心_GPT-5.6-Sol_2611121146.txt",
+      "manual": true
+    },
+    {
+      "id": "普洱_gpt-5.6-sol_2611131159",
+      "topic": "普洱",
+      "model": "GPT 5.6 Sol",
+      "time": "202611131159",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/普洱_gpt-5.6-sol_2611131159.txt",
+      "manual": true
+    },
+    {
+      "id": "意识V2_GPT-5.6-Sol_2611131202",
+      "topic": "意识V2",
+      "model": "GPT 5.6 Sol",
+      "time": "202611131202",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "D",
+      "file": "texts/意识V2_GPT-5.6-Sol_2611131202.txt",
+      "manual": true
+    },
+    {
+      "id": "自闭_GPT-5.6-Sol_2611131337",
+      "topic": "自闭",
+      "model": "GPT 5.6 Sol",
+      "time": "202611131337",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/自闭_GPT-5.6-Sol_2611131337.txt",
+      "manual": true
+    },
+    {
+      "id": "科技乌托邦_GPT-5.6-Sol_2611131346",
+      "topic": "科技乌托邦",
+      "model": "GPT 5.6 Sol",
+      "time": "202611131346",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/科技乌托邦_GPT-5.6-Sol_2611131346.txt",
+      "manual": true
+    },
+    {
+      "id": "科技乌托邦_GPT-5.6-Sol_2611131544",
+      "topic": "科技乌托邦",
+      "model": "GPT 5.6 Sol",
+      "time": "202611131544",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/科技乌托邦_GPT-5.6-Sol_2611131544.txt",
+      "manual": true
+    },
+    {
+      "id": "魔力_GPT-5.6-Sol_2611131545",
+      "topic": "魔力",
+      "model": "GPT 5.6 Sol",
+      "time": "202611131545",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/魔力_GPT-5.6-Sol_2611131545.txt",
+      "manual": true
+    },
+    {
+      "id": "祛魅_gpt-5.6-sol_2611131600",
+      "topic": "祛魅",
+      "model": "GPT 5.6 Sol",
+      "time": "202611131600",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/祛魅_gpt-5.6-sol_2611131600.txt",
+      "manual": true
+    },
+    {
+      "id": "自闭_GPT-6-Astra_2611131639",
+      "topic": "自闭",
+      "model": "GPT 6 Astra",
+      "time": "202611131639",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/自闭_GPT-6-Astra_2611131639.txt",
+      "manual": true
+    },
+    {
+      "id": "决定_GPT-6-Astra_2611131649",
+      "topic": "决定",
+      "model": "GPT 6 Astra",
+      "time": "202611131649",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/决定_GPT-6-Astra_2611131649.txt",
+      "manual": true
+    },
+    {
+      "id": "奔现_GPT-6-Astra_2611131706",
+      "topic": "奔现",
+      "model": "GPT 6 Astra",
+      "time": "202611131706",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/奔现_GPT-6-Astra_2611131706.txt",
       "manual": true
     }
   ]
