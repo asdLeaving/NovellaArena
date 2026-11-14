@@ -395,7 +395,7 @@
     },
     {
       "name": "魔力",
-      "grade": "B",
+      "grade": "C",
       "promptFile": "prompts/魔力.txt",
       "promptAt": "2026-11-13 15:45",
       "promptManual": true
@@ -405,6 +405,13 @@
       "grade": "B",
       "promptFile": "prompts/祛魅.txt",
       "promptAt": "2026-11-13 16:00",
+      "promptManual": true
+    },
+    {
+      "name": "灰域驾驶员",
+      "grade": "A",
+      "promptFile": "prompts/灰域驾驶员.txt",
+      "promptAt": "2026-11-14 21:23",
       "promptManual": true
     }
   ],
@@ -3465,7 +3472,7 @@
       "time": "202611131337",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "C",
       "file": "texts/自闭_GPT-5.6-Sol_2611131337.txt",
       "manual": true
     },
@@ -3544,6 +3551,39 @@
       "harness": "codex",
       "grade": "",
       "file": "texts/奔现_GPT-6-Astra_2611131706.txt",
+      "manual": true
+    },
+    {
+      "id": "同理心_ClaudeSonnet5.5_2611141524",
+      "topic": "同理心",
+      "model": "Claude Sonnet 5.5",
+      "time": "202611141524",
+      "effort": "max",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/同理心_ClaudeSonnet5.5_2611141524.txt",
+      "manual": true
+    },
+    {
+      "id": "灰域驾驶员_GPT-5.6-Sol_2611142123",
+      "topic": "灰域驾驶员",
+      "model": "GPT 5.6 Sol",
+      "time": "202611142123",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/灰域驾驶员_GPT-5.6-Sol_2611142123.txt",
+      "manual": true
+    },
+    {
+      "id": "大公司_GPT-5.6-Sol_2611142148",
+      "topic": "大公司",
+      "model": "GPT 5.6 Sol",
+      "time": "202611142148",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/大公司_GPT-5.6-Sol_2611142148.txt",
       "manual": true
     }
   ]

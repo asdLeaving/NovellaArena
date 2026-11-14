@@ -65,7 +65,7 @@
       $("releaseWrap").classList.add("hidden");
       return;
     }
-    var selection = { file: file, parsed: parsed, checking: true };
+    var selection = { file: file, parsed: parsed, checking: true, visibilityManual: false, visibilityMedian: null };
     pending = selection;
     $("save").disabled = true;
     $("preview").textContent = parsed.topic + "  ·  " + parsed.model + "  ·  " + parsed.time
@@ -106,7 +106,17 @@
       + (known ? (released ? "  ·  模型发布于 " + released : "  ·  已有模型，未记录发布日期")
         : "  ·  这是新的模型名，可补一个发布日期");
     $("releaseWrap").classList.toggle("hidden", Boolean(known));
+    if (pending && pending.parsed === parsed) {
+      pending.visibilityMedian = visibleReleaseMedian(catalog.models || []);
+    }
     setReleased(released || "");
+    if (known) setChoice($("modelVisibility"), known.hidden ? "no" : "yes");
+  }
+
+  function syncModelVisibility() {
+    if (!pending || pending.visibilityManual) return;
+    var hidden = hiddenForNewModel(readReleased(), pending.visibilityMedian);
+    setChoice($("modelVisibility"), hidden ? "no" : "yes");
   }
 
   function setReleased(value) {
@@ -117,6 +127,7 @@
     $("releaseYear").dataset.len = String($("releaseYear").value.length);
     $("releaseMonth").dataset.len = String($("releaseMonth").value.length);
     $("releaseDay").dataset.len = String($("releaseDay").value.length);
+    syncModelVisibility();
   }
 
   function readReleased() {
@@ -134,6 +145,7 @@
       var digits = input.value.replace(/\D/g, "").slice(0, size);
       input.value = digits;
       input.dataset.len = String(digits.length);
+      syncModelVisibility();
       if (next && digits.length === size && prevLen < size) next.focus();
     });
   }
@@ -262,7 +274,9 @@
     }
     var grade = choiceValue($("grade"));
     var text = await selection.file.text();
+    if (pending !== selection) return;
     var released = readReleased();
+    var hiddenOverride = selection.visibilityManual ? choiceValue($("modelVisibility")) === "no" : null;
 
     $("save").disabled = true;
     $("message").textContent = "正在写入…";
@@ -283,7 +297,7 @@
       var promptGrade = choiceValue($("promptGrade"));
       if (!rootHandle) {
         var catalog = await latestCatalog();
-        var wrotePrompt = applyToCatalog(catalog, parsed, text, harness, effort, grade, released, promptText, promptGrade);
+        var wrotePrompt = applyToCatalog(catalog, parsed, text, harness, effort, grade, released, promptText, promptGrade, hiddenOverride);
         download("catalog.json", JSON.stringify(catalog, null, 2) + "\n");
         download(parsed.filename, text.endsWith("\n") ? text : text + "\n");
         if (wrotePrompt) download(parsed.topic + ".txt", promptText + "\n");
@@ -294,7 +308,7 @@
         return;
       }
       var catalog = await readCatalog(rootHandle);
-      var wrotePrompt = applyToCatalog(catalog, parsed, text, harness, effort, grade, released, promptText, promptGrade);
+      var wrotePrompt = applyToCatalog(catalog, parsed, text, harness, effort, grade, released, promptText, promptGrade, hiddenOverride);
       await writeText(rootHandle, ["texts", parsed.filename], text.endsWith("\n") ? text : text + "\n");
       if (wrotePrompt) {
         await writeText(rootHandle, ["prompts", parsed.topic + ".txt"], promptText + "\n");
@@ -314,7 +328,7 @@
     $("save").disabled = false;
   }
 
-  function applyToCatalog(catalog, parsed, text, harness, effort, grade, released, promptText, promptGrade) {
+  function applyToCatalog(catalog, parsed, text, harness, effort, grade, released, promptText, promptGrade, hiddenOverride) {
     catalog.models = catalog.models || [];
     catalog.topics = catalog.topics || [];
     catalog.entries = catalog.entries || [];
@@ -323,7 +337,7 @@
       insertModel(catalog.models, {
         name: parsed.model,
         released: released,
-        hidden: hiddenForNewModel(released, visibleReleaseMedian(catalog.models))
+        hidden: typeof hiddenOverride === "boolean" ? hiddenOverride : hiddenForNewModel(released, visibleReleaseMedian(catalog.models))
       });
     }
     insertTopic(catalog.topics, parsed.topic, parsed.time, catalog.entries);
@@ -397,6 +411,9 @@
   bindChoices($("effort"), function () { syncCustom($("effort"), $("effortCustomWrap")); });
   bindChoices($("grade"), function () {});
   bindChoices($("promptGrade"), function () {});
+  bindChoices($("modelVisibility"), function () {
+    if (pending) pending.visibilityManual = true;
+  });
   bindDatePart($("releaseYear"), $("releaseMonth"), 4);
   bindDatePart($("releaseMonth"), $("releaseDay"), 2);
   bindDatePart($("releaseDay"), null, 2);

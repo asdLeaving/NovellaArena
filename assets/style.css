@@ -402,7 +402,7 @@ th:first-child, td:first-child {
   z-index: 1;
   min-width: 8.4rem;
 }
-th:first-child { z-index: 4; }
+th:first-child { z-index: 4; text-align: center; }
 td { padding: 0.18rem 0.28rem; min-width: 7.6rem; }
 td.empty { text-align: center; color: var(--line); }
 th.col-hidden, td.col-hidden { display: none; }
@@ -644,6 +644,9 @@ a.cell .badge {
   width: 3.4rem;
 }
 .date-parts input:first-child { width: 4.6rem; }
+.model-settings { display: flex; align-items: flex-end; gap: 1rem; }
+.model-settings .date-parts input { width: 3rem; }
+.model-settings .date-parts input:first-child { width: 4.3rem; }
 .preview {
   background: var(--bg-raise);
   border: 1px solid var(--line);
