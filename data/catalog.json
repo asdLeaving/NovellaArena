@@ -422,6 +422,11 @@
       "hidden": true
     },
     {
+      "name": "Claude Fable 5.2",
+      "released": "2026-11-09",
+      "hidden": true
+    },
+    {
       "name": "DeepSeek V4.1 Flash 1017",
       "released": "2026-10-17",
       "hidden": true
@@ -3450,7 +3455,7 @@
       "time": "202611131159",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "D",
       "file": "texts/普洱_gpt-5.6-sol_2611131159.txt",
       "manual": true
     },
@@ -3494,7 +3499,7 @@
       "time": "202611131544",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "C",
       "file": "texts/科技乌托邦_GPT-5.6-Sol_2611131544.txt",
       "manual": true
     },
@@ -3505,7 +3510,7 @@
       "time": "202611131545",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "C",
       "file": "texts/魔力_GPT-5.6-Sol_2611131545.txt",
       "manual": true
     },
@@ -3516,7 +3521,7 @@
       "time": "202611131600",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "D",
       "file": "texts/祛魅_gpt-5.6-sol_2611131600.txt",
       "manual": true
     },
@@ -3527,7 +3532,7 @@
       "time": "202611131639",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "E",
       "file": "texts/自闭_GPT-6-Astra_2611131639.txt",
       "manual": true
     },
@@ -3558,9 +3563,9 @@
       "topic": "同理心",
       "model": "Claude Sonnet 5.5",
       "time": "202611141524",
-      "effort": "max",
+      "effort": "high",
       "harness": "claude chat",
-      "grade": "",
+      "grade": "C",
       "file": "texts/同理心_ClaudeSonnet5.5_2611141524.txt",
       "manual": true
     },
@@ -3571,7 +3576,7 @@
       "time": "202611142123",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "E",
       "file": "texts/灰域驾驶员_GPT-5.6-Sol_2611142123.txt",
       "manual": true
     },
@@ -3584,6 +3589,193 @@
       "harness": "codex",
       "grade": "",
       "file": "texts/大公司_GPT-5.6-Sol_2611142148.txt",
+      "manual": true
+    },
+    {
+      "id": "身份_Claude-Sonnet-5.5_2611150910",
+      "topic": "身份",
+      "model": "Claude Sonnet 5.5",
+      "time": "202611150910",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "E",
+      "file": "texts/身份_Claude-Sonnet-5.5_2611150910.txt",
+      "manual": true
+    },
+    {
+      "id": "写作者V2_Claude-Opus-5.5_2611171206",
+      "topic": "写作者V2",
+      "model": "Claude Opus 5.5",
+      "time": "202611171206",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "B",
+      "file": "texts/写作者V2_Claude-Opus-5.5_2611171206.txt",
+      "manual": true
+    },
+    {
+      "id": "侦探V2_Claude-Opus-5.5_2611171217",
+      "topic": "侦探V2",
+      "model": "Claude Opus 5.5",
+      "time": "202611171217",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/侦探V2_Claude-Opus-5.5_2611171217.txt",
+      "manual": true
+    },
+    {
+      "id": "同寝_Claude-Fable-5.2_2611171300",
+      "topic": "同寝",
+      "model": "Claude Fable 5.2",
+      "time": "202611171300",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "B",
+      "file": "texts/同寝_Claude-Fable-5.2_2611171300.txt",
+      "manual": true
+    },
+    {
+      "id": "母亲V2_claude-sonnet-5.5_2611171530",
+      "topic": "母亲V2",
+      "model": "Claude Sonnet 5.5",
+      "time": "202611171530",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "C",
+      "file": "texts/母亲V2_claude-sonnet-5.5_2611171530.txt",
+      "manual": true
+    },
+    {
+      "id": "骑手_Claude-Opus-5.5_2611171709",
+      "topic": "骑手",
+      "model": "Claude Opus 5.5",
+      "time": "202611171709",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/骑手_Claude-Opus-5.5_2611171709.txt",
+      "manual": true
+    },
+    {
+      "id": "废土_Claude-Opus-5.5_2611171725",
+      "topic": "废土",
+      "model": "Claude Opus 5.5",
+      "time": "202611171725",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/废土_Claude-Opus-5.5_2611171725.txt",
+      "manual": true
+    },
+    {
+      "id": "闭锁_Claude-Opus-5.5_2611171739",
+      "topic": "闭锁",
+      "model": "Claude Opus 5.5",
+      "time": "202611171739",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/闭锁_Claude-Opus-5.5_2611171739.txt",
+      "manual": true
+    },
+    {
+      "id": "美国人_Claude-Opus-5.5_2611171813",
+      "topic": "美国人",
+      "model": "Claude Opus 5.5",
+      "time": "202611171813",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/美国人_Claude-Opus-5.5_2611171813.txt",
+      "manual": true
+    },
+    {
+      "id": "决定_Claude-Opus-5.5_2611171828",
+      "topic": "决定",
+      "model": "Claude Opus 5.5",
+      "time": "202611171828",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/决定_Claude-Opus-5.5_2611171828.txt",
+      "manual": true
+    },
+    {
+      "id": "灰域驾驶员_gpt-5.6-sol_2611171832",
+      "topic": "灰域驾驶员",
+      "model": "GPT 5.6 Sol",
+      "time": "202611171832",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "E",
+      "file": "texts/灰域驾驶员_gpt-5.6-sol_2611171832.txt",
+      "manual": true
+    },
+    {
+      "id": "极乐_Claude-Opus-5.5_2611172256",
+      "topic": "极乐",
+      "model": "Claude Opus 5.5",
+      "time": "202611172256",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/极乐_Claude-Opus-5.5_2611172256.txt",
+      "manual": true
+    },
+    {
+      "id": "身份_Claude-Opus-5.5_2611172328",
+      "topic": "身份",
+      "model": "Claude Opus 5.5",
+      "time": "202611172328",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/身份_Claude-Opus-5.5_2611172328.txt",
+      "manual": true
+    },
+    {
+      "id": "行商_Claude-Opus-5.5_2611172346",
+      "topic": "行商",
+      "model": "Claude Opus 5.5",
+      "time": "202611172346",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/行商_Claude-Opus-5.5_2611172346.txt",
+      "manual": true
+    },
+    {
+      "id": "算子_Claude-Opus-5.5_2611180001",
+      "topic": "算子",
+      "model": "Claude Opus 5.5",
+      "time": "202611180001",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/算子_Claude-Opus-5.5_2611180001.txt",
+      "manual": true
+    },
+    {
+      "id": "投射_Claude-Opus-5.5_2611180004",
+      "topic": "投射",
+      "model": "Claude Opus 5.5",
+      "time": "202611180004",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/投射_Claude-Opus-5.5_2611180004.txt",
+      "manual": true
+    },
+    {
+      "id": "奔现_Claude-Opus-5.5_2611180030",
+      "topic": "奔现",
+      "model": "Claude Opus 5.5",
+      "time": "202611180030",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/奔现_Claude-Opus-5.5_2611180030.txt",
       "manual": true
     }
   ]

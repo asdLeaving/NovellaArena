@@ -96,7 +96,7 @@
       return { harness: "opencode", effort: "max" };
     }
     if (/^Claude\b/.test(modelName)) {
-      return { harness: "claude chat", effort: "max" };
+      return { harness: "claude chat", effort: "high" };
     }
     if (isGpt(modelName) && time12 >= "202610031200") {
       return { harness: "codex", effort: "max" };
