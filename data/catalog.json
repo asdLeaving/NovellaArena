@@ -3719,7 +3719,7 @@
       "time": "202611172256",
       "effort": "high",
       "harness": "claude chat",
-      "grade": "",
+      "grade": "C",
       "file": "texts/极乐_Claude-Opus-5.5_2611172256.txt",
       "manual": true
     },
@@ -3776,6 +3776,138 @@
       "harness": "claude chat",
       "grade": "",
       "file": "texts/奔现_Claude-Opus-5.5_2611180030.txt",
+      "manual": true
+    },
+    {
+      "id": "普洱_Claude-Opus-5.5_2611180852",
+      "topic": "普洱",
+      "model": "Claude Opus 5.5",
+      "time": "202611180852",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/普洱_Claude-Opus-5.5_2611180852.txt",
+      "manual": true
+    },
+    {
+      "id": "自闭_Claude-Opus-5.5_2611180915",
+      "topic": "自闭",
+      "model": "Claude Opus 5.5",
+      "time": "202611180915",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/自闭_Claude-Opus-5.5_2611180915.txt",
+      "manual": true
+    },
+    {
+      "id": "故事集_Claude-Opus-5.5_2611180939",
+      "topic": "故事集",
+      "model": "Claude Opus 5.5",
+      "time": "202611180939",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/故事集_Claude-Opus-5.5_2611180939.txt",
+      "manual": true
+    },
+    {
+      "id": "科技乌托邦_Claude-Opus-5.5_2611181027",
+      "topic": "科技乌托邦",
+      "model": "Claude Opus 5.5",
+      "time": "202611181027",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/科技乌托邦_Claude-Opus-5.5_2611181027.txt",
+      "manual": true
+    },
+    {
+      "id": "魔力_Claude-Opus-5.5_2611181043",
+      "topic": "魔力",
+      "model": "Claude Opus 5.5",
+      "time": "202611181043",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/魔力_Claude-Opus-5.5_2611181043.txt",
+      "manual": true
+    },
+    {
+      "id": "灰域驾驶员_Claude-Opus-5.5_2611181105",
+      "topic": "灰域驾驶员",
+      "model": "Claude Opus 5.5",
+      "time": "202611181105",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/灰域驾驶员_Claude-Opus-5.5_2611181105.txt",
+      "manual": true
+    },
+    {
+      "id": "祛魅_Claude-Opus-5.5_2611181427",
+      "topic": "祛魅",
+      "model": "Claude Opus 5.5",
+      "time": "202611181427",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/祛魅_Claude-Opus-5.5_2611181427.txt",
+      "manual": true
+    },
+    {
+      "id": "科技乌托邦_Claude-Opus-5.5_2611181428",
+      "topic": "科技乌托邦",
+      "model": "Claude Opus 5.5",
+      "time": "202611181428",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/科技乌托邦_Claude-Opus-5.5_2611181428.txt",
+      "manual": true
+    },
+    {
+      "id": "意识V2_Claude-Opus-5.5_2611181438",
+      "topic": "意识V2",
+      "model": "Claude Opus 5.5",
+      "time": "202611181438",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/意识V2_Claude-Opus-5.5_2611181438.txt",
+      "manual": true
+    },
+    {
+      "id": "附魅V2_Claude-Opus-5.5_2611181450",
+      "topic": "附魅V2",
+      "model": "Claude Opus 5.5",
+      "time": "202611181450",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/附魅V2_Claude-Opus-5.5_2611181450.txt",
+      "manual": true
+    },
+    {
+      "id": "大公司_Claude-Opus-5.5_2611181501",
+      "topic": "大公司",
+      "model": "Claude Opus 5.5",
+      "time": "202611181501",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/大公司_Claude-Opus-5.5_2611181501.txt",
+      "manual": true
+    },
+    {
+      "id": "研究院_Claude-Opus-5.5_2611181603",
+      "topic": "研究院",
+      "model": "Claude Opus 5.5",
+      "time": "202611181603",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/研究院_Claude-Opus-5.5_2611181603.txt",
       "manual": true
     }
   ]
