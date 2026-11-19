@@ -417,6 +417,11 @@
   ],
   "models": [
     {
+      "name": "GPT 6.2 Astra",
+      "released": "2026-11-17",
+      "hidden": true
+    },
+    {
       "name": "Qwen 4 Max Preview",
       "released": "2026-11-11",
       "hidden": true
@@ -3675,7 +3680,7 @@
       "time": "202611171739",
       "effort": "high",
       "harness": "claude chat",
-      "grade": "",
+      "grade": "C",
       "file": "texts/闭锁_Claude-Opus-5.5_2611171739.txt",
       "manual": true
     },
@@ -3941,6 +3946,72 @@
       "harness": "claude chat",
       "grade": "",
       "file": "texts/美国梦_Claude-Opus-5.5_2611190000.txt",
+      "manual": true
+    },
+    {
+      "id": "价值_Claude-Opus-5.5_2611191331",
+      "topic": "价值",
+      "model": "Claude Opus 5.5",
+      "time": "202611191331",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/价值_Claude-Opus-5.5_2611191331.txt",
+      "manual": true
+    },
+    {
+      "id": "写作者_gpt-6.2-astra_2611191656",
+      "topic": "写作者",
+      "model": "GPT 6.2 Astra",
+      "time": "202611191656",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/写作者_gpt-6.2-astra_2611191656.txt",
+      "manual": true
+    },
+    {
+      "id": "科技乌托邦_GPT-6.2-Astra_2611191736",
+      "topic": "科技乌托邦",
+      "model": "GPT 6.2 Astra",
+      "time": "202611191736",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/科技乌托邦_GPT-6.2-Astra_2611191736.txt",
+      "manual": true
+    },
+    {
+      "id": "闭锁_Claude-Opus-5.5_2611191756",
+      "topic": "闭锁",
+      "model": "Claude Opus 5.5",
+      "time": "202611191756",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/闭锁_Claude-Opus-5.5_2611191756.txt",
+      "manual": true
+    },
+    {
+      "id": "极乐_Claude-Opus-5.5_2611191756",
+      "topic": "极乐",
+      "model": "Claude Opus 5.5",
+      "time": "202611191756",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/极乐_Claude-Opus-5.5_2611191756.txt",
+      "manual": true
+    },
+    {
+      "id": "投射_gpt-6.2-astra_2611191819",
+      "topic": "投射",
+      "model": "GPT 6.2 Astra",
+      "time": "202611191819",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/投射_gpt-6.2-astra_2611191819.txt",
       "manual": true
     }
   ]
