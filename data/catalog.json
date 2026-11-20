@@ -413,17 +413,31 @@
       "promptFile": "prompts/灰域驾驶员.txt",
       "promptAt": "2026-11-14 21:23",
       "promptManual": true
+    },
+    {
+      "name": "追求",
+      "grade": "C",
+      "promptFile": "prompts/追求.txt",
+      "promptAt": "2026-11-20 10:57",
+      "promptManual": true
+    },
+    {
+      "name": "废土V2",
+      "grade": "B",
+      "promptFile": "prompts/废土V2.txt",
+      "promptAt": "2026-11-20 11:58",
+      "promptManual": true
     }
   ],
   "models": [
     {
       "name": "GPT 6.2 Astra",
       "released": "2026-11-17",
-      "hidden": true
+      "hidden": false
     },
     {
-      "name": "Qwen 4 Max Preview",
-      "released": "2026-11-11",
+      "name": "Qwen 4 Max",
+      "released": "2026-11-16",
       "hidden": true
     },
     {
@@ -439,7 +453,7 @@
     {
       "name": "Gemini 4 Argon",
       "released": "2026-10-13",
-      "hidden": false
+      "hidden": true
     },
     {
       "name": "Muse Wonder",
@@ -3355,14 +3369,14 @@
       "manual": true
     },
     {
-      "id": "意识V2_Qwen4-Max-Preview_2611112058",
+      "id": "意识V2_Qwen4-Max_2611112058",
       "topic": "意识V2",
-      "model": "Qwen 4 Max Preview",
+      "model": "Qwen 4 Max",
       "time": "202611112058",
       "effort": "N/A",
       "harness": "Qwen网页Agent模式",
       "grade": "",
-      "file": "texts/意识V2_Qwen4-Max-Preview_2611112058.txt",
+      "file": "texts/意识V2_Qwen4-Max_2611112058.txt",
       "manual": true
     },
     {
@@ -3768,7 +3782,7 @@
       "time": "202611180004",
       "effort": "high",
       "harness": "claude chat",
-      "grade": "",
+      "grade": "B",
       "file": "texts/投射_Claude-Opus-5.5_2611180004.txt",
       "manual": true
     },
@@ -3812,7 +3826,7 @@
       "time": "202611180939",
       "effort": "high",
       "harness": "claude chat",
-      "grade": "",
+      "grade": "B",
       "file": "texts/故事集_Claude-Opus-5.5_2611180939.txt",
       "manual": true
     },
@@ -4012,6 +4026,226 @@
       "harness": "codex",
       "grade": "",
       "file": "texts/投射_gpt-6.2-astra_2611191819.txt",
+      "manual": true
+    },
+    {
+      "id": "灰域驾驶员_gpt-6.2-astra_2611191949",
+      "topic": "灰域驾驶员",
+      "model": "GPT 6.2 Astra",
+      "time": "202611191949",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/灰域驾驶员_gpt-6.2-astra_2611191949.txt",
+      "manual": true
+    },
+    {
+      "id": "故事集_Claude-Opus-5.5_2611192006",
+      "topic": "故事集",
+      "model": "Claude Opus 5.5",
+      "time": "202611192006",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/故事集_Claude-Opus-5.5_2611192006.txt",
+      "manual": true
+    },
+    {
+      "id": "普洱_gpt-6.2-astra_2611192009",
+      "topic": "普洱",
+      "model": "GPT 6.2 Astra",
+      "time": "202611192009",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/普洱_gpt-6.2-astra_2611192009.txt",
+      "manual": true
+    },
+    {
+      "id": "奔现_Claude-Opus-5.5_2611192026",
+      "topic": "奔现",
+      "model": "Claude Opus 5.5",
+      "time": "202611192026",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/奔现_Claude-Opus-5.5_2611192026.txt",
+      "manual": true
+    },
+    {
+      "id": "自闭_GPT-6.2-Astra_2611192119",
+      "topic": "自闭",
+      "model": "GPT 6.2 Astra",
+      "time": "202611192119",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/自闭_GPT-6.2-Astra_2611192119.txt",
+      "manual": true
+    },
+    {
+      "id": "魔力_gpt-6.2-astra_2611192122",
+      "topic": "魔力",
+      "model": "GPT 6.2 Astra",
+      "time": "202611192122",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/魔力_gpt-6.2-astra_2611192122.txt",
+      "manual": true
+    },
+    {
+      "id": "祛魅_gpt-6.2-astra_2611192151",
+      "topic": "祛魅",
+      "model": "GPT 6.2 Astra",
+      "time": "202611192151",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/祛魅_gpt-6.2-astra_2611192151.txt",
+      "manual": true
+    },
+    {
+      "id": "决定_claude-opus-5.5_2611192200",
+      "topic": "决定",
+      "model": "Claude Opus 5.5",
+      "time": "202611192200",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/决定_claude-opus-5.5_2611192200.txt",
+      "manual": true
+    },
+    {
+      "id": "同理心_Claude-Opus-5.5_2611192247",
+      "topic": "同理心",
+      "model": "Claude Opus 5.5",
+      "time": "202611192247",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/同理心_Claude-Opus-5.5_2611192247.txt",
+      "manual": true
+    },
+    {
+      "id": "投射_Qwen4Max_2611192255",
+      "topic": "投射",
+      "model": "Qwen 4 Max",
+      "time": "202611192255",
+      "effort": "high",
+      "harness": "Qwen网页Agent模式",
+      "grade": "",
+      "file": "texts/投射_Qwen4Max_2611192255.txt",
+      "manual": true
+    },
+    {
+      "id": "投射_Claude-Opus-5.5_2611200025",
+      "topic": "投射",
+      "model": "Claude Opus 5.5",
+      "time": "202611200025",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/投射_Claude-Opus-5.5_2611200025.txt",
+      "manual": true
+    },
+    {
+      "id": "算子_GPT-6.2-Astra_2611200956",
+      "topic": "算子",
+      "model": "GPT 6.2 Astra",
+      "time": "202611200956",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/算子_GPT-6.2-Astra_2611200956.txt",
+      "manual": true
+    },
+    {
+      "id": "美国梦_GPT-5.6-Sol_2611201020",
+      "topic": "美国梦",
+      "model": "GPT 5.6 Sol",
+      "time": "202611201020",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/美国梦_GPT-5.6-Sol_2611201020.txt",
+      "manual": true
+    },
+    {
+      "id": "极乐_GPT-6.2-Astra_2611201026",
+      "topic": "极乐",
+      "model": "GPT 6.2 Astra",
+      "time": "202611201026",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/极乐_GPT-6.2-Astra_2611201026.txt",
+      "manual": true
+    },
+    {
+      "id": "美国梦_gpt-6.2-astra_2611201029",
+      "topic": "美国梦",
+      "model": "GPT 6.2 Astra",
+      "time": "202611201029",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/美国梦_gpt-6.2-astra_2611201029.txt",
+      "manual": true
+    },
+    {
+      "id": "追求_Claude-Opus-5.5_2611201047",
+      "topic": "追求",
+      "model": "Claude Opus 5.5",
+      "time": "202611201047",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/追求_Claude-Opus-5.5_2611201047.txt",
+      "manual": true
+    },
+    {
+      "id": "追求_GPT-5.6-Sol_2611201057",
+      "topic": "追求",
+      "model": "GPT 5.6 Sol",
+      "time": "202611201057",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/追求_GPT-5.6-Sol_2611201057.txt",
+      "manual": true
+    },
+    {
+      "id": "异途_Claude-Opus-5.5_2611201121",
+      "topic": "异途",
+      "model": "Claude Opus 5.5",
+      "time": "202611201121",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/异途_Claude-Opus-5.5_2611201121.txt",
+      "manual": true
+    },
+    {
+      "id": "废土V2_Claude-Opus-5.5_2611201151",
+      "topic": "废土V2",
+      "model": "Claude Opus 5.5",
+      "time": "202611201151",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/废土V2_Claude-Opus-5.5_2611201151.txt",
+      "manual": true
+    },
+    {
+      "id": "废土V2_GPT-5.6-Sol_2611201158",
+      "topic": "废土V2",
+      "model": "GPT 5.6 Sol",
+      "time": "202611201158",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/废土V2_GPT-5.6-Sol_2611201158.txt",
       "manual": true
     }
   ]

@@ -673,7 +673,12 @@
 
   function isChapterHeading(text) {
     text = text.replace(/^【([^【】]+)】$/, "$1").trim();
-    return /^第[一二三四五六七八九十百千万零〇两0-9]+(?:[章幕篇]|部分)(?:$|[\s　·.、:：].+)$/.test(text);
+    return /^第[一二三四五六七八九十百千万零〇两0-9]+(?:[章幕篇部]|部分)(?:$|[\s　·.、:：].+)$/.test(text);
+  }
+
+  function isStandaloneSectionHeading(text) {
+    text = text.replace(/^【([^【】]+)】$/, "$1").trim();
+    return /^(?:序章|楔子|终章|后记|引子|尾声|序|跋)(?:$|[\s　·.、:：].+)$/.test(text);
   }
 
   function isNumberedSection(text, sectionNumbers) {
@@ -684,9 +689,182 @@
     return sectionNumbers.has(prefix + (section - 1)) || sectionNumbers.has(prefix + (section + 1));
   }
 
-  function headingOf(line, prevBlank, nextText, sectionNumbers) {
+  var CHINESE_NUMERALS = {
+    "〇": 0, "零": 0, "一": 1, "二": 2, "三": 3, "四": 4,
+    "五": 5, "六": 6, "七": 7, "八": 8, "九": 9
+  };
+
+  function chineseNumeralValue(text) {
+    if (!/^[零〇一二三四五六七八九十百千万]{1,6}$/.test(text)) return null;
+    if (text.length === 1) {
+      if (Object.prototype.hasOwnProperty.call(CHINESE_NUMERALS, text)) return CHINESE_NUMERALS[text];
+      if (text === "十") return 10;
+      return null;
+    }
+    var ten = text.indexOf("十");
+    if (ten === -1) return null;
+    var high = ten ? CHINESE_NUMERALS[text.slice(0, ten)] : 1;
+    var low = ten === text.length - 1 ? 0 : CHINESE_NUMERALS[text.slice(ten + 1)];
+    if (high === undefined || low === undefined) return null;
+    return high * 10 + low;
+  }
+
+  function sequenceCandidate(line, index, lines) {
+    var text = line.trim();
+    if (!text || index > 0 && lines[index - 1].trim() || text.length > 42) return null;
+    var chinese = chineseNumeralValue(text);
+    if (chinese !== null) return { index: index, value: chinese, kind: "chinese", text: text, titled: false };
+    var chineseTitle = /^([零〇一二三四五六七八九十百千万]{1,6})[\s　]+(\S.*)$/.exec(text);
+    if (chineseTitle) {
+      chinese = chineseNumeralValue(chineseTitle[1]);
+      if (chinese !== null) return { index: index, value: chinese, kind: "chineseTitle", text: text, titled: true };
+    }
+    var arabic = /^(\d{1,3})$/.exec(text);
+    if (arabic) return { index: index, value: Number(arabic[1]), kind: "arabic", text: text };
+    // A number followed by a title is a strong outer-heading candidate. Sentence-like
+    // lines and inline dialogue/lists are excluded before sequence inference.
+    var titled = /^(\d{1,3})(?:[\s　]+|[、．。:：]|\.\s+)(\S.*)$/.exec(text);
+    if (!titled || /^(?:[「“"（(【\[])/.test(titled[2])) return null;
+    if (/(?:[。！？…]|\.{3})[”’"」』）)\]]*$/.test(text)) return null;
+    return { index: index, value: Number(titled[1]), kind: "arabicTitle", text: text, titled: true };
+  }
+
+  function isBareSequenceMarker(text) {
+    var chinese = chineseNumeralValue(text);
+    return /^\d{1,3}$/.test(text) || chinese !== null && chinese !== 0;
+  }
+
+  function hasOrdinaryTextBetween(lines, from, to, candidateIndexes) {
+    for (var i = from + 1; i < to; i += 1) {
+      var text = lines[i].trim();
+      if (text && !candidateIndexes.has(i)) return true;
+    }
+    return false;
+  }
+
+  function sequenceHeadingLevels(lines, sectionNumbers) {
+    var candidates = [];
+    var candidateIndexes = new Set();
+    var baseAnchors = [];
+    lines.forEach(function (line, index) {
+      var candidate = sequenceCandidate(line, index, lines);
+      if (candidate) {
+        candidates.push(candidate);
+        candidateIndexes.add(index);
+      }
+      var text = line.trim();
+      if (text && (index === 0 || !lines[index - 1].trim())) {
+        var base = headingOf(text, index === 0 || !lines[index - 1].trim(), nextNonEmpty(lines, index), sectionNumbers);
+        if ((base && base.level === 1 && !isStandaloneSectionHeading(text) && (!candidate || candidate.titled))
+            || candidate && candidate.kind === "arabicTitle") baseAnchors.push(index);
+      }
+    });
+
+    var groups = [];
+    function collectGroups(kind, list) {
+      var current = [];
+      function finish() {
+        if (current.length >= 2) {
+          groups.push({
+            kind: kind,
+            items: current.slice(),
+            start: current[0].index,
+            end: current[current.length - 1].index,
+            hasTitle: current.some(function (item) { return item.titled; })
+          });
+        }
+        current = [];
+      }
+      list.forEach(function (item) {
+        var previous = current[current.length - 1];
+        if (!previous) {
+          current = [item];
+          return;
+        }
+        var consecutive = item.value === previous.value + 1;
+        var hasText = hasOrdinaryTextBetween(lines, previous.index, item.index, candidateIndexes);
+        if (consecutive && hasText) current.push(item);
+        else {
+          finish();
+          current = [item];
+        }
+      });
+      finish();
+    }
+    ["arabicTitle", "arabic", "chineseTitle", "chinese"].forEach(function (kind) {
+      collectGroups(kind, candidates.filter(function (item) { return item.kind === kind; }));
+    });
+    // Some manuscripts alternate titled and bare Chinese markers (for example,
+    // odd sections carry dates while even sections do not). If the titled-only
+    // pass cannot form a sequence, validate the combined family as one run.
+    var chineseTitleGroups = groups.filter(function (group) {
+      return group.kind === "chineseTitle" && group.items.length >= 3;
+    });
+    var chineseTitles = candidates.filter(function (item) { return item.kind === "chineseTitle"; });
+    var chineseBare = candidates.filter(function (item) { return item.kind === "chinese"; });
+    if (!chineseTitleGroups.length && chineseTitles.length && chineseBare.length) {
+      collectGroups("chinese", chineseTitles.concat(chineseBare).sort(function (a, b) { return a.index - b.index; }));
+    }
+    if (!groups.length) return new Map();
+
+    function contains(outer, inner) {
+      return outer.start < inner.start && outer.end > inner.end;
+    }
+
+    function sequenceParent(outer, inner) {
+      if (contains(outer, inner)) return true;
+      // The last child sequence belongs to the final item of the outer
+      // sequence even though the outer sequence's last marker is before it.
+      var previous = null;
+      var next = null;
+      outer.items.forEach(function (item) {
+        if (item.index < inner.start) previous = item;
+        else if (next === null) next = item;
+      });
+      return Boolean(previous && (!next || inner.end < next.index)
+        && (next || outer.kind !== inner.kind || outer.hasTitle));
+    }
+
+    // Longest spans are parents. A contained sequence is a child even when its
+    // marker style changes (Arabic outer parts with Chinese inner sections, and
+    // the reverse, are both common in the corpus).
+    groups.sort(function (a, b) {
+      var aSpan = a.end - a.start;
+      var bSpan = b.end - b.start;
+      return bSpan - aSpan || a.start - b.start;
+    });
+    groups.forEach(function (group) {
+      var parent = groups.filter(function (other) { return other !== group && sequenceParent(other, group); })
+        .sort(function (a, b) { return (a.end - a.start) - (b.end - b.start); })[0];
+      var previousAnchor = baseAnchors.filter(function (index) { return index < group.start; }).pop();
+      if (parent) group.level = Math.min(2, (parent.level || 1) + 1);
+      else if (group.kind === "arabicTitle") group.level = 1;
+      else if (previousAnchor !== undefined) group.level = 2;
+      else if (group.kind === "arabic") group.level = 1;
+      else group.level = 1;
+    });
+
+    var levels = new Map();
+    groups.forEach(function (group) {
+      group.items.forEach(function (item) { levels.set(item.index, group.level); });
+      if (group.level === 2) {
+        var anchor = baseAnchors.filter(function (index) { return index < group.start; }).pop();
+        if (anchor !== undefined) levels.set(anchor, 1);
+      }
+    });
+    return levels;
+  }
+
+  function headingOf(line, prevBlank, nextText, sectionNumbers, sequenceLevels, lineIndex) {
     var text = line.trim();
     if (!text || !prevBlank || text.length > 42) return null;
+    if (sequenceLevels && isBareSequenceMarker(text)) {
+      if (sequenceLevels.has(lineIndex)) return { level: sequenceLevels.get(lineIndex), text: text };
+      // A lone number in running prose is not enough evidence for a heading.
+      // Bare markers enter the TOC only when sequence analysis validates them.
+      return null;
+    }
+    if (sequenceLevels && sequenceLevels.has(lineIndex)) return { level: sequenceLevels.get(lineIndex), text: text };
     var wrapped = /^【([^【】]+)】$/.exec(text);
     if (wrapped) {
       var heading = headingOf(wrapped[1], prevBlank, nextText, sectionNumbers);
@@ -744,14 +922,17 @@
     var sectionNumbers = new Set(lines.filter(function (line, index) {
       return (index === 0 || !lines[index - 1].trim()) && /^\d{1,2}\.\d{1,2}$/.test(line.trim());
     }).map(function (line) { return line.trim(); }));
+    var sequenceLevels = sequenceHeadingLevels(lines, sectionNumbers);
     var blocks = [];
     var first = "";
+    var firstIndex = 0;
     for (var i = 0; i < lines.length; i += 1) {
-      if (lines[i].trim()) { first = lines[i].trim(); break; }
+      if (lines[i].trim()) { first = lines[i].trim(); firstIndex = i; break; }
     }
     var title = "";
     var skipFirst = false;
-    if (first && first.length <= 22 && !/[。！？]$/.test(first) && !headingOf(first, true, "", sectionNumbers)) {
+    if (first && first.length <= 22 && !/[。！？]$/.test(first)
+        && !headingOf(first, true, "", sectionNumbers, sequenceLevels, firstIndex)) {
       title = displayTitle(first, "");
       skipFirst = true;
     }
@@ -765,7 +946,7 @@
         return;
       }
       var prevBlank = index === 0 || !lines[index - 1].trim();
-      var heading = headingOf(text, prevBlank, nextNonEmpty(lines, index), sectionNumbers);
+      var heading = headingOf(text, prevBlank, nextNonEmpty(lines, index), sectionNumbers, sequenceLevels, index);
       if (heading) {
         if (inChapter && /^[一二三四五六七八九十百零〇]{1,3}$/.test(text)) {
           heading.level = 2;

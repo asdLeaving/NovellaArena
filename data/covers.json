@@ -76,6 +76,10 @@
                                                   "file":  "工程师_Grok4.7_2609271514.webp",
                                                   "version":  "35a7aafe66034cd951170ef3520b66a3befa3c74a909e793f68cc00ba8918fc5"
                                               },
+                   "故事集_Claude-Opus-5.5_2611180939":  {
+                                                          "file":  "故事集_Claude-Opus-5.5_2611180939.webp",
+                                                          "version":  "fa505cab806d752236603400b2505f7fc1a9dec3a569ee6312e7f0a2dc8caa3c"
+                                                      },
                    "关系户_gpt-5.6-sol_2610051645":  {
                                                       "file":  "关系户_gpt-5.6-sol_2610051645.webp",
                                                       "version":  "54765fc14ea605a7e4036bb64479f5ddb169166a28f28da88176d4241142dc9b"
@@ -176,6 +180,10 @@
                                                      "file":  "同寝_gpt-5.6-sol_2610051808.webp",
                                                      "version":  "9c3e049a56895771ed37bd247f7ef1f6ca7550c958368a5414ed60063e360a45"
                                                  },
+                   "投射_Claude-Opus-5.5_2611180004":  {
+                                                         "file":  "投射_Claude-Opus-5.5_2611180004.webp",
+                                                         "version":  "9ceb4955774d4ec79d28ca59952169c7efa511ee9df9edb72bdf31799c7fc2c4"
+                                                     },
                    "写作者_Claude-Opus-5.5_2610181611":  {
                                                           "file":  "写作者_Claude-Opus-5.5_2610181611.webp",
                                                           "version":  "63394f0bf90bf20bc85e7eef506d0a5ddf2320481c61642a940469b3d473155e"
@@ -223,6 +231,10 @@
                    "侦探_claude-opus-5.5_2610291603":  {
                                                          "file":  "侦探_claude-opus-5.5_2610291603.webp",
                                                          "version":  "98d13526c6a9af5133d5920fc9c334a4eed98faba38f21e390ad27833c216ee6"
+                                                     },
+                   "自闭_Claude-Opus-5.5_2611180915":  {
+                                                         "file":  "自闭_Claude-Opus-5.5_2611180915.webp",
+                                                         "version":  "7e7b59792b99dac592318b57ca5b02b9b2dcc1a4fcf8e09170aea99da06acc9c"
                                                      }
                }
 }
