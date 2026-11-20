@@ -681,6 +681,12 @@
     return /^(?:序章|楔子|终章|后记|引子|尾声|序|跋)(?:$|[\s　·.、:：].+)$/.test(text);
   }
 
+  function isNumberedBodyContinuation(text, nextText) {
+    return /^[一二三四五六七八九十百零〇]{1,3}[、.．:：\s　].+/.test(text)
+      && /^[一二三四五六七八九十百零〇]{1,3}[、.．:：\s　]/.test(nextText || "")
+      && /(?:[；;，,。！？…])[”’"」』]*$/.test(text);
+  }
+
   function isNumberedSection(text, sectionNumbers) {
     var number = /^(\d{1,2})\.(\d{1,2})$/.exec(text);
     if (!number || !sectionNumbers) return false;
@@ -876,7 +882,8 @@
     // 排除以句末标点、省略号结尾的正文，以及同一行内列出多项的编号条目。
     if (/^[一二三四五六七八九十百零〇]{1,3}[\s　·.、:：].+/.test(text)
         && !/(?:[。！？…]|\.{3})[”’"」』]*$/.test(text)
-        && !/[；;]\s*[一二三四五六七八九十百零〇]{1,3}、/.test(text)) return { level: 1, text: text };
+        && !/[；;]\s*[一二三四五六七八九十百零〇]{1,3}、/.test(text)
+        && !isNumberedBodyContinuation(text, nextText)) return { level: 1, text: text };
     if (/^【(?:场景)?[一二三四五六七八九十0-9]{1,3}】/.test(text)) return { level: 1, text: text };
     if (/^No\.?\s*\d+/i.test(text)) return { level: 1, text: text };
     if (/^(尾声|序章|楔子|终章|后记|引子|序|跋)$/.test(text)) return { level: 1, text: text };

@@ -431,6 +431,11 @@
   ],
   "models": [
     {
+      "name": "Gemini 4 Neon",
+      "released": "2026-11-18",
+      "hidden": true
+    },
+    {
       "name": "GPT 6.2 Astra",
       "released": "2026-11-17",
       "hidden": false
@@ -3749,7 +3754,7 @@
       "time": "202611172328",
       "effort": "high",
       "harness": "claude chat",
-      "grade": "",
+      "grade": "D",
       "file": "texts/身份_Claude-Opus-5.5_2611172328.txt",
       "manual": true
     },
@@ -3771,7 +3776,7 @@
       "time": "202611180001",
       "effort": "high",
       "harness": "claude chat",
-      "grade": "",
+      "grade": "D",
       "file": "texts/算子_Claude-Opus-5.5_2611180001.txt",
       "manual": true
     },
@@ -3804,7 +3809,7 @@
       "time": "202611180852",
       "effort": "high",
       "harness": "claude chat",
-      "grade": "",
+      "grade": "C",
       "file": "texts/普洱_Claude-Opus-5.5_2611180852.txt",
       "manual": true
     },
@@ -4178,7 +4183,7 @@
       "time": "202611201026",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "D",
       "file": "texts/极乐_GPT-6.2-Astra_2611201026.txt",
       "manual": true
     },
@@ -4246,6 +4251,50 @@
       "harness": "codex",
       "grade": "",
       "file": "texts/废土V2_GPT-5.6-Sol_2611201158.txt",
+      "manual": true
+    },
+    {
+      "id": "科技乌托邦_Gemini-4-Neon_2611201504",
+      "topic": "科技乌托邦",
+      "model": "Gemini 4 Neon",
+      "time": "202611201504",
+      "effort": "low",
+      "harness": "Gemini App",
+      "grade": "",
+      "file": "texts/科技乌托邦_Gemini-4-Neon_2611201504.txt",
+      "manual": true
+    },
+    {
+      "id": "科技乌托邦_Gemini-4-Neon_2611201537",
+      "topic": "科技乌托邦",
+      "model": "Gemini 4 Neon",
+      "time": "202611201537",
+      "effort": "high",
+      "harness": "Gemini App",
+      "grade": "E",
+      "file": "texts/科技乌托邦_Gemini-4-Neon_2611201537.txt",
+      "manual": true
+    },
+    {
+      "id": "身份_Claude-Opus-5.5_2611201552",
+      "topic": "身份",
+      "model": "Claude Opus 5.5",
+      "time": "202611201552",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/身份_Claude-Opus-5.5_2611201552.txt",
+      "manual": true
+    },
+    {
+      "id": "算子_Claude-Opus-5.5_2611201653",
+      "topic": "算子",
+      "model": "Claude Opus 5.5",
+      "time": "202611201653",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/算子_Claude-Opus-5.5_2611201653.txt",
       "manual": true
     }
   ]
