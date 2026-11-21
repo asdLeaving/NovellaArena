@@ -678,13 +678,17 @@
 
   function isStandaloneSectionHeading(text) {
     text = text.replace(/^【([^【】]+)】$/, "$1").trim();
-    return /^(?:序章|楔子|终章|后记|引子|尾声|序|跋)(?:$|[\s　·.、:：].+)$/.test(text);
+    return /^(?:零|〇|序章|楔子|终章|后记|引子|尾声|序|跋)(?:$|[\s　·.、:：].+)$/.test(text);
   }
 
   function isNumberedBodyContinuation(text, nextText) {
     return /^[一二三四五六七八九十百零〇]{1,3}[、.．:：\s　].+/.test(text)
       && /^[一二三四五六七八九十百零〇]{1,3}[、.．:：\s　]/.test(nextText || "")
       && /(?:[；;，,。！？…])[”’"」』]*$/.test(text);
+  }
+
+  function endsLikeNumberedBody(text) {
+    return /[。！？…；;，,](?:[”’"」』])?(?:\s*[（(【\[].*[）)】\]])?\s*$/.test(text);
   }
 
   function isNumberedSection(text, sectionNumbers) {
@@ -717,13 +721,15 @@
 
   function sequenceCandidate(line, index, lines) {
     var text = line.trim();
-    if (!text || index > 0 && lines[index - 1].trim() || text.length > 42) return null;
+    if (!text || text.length > 42) return null;
     var chinese = chineseNumeralValue(text);
     if (chinese !== null) return { index: index, value: chinese, kind: "chinese", text: text, titled: false };
-    var chineseTitle = /^([零〇一二三四五六七八九十百千万]{1,6})[\s　]+(\S.*)$/.exec(text);
+    var chineseTitle = /^([零〇一二三四五六七八九十百千万]{1,6})(?:[\s　、.．:：]+)(\S.*)$/.exec(text);
     if (chineseTitle) {
       chinese = chineseNumeralValue(chineseTitle[1]);
-      if (chinese !== null) return { index: index, value: chinese, kind: "chineseTitle", text: text, titled: true };
+      if (chinese !== null && !endsLikeNumberedBody(text)) {
+        return { index: index, value: chinese, kind: "chineseTitle", text: text, titled: true };
+      }
     }
     var arabic = /^(\d{1,3})$/.exec(text);
     if (arabic) return { index: index, value: Number(arabic[1]), kind: "arabic", text: text };
@@ -731,7 +737,7 @@
     // lines and inline dialogue/lists are excluded before sequence inference.
     var titled = /^(\d{1,3})(?:[\s　]+|[、．。:：]|\.\s+)(\S.*)$/.exec(text);
     if (!titled || /^(?:[「“"（(【\[])/.test(titled[2])) return null;
-    if (/(?:[。！？…]|\.{3})[”’"」』）)\]]*$/.test(text)) return null;
+    if (endsLikeNumberedBody(text) || /\.{3}[”’"」』）)\]]*$/.test(text)) return null;
     return { index: index, value: Number(titled[1]), kind: "arabicTitle", text: text, titled: true };
   }
 
@@ -740,18 +746,31 @@
     return /^\d{1,3}$/.test(text) || chinese !== null && chinese !== 0;
   }
 
-  function hasOrdinaryTextBetween(lines, from, to, candidateIndexes) {
+  function hasIndependentParagraphBetween(lines, from, to, candidateIndexes) {
+    var paragraph = false;
     for (var i = from + 1; i < to; i += 1) {
       var text = lines[i].trim();
-      if (text && !candidateIndexes.has(i)) return true;
+      if (!text) {
+        continue;
+      }
+      if (candidateIndexes.has(i) || isChapterHeading(text) || isStandaloneSectionHeading(text)) {
+        if (paragraph) return true;
+        paragraph = false;
+        continue;
+      }
+      paragraph = true;
     }
-    return false;
+    return paragraph;
   }
 
   function sequenceHeadingLevels(lines, sectionNumbers) {
     var candidates = [];
     var candidateIndexes = new Set();
     var baseAnchors = [];
+    var hasExplicitContainer = lines.some(function (line) {
+      var text = line.trim();
+      return isChapterHeading(text) && !isStandaloneSectionHeading(text);
+    });
     lines.forEach(function (line, index) {
       var candidate = sequenceCandidate(line, index, lines);
       if (candidate) {
@@ -759,10 +778,10 @@
         candidateIndexes.add(index);
       }
       var text = line.trim();
-      if (text && (index === 0 || !lines[index - 1].trim())) {
-        var base = headingOf(text, index === 0 || !lines[index - 1].trim(), nextNonEmpty(lines, index), sectionNumbers);
-        if ((base && base.level === 1 && !isStandaloneSectionHeading(text) && (!candidate || candidate.titled))
-            || candidate && candidate.kind === "arabicTitle") baseAnchors.push(index);
+      var base = headingOf(text, index === 0 || !lines[index - 1].trim(), nextNonEmpty(lines, index), sectionNumbers);
+      if (base && base.level === 1 && !isStandaloneSectionHeading(text)
+          && (!isBareSequenceMarker(text) || candidate && candidate.titled)) {
+        baseAnchors.push({ index: index, kind: candidate ? candidate.kind : null });
       }
     });
 
@@ -788,7 +807,7 @@
           return;
         }
         var consecutive = item.value === previous.value + 1;
-        var hasText = hasOrdinaryTextBetween(lines, previous.index, item.index, candidateIndexes);
+        var hasText = hasIndependentParagraphBetween(lines, previous.index, item.index, candidateIndexes);
         if (consecutive && hasText) current.push(item);
         else {
           finish();
@@ -842,10 +861,11 @@
     groups.forEach(function (group) {
       var parent = groups.filter(function (other) { return other !== group && sequenceParent(other, group); })
         .sort(function (a, b) { return (a.end - a.start) - (b.end - b.start); })[0];
-      var previousAnchor = baseAnchors.filter(function (index) { return index < group.start; }).pop();
+      var previousAnchor = baseAnchors.filter(function (anchor) { return anchor.index < group.start; }).pop();
       if (parent) group.level = Math.min(2, (parent.level || 1) + 1);
       else if (group.kind === "arabicTitle") group.level = 1;
-      else if (previousAnchor !== undefined) group.level = 2;
+      else if (hasExplicitContainer && (group.kind === "arabic" || group.kind === "chinese")) group.level = 2;
+      else if (previousAnchor && previousAnchor.kind !== group.kind) group.level = 2;
       else if (group.kind === "arabic") group.level = 1;
       else group.level = 1;
     });
@@ -853,17 +873,18 @@
     var levels = new Map();
     groups.forEach(function (group) {
       group.items.forEach(function (item) { levels.set(item.index, group.level); });
-      if (group.level === 2) {
-        var anchor = baseAnchors.filter(function (index) { return index < group.start; }).pop();
-        if (anchor !== undefined) levels.set(anchor, 1);
-      }
     });
     return levels;
   }
 
   function headingOf(line, prevBlank, nextText, sectionNumbers, sequenceLevels, lineIndex) {
     var text = line.trim();
-    if (!text || !prevBlank || text.length > 42) return null;
+    if (!text || text.length > 42) return null;
+    // Explicit part/chapter and prologue/epilogue markers remain headings
+    // even when the source text omits the blank line before them.
+    if (isChapterHeading(text) || isStandaloneSectionHeading(text)) {
+      return { level: 1, text: text };
+    }
     if (sequenceLevels && isBareSequenceMarker(text)) {
       if (sequenceLevels.has(lineIndex)) return { level: sequenceLevels.get(lineIndex), text: text };
       // A lone number in running prose is not enough evidence for a heading.
@@ -871,6 +892,7 @@
       return null;
     }
     if (sequenceLevels && sequenceLevels.has(lineIndex)) return { level: sequenceLevels.get(lineIndex), text: text };
+    if (!prevBlank) return null;
     var wrapped = /^【([^【】]+)】$/.exec(text);
     if (wrapped) {
       var heading = headingOf(wrapped[1], prevBlank, nextText, sectionNumbers);

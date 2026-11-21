@@ -427,6 +427,27 @@
       "promptFile": "prompts/废土V2.txt",
       "promptAt": "2026-11-20 11:58",
       "promptManual": true
+    },
+    {
+      "name": "走走停停",
+      "grade": "D",
+      "promptFile": "prompts/走走停停.txt",
+      "promptAt": "2026-11-21 01:42",
+      "promptManual": true
+    },
+    {
+      "name": "古法编程",
+      "grade": "B",
+      "promptFile": "prompts/古法编程.txt",
+      "promptAt": "2026-11-21 18:00",
+      "promptManual": true
+    },
+    {
+      "name": "内部调查",
+      "grade": "B",
+      "promptFile": "prompts/内部调查.txt",
+      "promptAt": "2026-11-21 18:28",
+      "promptManual": true
     }
   ],
   "models": [
@@ -3864,7 +3885,7 @@
       "time": "202611181105",
       "effort": "high",
       "harness": "claude chat",
-      "grade": "",
+      "grade": "C",
       "file": "texts/灰域驾驶员_Claude-Opus-5.5_2611181105.txt",
       "manual": true
     },
@@ -4007,7 +4028,7 @@
       "time": "202611191756",
       "effort": "high",
       "harness": "claude chat",
-      "grade": "",
+      "grade": "C",
       "file": "texts/闭锁_Claude-Opus-5.5_2611191756.txt",
       "manual": true
     },
@@ -4205,7 +4226,7 @@
       "time": "202611201047",
       "effort": "high",
       "harness": "claude chat",
-      "grade": "",
+      "grade": "B",
       "file": "texts/追求_Claude-Opus-5.5_2611201047.txt",
       "manual": true
     },
@@ -4265,6 +4286,17 @@
       "manual": true
     },
     {
+      "id": "故事集_GPT-6.2-Astra_2611201529",
+      "topic": "故事集",
+      "model": "GPT 6.2 Astra",
+      "time": "202611201529",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/故事集_GPT-6.2-Astra_2611201529.txt",
+      "manual": true
+    },
+    {
       "id": "科技乌托邦_Gemini-4-Neon_2611201537",
       "topic": "科技乌托邦",
       "model": "Gemini 4 Neon",
@@ -4295,6 +4327,226 @@
       "harness": "claude chat",
       "grade": "",
       "file": "texts/算子_Claude-Opus-5.5_2611201653.txt",
+      "manual": true
+    },
+    {
+      "id": "走走停停_Claude-Opus-5.5_2611210142",
+      "topic": "走走停停",
+      "model": "Claude Opus 5.5",
+      "time": "202611210142",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "B",
+      "file": "texts/走走停停_Claude-Opus-5.5_2611210142.txt",
+      "manual": true
+    },
+    {
+      "id": "走走停停_GPT-5.6-Sol_2611210156",
+      "topic": "走走停停",
+      "model": "GPT 5.6 Sol",
+      "time": "202611210156",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/走走停停_GPT-5.6-Sol_2611210156.txt",
+      "manual": true
+    },
+    {
+      "id": "追求_Claude-Opus-5.5_2611211013",
+      "topic": "追求",
+      "model": "Claude Opus 5.5",
+      "time": "202611211013",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/追求_Claude-Opus-5.5_2611211013.txt",
+      "manual": true
+    },
+    {
+      "id": "普洱_Claude-Opus-5.5_2611211350",
+      "topic": "普洱",
+      "model": "Claude Opus 5.5",
+      "time": "202611211350",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/普洱_Claude-Opus-5.5_2611211350.txt",
+      "manual": true
+    },
+    {
+      "id": "走走停停_Claude-Opus-5.5_2611211412",
+      "topic": "走走停停",
+      "model": "Claude Opus 5.5",
+      "time": "202611211412",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/走走停停_Claude-Opus-5.5_2611211412.txt",
+      "manual": true
+    },
+    {
+      "id": "走走停停_GPT-6.2-Astra_2611211424",
+      "topic": "走走停停",
+      "model": "GPT 6.2 Astra",
+      "time": "202611211424",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/走走停停_GPT-6.2-Astra_2611211424.txt",
+      "manual": true
+    },
+    {
+      "id": "工程师_Claude-Opus-5.5_2611211425",
+      "topic": "工程师",
+      "model": "Claude Opus 5.5",
+      "time": "202611211425",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/工程师_Claude-Opus-5.5_2611211425.txt",
+      "manual": true
+    },
+    {
+      "id": "走走停停_Claude-Opus-5.5_2611211451",
+      "topic": "走走停停",
+      "model": "Claude Opus 5.5",
+      "time": "202611211451",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/走走停停_Claude-Opus-5.5_2611211451.txt",
+      "manual": true
+    },
+    {
+      "id": "追求_GPT-6.2-Astra_2611211513",
+      "topic": "追求",
+      "model": "GPT 6.2 Astra",
+      "time": "202611211513",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/追求_GPT-6.2-Astra_2611211513.txt",
+      "manual": true
+    },
+    {
+      "id": "奔现_GPT-6.2-Astra_2611211548",
+      "topic": "奔现",
+      "model": "GPT 6.2 Astra",
+      "time": "202611211548",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/奔现_GPT-6.2-Astra_2611211548.txt",
+      "manual": true
+    },
+    {
+      "id": "走走停停_Claude-Opus-5.5_2611211549",
+      "topic": "走走停停",
+      "model": "Claude Opus 5.5",
+      "time": "202611211549",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "C",
+      "file": "texts/走走停停_Claude-Opus-5.5_2611211549.txt",
+      "manual": true
+    },
+    {
+      "id": "身份_GPT-6.2-Astra_2611211647",
+      "topic": "身份",
+      "model": "GPT 6.2 Astra",
+      "time": "202611211647",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/身份_GPT-6.2-Astra_2611211647.txt",
+      "manual": true
+    },
+    {
+      "id": "侦探V2_GPT-6.2-Astra_2611211716",
+      "topic": "侦探V2",
+      "model": "GPT 6.2 Astra",
+      "time": "202611211716",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/侦探V2_GPT-6.2-Astra_2611211716.txt",
+      "manual": true
+    },
+    {
+      "id": "废土V2_GPT-6.2-Astra_2611211753",
+      "topic": "废土V2",
+      "model": "GPT 6.2 Astra",
+      "time": "202611211753",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/废土V2_GPT-6.2-Astra_2611211753.txt",
+      "manual": true
+    },
+    {
+      "id": "古法编程_GPT-6.2-Astra_2611211756",
+      "topic": "古法编程",
+      "model": "GPT 6.2 Astra",
+      "time": "202611211756",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/古法编程_GPT-6.2-Astra_2611211756.txt",
+      "manual": true
+    },
+    {
+      "id": "古法编程_Claude-Opus-5.5_2611211800",
+      "topic": "古法编程",
+      "model": "Claude Opus 5.5",
+      "time": "202611211800",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/古法编程_Claude-Opus-5.5_2611211800.txt",
+      "manual": true
+    },
+    {
+      "id": "内部调查_GPT-6.2-Astra_2611211812",
+      "topic": "内部调查",
+      "model": "GPT 6.2 Astra",
+      "time": "202611211812",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/内部调查_GPT-6.2-Astra_2611211812.txt",
+      "manual": true
+    },
+    {
+      "id": "内部调查_Claude-Opus-5.5_2611211828",
+      "topic": "内部调查",
+      "model": "Claude Opus 5.5",
+      "time": "202611211828",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/内部调查_Claude-Opus-5.5_2611211828.txt",
+      "manual": true
+    },
+    {
+      "id": "内部调查_GPT-5.6-Sol_2611211857",
+      "topic": "内部调查",
+      "model": "GPT 5.6 Sol",
+      "time": "202611211857",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/内部调查_GPT-5.6-Sol_2611211857.txt",
+      "manual": true
+    },
+    {
+      "id": "古法编程_GPT-5.6-Sol_2611211904",
+      "topic": "古法编程",
+      "model": "GPT 5.6 Sol",
+      "time": "202611211904",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/古法编程_GPT-5.6-Sol_2611211904.txt",
       "manual": true
     }
   ]
