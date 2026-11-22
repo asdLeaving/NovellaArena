@@ -479,12 +479,12 @@
     {
       "name": "Gemini 4 Argon",
       "released": "2026-10-13",
-      "hidden": true
+      "hidden": false
     },
     {
       "name": "Muse Wonder",
       "released": "2026-10-12",
-      "hidden": false
+      "hidden": true
     },
     {
       "name": "Claude Sonnet 5.5",
@@ -4501,7 +4501,7 @@
       "time": "202611211800",
       "effort": "high",
       "harness": "claude chat",
-      "grade": "",
+      "grade": "C",
       "file": "texts/古法编程_Claude-Opus-5.5_2611211800.txt",
       "manual": true
     },
@@ -4523,7 +4523,7 @@
       "time": "202611211828",
       "effort": "high",
       "harness": "claude chat",
-      "grade": "",
+      "grade": "B",
       "file": "texts/内部调查_Claude-Opus-5.5_2611211828.txt",
       "manual": true
     },
@@ -4547,6 +4547,17 @@
       "harness": "codex",
       "grade": "",
       "file": "texts/古法编程_GPT-5.6-Sol_2611211904.txt",
+      "manual": true
+    },
+    {
+      "id": "走走停停_Claude-Opus-5.5_2611212036",
+      "topic": "走走停停",
+      "model": "Claude Opus 5.5",
+      "time": "202611212036",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "C",
+      "file": "texts/走走停停_Claude-Opus-5.5_2611212036.txt",
       "manual": true
     }
   ]
