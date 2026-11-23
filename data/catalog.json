@@ -448,6 +448,20 @@
       "promptFile": "prompts/内部调查.txt",
       "promptAt": "2026-11-21 18:28",
       "promptManual": true
+    },
+    {
+      "name": "工程师日记",
+      "grade": "B",
+      "promptFile": "prompts/工程师日记.txt",
+      "promptAt": "2026-11-22 17:29",
+      "promptManual": true
+    },
+    {
+      "name": "研究者传",
+      "grade": "A",
+      "promptFile": "prompts/研究者传.txt",
+      "promptAt": "2026-11-22 17:42",
+      "promptManual": true
     }
   ],
   "models": [
@@ -4558,6 +4572,116 @@
       "harness": "claude chat",
       "grade": "C",
       "file": "texts/走走停停_Claude-Opus-5.5_2611212036.txt",
+      "manual": true
+    },
+    {
+      "id": "故事集_Claude-Opus-5.5_2611221452",
+      "topic": "故事集",
+      "model": "Claude Opus 5.5",
+      "time": "202611221452",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/故事集_Claude-Opus-5.5_2611221452.txt",
+      "manual": true
+    },
+    {
+      "id": "走走停停_Claude-Opus-5.5_2611221511",
+      "topic": "走走停停",
+      "model": "Claude Opus 5.5",
+      "time": "202611221511",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/走走停停_Claude-Opus-5.5_2611221511.txt",
+      "manual": true
+    },
+    {
+      "id": "逃走_Claude-Opus-5.5_2611221522",
+      "topic": "逃走",
+      "model": "Claude Opus 5.5",
+      "time": "202611221522",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/逃走_Claude-Opus-5.5_2611221522.txt",
+      "manual": true
+    },
+    {
+      "id": "自闭_Claude-Opus-5.5_2611221544",
+      "topic": "自闭",
+      "model": "Claude Opus 5.5",
+      "time": "202611221544",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/自闭_Claude-Opus-5.5_2611221544.txt",
+      "manual": true
+    },
+    {
+      "id": "工程师日记_GPT-6.2-Astra_2611221726",
+      "topic": "工程师日记",
+      "model": "GPT 6.2 Astra",
+      "time": "202611221726",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/工程师日记_GPT-6.2-Astra_2611221726.txt",
+      "manual": true
+    },
+    {
+      "id": "工程师日记_Claude-Opus-5.5_2611221729",
+      "topic": "工程师日记",
+      "model": "Claude Opus 5.5",
+      "time": "202611221729",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/工程师日记_Claude-Opus-5.5_2611221729.txt",
+      "manual": true
+    },
+    {
+      "id": "工程师日记_GPT-5.6-Sol_2611221735",
+      "topic": "工程师日记",
+      "model": "GPT 5.6 Sol",
+      "time": "202611221735",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/工程师日记_GPT-5.6-Sol_2611221735.txt",
+      "manual": true
+    },
+    {
+      "id": "研究者传_GPT-6.2-Astra_2611221738",
+      "topic": "研究者传",
+      "model": "GPT 6.2 Astra",
+      "time": "202611221738",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/研究者传_GPT-6.2-Astra_2611221738.txt",
+      "manual": true
+    },
+    {
+      "id": "研究者传_Claude-Opus-5.5_2611221742",
+      "topic": "研究者传",
+      "model": "Claude Opus 5.5",
+      "time": "202611221742",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/研究者传_Claude-Opus-5.5_2611221742.txt",
+      "manual": true
+    },
+    {
+      "id": "研究者传_GPT-5.6-Sol_2611221749",
+      "topic": "研究者传",
+      "model": "GPT 5.6 Sol",
+      "time": "202611221749",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/研究者传_GPT-5.6-Sol_2611221749.txt",
       "manual": true
     }
   ]
