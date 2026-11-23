@@ -462,6 +462,13 @@
       "promptFile": "prompts/研究者传.txt",
       "promptAt": "2026-11-22 17:42",
       "promptManual": true
+    },
+    {
+      "name": "拒稿",
+      "grade": "C",
+      "promptFile": "prompts/拒稿.txt",
+      "promptAt": "2026-11-23 21:43",
+      "promptManual": true
     }
   ],
   "models": [
@@ -3756,7 +3763,7 @@
       "time": "202611171828",
       "effort": "high",
       "harness": "claude chat",
-      "grade": "",
+      "grade": "D",
       "file": "texts/决定_Claude-Opus-5.5_2611171828.txt",
       "manual": true
     },
@@ -3888,7 +3895,7 @@
       "time": "202611181043",
       "effort": "high",
       "harness": "claude chat",
-      "grade": "",
+      "grade": "B",
       "file": "texts/魔力_Claude-Opus-5.5_2611181043.txt",
       "manual": true
     },
@@ -3921,7 +3928,7 @@
       "time": "202611181428",
       "effort": "high",
       "harness": "claude chat",
-      "grade": "",
+      "grade": "D",
       "file": "texts/科技乌托邦_Claude-Opus-5.5_2611181428.txt",
       "manual": true
     },
@@ -4339,7 +4346,7 @@
       "time": "202611201653",
       "effort": "high",
       "harness": "claude chat",
-      "grade": "",
+      "grade": "C",
       "file": "texts/算子_Claude-Opus-5.5_2611201653.txt",
       "manual": true
     },
@@ -4592,7 +4599,7 @@
       "time": "202611221511",
       "effort": "high",
       "harness": "claude chat",
-      "grade": "",
+      "grade": "D",
       "file": "texts/走走停停_Claude-Opus-5.5_2611221511.txt",
       "manual": true
     },
@@ -4636,7 +4643,7 @@
       "time": "202611221729",
       "effort": "high",
       "harness": "claude chat",
-      "grade": "",
+      "grade": "B",
       "file": "texts/工程师日记_Claude-Opus-5.5_2611221729.txt",
       "manual": true
     },
@@ -4682,6 +4689,94 @@
       "harness": "codex",
       "grade": "",
       "file": "texts/研究者传_GPT-5.6-Sol_2611221749.txt",
+      "manual": true
+    },
+    {
+      "id": "科技乌托邦_Claude-Opus-5.5_2611231339",
+      "topic": "科技乌托邦",
+      "model": "Claude Opus 5.5",
+      "time": "202611231339",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "C",
+      "file": "texts/科技乌托邦_Claude-Opus-5.5_2611231339.txt",
+      "manual": true
+    },
+    {
+      "id": "算子_Claude-Opus-5.5_2611231353",
+      "topic": "算子",
+      "model": "Claude Opus 5.5",
+      "time": "202611231353",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/算子_Claude-Opus-5.5_2611231353.txt",
+      "manual": true
+    },
+    {
+      "id": "工程师日记_Claude-Opus-5.5_2611231544",
+      "topic": "工程师日记",
+      "model": "Claude Opus 5.5",
+      "time": "202611231544",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/工程师日记_Claude-Opus-5.5_2611231544.txt",
+      "manual": true
+    },
+    {
+      "id": "拒稿_Claude-Opus-5.5_2611232143",
+      "topic": "拒稿",
+      "model": "Claude Opus 5.5",
+      "time": "202611232143",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/拒稿_Claude-Opus-5.5_2611232143.txt",
+      "manual": true
+    },
+    {
+      "id": "意识V2_Claude-Opus-5.5_2611232153",
+      "topic": "意识V2",
+      "model": "Claude Opus 5.5",
+      "time": "202611232153",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/意识V2_Claude-Opus-5.5_2611232153.txt",
+      "manual": true
+    },
+    {
+      "id": "失调_Claude-Opus-5.5_2611232216",
+      "topic": "失调",
+      "model": "Claude Opus 5.5",
+      "time": "202611232216",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/失调_Claude-Opus-5.5_2611232216.txt",
+      "manual": true
+    },
+    {
+      "id": "画师_Claude-Opus-5.5_2611232221",
+      "topic": "画师",
+      "model": "Claude Opus 5.5",
+      "time": "202611232221",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/画师_Claude-Opus-5.5_2611232221.txt",
+      "manual": true
+    },
+    {
+      "id": "连接_Claude-Opus-5.5_2611232233",
+      "topic": "连接",
+      "model": "Claude Opus 5.5",
+      "time": "202611232233",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/连接_Claude-Opus-5.5_2611232233.txt",
       "manual": true
     }
   ]
