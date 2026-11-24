@@ -469,6 +469,27 @@
       "promptFile": "prompts/拒稿.txt",
       "promptAt": "2026-11-23 21:43",
       "promptManual": true
+    },
+    {
+      "name": "中年教授",
+      "grade": "C",
+      "promptFile": "prompts/中年教授.txt",
+      "promptAt": "2026-11-24 09:32",
+      "promptManual": true
+    },
+    {
+      "name": "独居",
+      "grade": "B",
+      "promptFile": "prompts/独居.txt",
+      "promptAt": "2026-11-24 09:46",
+      "promptManual": true
+    },
+    {
+      "name": "公关",
+      "grade": "B",
+      "promptFile": "prompts/公关.txt",
+      "promptAt": "2026-11-24 11:26",
+      "promptManual": true
     }
   ],
   "models": [
@@ -4676,7 +4697,7 @@
       "time": "202611221742",
       "effort": "high",
       "harness": "claude chat",
-      "grade": "",
+      "grade": "B",
       "file": "texts/研究者传_Claude-Opus-5.5_2611221742.txt",
       "manual": true
     },
@@ -4731,7 +4752,7 @@
       "time": "202611232143",
       "effort": "high",
       "harness": "claude chat",
-      "grade": "",
+      "grade": "C",
       "file": "texts/拒稿_Claude-Opus-5.5_2611232143.txt",
       "manual": true
     },
@@ -4777,6 +4798,94 @@
       "harness": "claude chat",
       "grade": "",
       "file": "texts/连接_Claude-Opus-5.5_2611232233.txt",
+      "manual": true
+    },
+    {
+      "id": "中年教授_Claude-Opus-5.5_2611240932",
+      "topic": "中年教授",
+      "model": "Claude Opus 5.5",
+      "time": "202611240932",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "C",
+      "file": "texts/中年教授_Claude-Opus-5.5_2611240932.txt",
+      "manual": true
+    },
+    {
+      "id": "独居_Claude-Opus-5.5_2611240946",
+      "topic": "独居",
+      "model": "Claude Opus 5.5",
+      "time": "202611240946",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/独居_Claude-Opus-5.5_2611240946.txt",
+      "manual": true
+    },
+    {
+      "id": "酒保_Claude-Opus-5.5_2611240949",
+      "topic": "酒保",
+      "model": "Claude Opus 5.5",
+      "time": "202611240949",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/酒保_Claude-Opus-5.5_2611240949.txt",
+      "manual": true
+    },
+    {
+      "id": "魔力_Claude-Opus-5.5_2611241008",
+      "topic": "魔力",
+      "model": "Claude Opus 5.5",
+      "time": "202611241008",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/魔力_Claude-Opus-5.5_2611241008.txt",
+      "manual": true
+    },
+    {
+      "id": "公关_Claude-Opus-5.5_2611241126",
+      "topic": "公关",
+      "model": "Claude Opus 5.5",
+      "time": "202611241126",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "C",
+      "file": "texts/公关_Claude-Opus-5.5_2611241126.txt",
+      "manual": true
+    },
+    {
+      "id": "决定_Claude-Opus-5.5_2611242237",
+      "topic": "决定",
+      "model": "Claude Opus 5.5",
+      "time": "202611242237",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/决定_Claude-Opus-5.5_2611242237.txt",
+      "manual": true
+    },
+    {
+      "id": "公关_Claude-Opus-5.5_2611242345",
+      "topic": "公关",
+      "model": "Claude Opus 5.5",
+      "time": "202611242345",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/公关_Claude-Opus-5.5_2611242345.txt",
+      "manual": true
+    },
+    {
+      "id": "研究者传_Claude-Opus-5.5_2611242346",
+      "topic": "研究者传",
+      "model": "Claude Opus 5.5",
+      "time": "202611242346",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/研究者传_Claude-Opus-5.5_2611242346.txt",
       "manual": true
     }
   ]
