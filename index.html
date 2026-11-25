@@ -20,33 +20,27 @@
   <meta name="twitter:title" content="LLM小说创作竞技场">
   <meta name="twitter:description" content="展示头部大模型生成的中文短篇小说。">
   <meta name="twitter:image" content="https://asdleaving.github.io/NovellaArena/assets/2026%E5%9B%9B%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%86%99%E4%BD%9C%E5%9B%9B%E6%A0%BC%E6%BC%AB%E7%94%BB.webp">
-  <link rel="stylesheet" href="assets/style.css?v=d4f154ff305e2e194a39278131fb2d2b0260bc74aa10fe5ef3fbe01252868b1b">
+  <link rel="stylesheet" href="assets/style.css?v=f3c93a716d249c92f4dba6a411c005ebf894171536e1b22697d0d4b06f447fb1">
   <link rel="preload" href="data/catalog.json" as="fetch" crossorigin>
   <script defer onerror="document.documentElement.classList.add('asset-error')" src="assets/common.js?v=0c6ef0c167065cdbbc57fe2b1bd5b5123eebf560db602b4a5d4dc826856da47a"></script>
-  <script defer onerror="document.documentElement.classList.add('asset-error')" src="assets/site.js?v=6dd7d6b63ab49b4c40269cf27fc7ece87dc0da8f2999cf593bef257d8595e3d9"></script>
+  <script defer onerror="document.documentElement.classList.add('asset-error')" src="assets/site.js?v=f3abfbe07989da8cf92252e773f9931bad6f94f9eea805ef0af797672a1c35df"></script>
 </head>
 <body data-page="index">
   <p class="error asset-message" role="alert">网页脚本未能加载。<button type="button" onclick="location.reload()">重新加载</button></p>
   <a class="skip-link" href="#main-content">跳到主要内容</a>
   <header class="site-header">
-    <div class="masthead">
-      <a class="brand" href="index.html" lang="en">NovellaArena</a>
-      <nav class="section-nav" aria-label="站内导航">
-        <a href="#showcase">代表作</a>
-        <a href="#ratings">评级表</a>
-        <a href="#remarks">主观评语</a>
-        <a class="import-link" href="ingest.html">导入文稿</a>
-      </nav>
+    <div>
+      <p class="brand" lang="en">NovellaArena</p>
+      <h1>LLM小说创作竞技场</h1>
+      <p class="lede" id="summary"></p>
     </div>
-    <h1>LLM小说创作竞技场</h1>
-    <p class="lede" id="summary"></p>
+    <div class="header-actions">
+      <a class="button" href="ingest.html">导入文稿</a>
+    </div>
   </header>
   <main id="main-content">
   <section class="showcase" id="showcase" aria-label="代表作" aria-busy="true">
-    <div class="section-intro">
-      <h2>代表作</h2>
-      <p>右上角书签表示文风和主题的严肃度。点开看看呗😉</p>
-    </div>
+    <h2>代表作（右上角书签表示文风和主题的严肃度。点开看看呗😉）</h2>
     <p class="loading-message" data-loading-message="代表作" role="status">正在加载代表作，请稍候…</p>
     <ul class="showcase-list" role="list">
       <li complexity="高" data-model="Claude Opus 5.5" data-topic="偏执"></li>

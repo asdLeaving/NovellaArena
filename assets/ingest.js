@@ -445,6 +445,9 @@
   }
 
   var drop = $("drop");
+  drop.addEventListener("click", function (event) {
+    if (event.target !== $("file") && !saving) $("file").click();
+  });
   drop.addEventListener("dragover", function (event) {
     event.preventDefault();
     drop.classList.add("hot");

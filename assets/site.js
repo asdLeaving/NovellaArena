@@ -323,7 +323,7 @@
     renderTable();
     if (left) wrap.scrollLeft = left;
     if (top) wrap.scrollTop = top;
-    if (firstRender && typeof saved.y === "number") window.scrollTo(0, saved.y);
+    if (firstRender && typeof saved.y === "number") window.scrollTo({ top: saved.y, behavior: "instant" });
     firstRender = false;
   }
 

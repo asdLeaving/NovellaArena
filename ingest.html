@@ -4,25 +4,25 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>导入文稿 · NovellaArena</title>
-  <link rel="stylesheet" href="assets/style.css?v=d4f154ff305e2e194a39278131fb2d2b0260bc74aa10fe5ef3fbe01252868b1b">
+  <link rel="stylesheet" href="assets/style.css?v=f3c93a716d249c92f4dba6a411c005ebf894171536e1b22697d0d4b06f447fb1">
   <script defer onerror="document.documentElement.classList.add('asset-error')" src="assets/models.js?v=054a39d812e9d32ecd969134ead2162f3179da19ca3ac30b6376b01d8839d58f"></script>
   <script defer onerror="document.documentElement.classList.add('asset-error')" src="assets/import-files.js?v=c64489653124e08f351ce464500347d0d05d3bf4710050324cb60824cbb58331"></script>
-  <script defer onerror="document.documentElement.classList.add('asset-error')" src="assets/ingest.js?v=1da35f2464012fd0a4c3041cb1a036170e1fd89e69a99257c742e231d40b3513"></script>
+  <script defer onerror="document.documentElement.classList.add('asset-error')" src="assets/ingest.js?v=36efe01f820265e944fa10f64e1c893333373d7a728409c057f85b9e48d62ac9"></script>
 </head>
 <body data-page="ingest">
   <p class="error asset-message" role="alert">网页脚本未能加载。<button type="button" onclick="location.reload()">重新加载</button></p>
   <div class="topbar">
     <a class="back" href="index.html">返回主页</a>
-    <strong lang="en">NovellaArena</strong>
+    <strong>导入文稿</strong>
   </div>
-  <main class="page import-page">
-    <h1>导入文稿</h1>
-    <p class="lede" id="file-help">文件名格式为 <code>题目_模型_yymmddhhmm.txt</code>。模型名会归一成空格分隔的规范写法，并和已有列合并。网页标注的文稿不会收入。</p>
-    <label class="drop" id="drop">
-      <span class="drop-title">选择 .txt 文稿</span>
-      <span class="drop-hint">也可拖放文件到这里</span>
-      <input id="file" type="file" accept=".txt,text/plain" aria-label="选择 .txt 文稿" aria-describedby="file-help">
-    </label>
+  <main class="page">
+    <p class="lede" id="file-help">把符合「题目_模型_yymmddhhmm.txt」的文稿拖进来。模型名会归一成空格分隔的规范写法，并和已有列合并。网页标注的文稿不会收入。</p>
+    <div class="drop" id="drop">
+      <div>
+        <p>把 .txt 拖到这里，或点击选择文件</p>
+        <input id="file" type="file" accept=".txt,text/plain" aria-label="选择 .txt 文稿" aria-describedby="file-help">
+      </div>
+    </div>
     <section id="panel" class="hidden">
       <div class="preview" id="preview" role="status"></div>
       <div class="choice-stack">
