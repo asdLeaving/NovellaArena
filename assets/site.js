@@ -440,7 +440,7 @@
         mark.className = "count";
         mark.textContent = String(count);
         mark.title = selectedGrade === null
-          ? "同题同模型共 " + count + " 篇。显示评级最高的一篇，同级取生成时间最新的一篇，未评级排在 E 之后"
+          ? "同题同模型共 " + count + " 篇。显示评级最高的一篇，同评级优先 preferred，再取生成时间最新的一篇，未评级排在 E 之后"
           : "同题同模型符合当前评级的作品共 " + count + " 篇，显示其中最新的一篇";
       }
       td.appendChild(cellLink(entry, mark));
@@ -634,6 +634,9 @@
     if (aGrade < 0) aGrade = grades.length;
     if (bGrade < 0) bGrade = grades.length;
     if (aGrade !== bGrade) return aGrade - bGrade;
+    var aPreferred = a.preferred === true;
+    var bPreferred = b.preferred === true;
+    if (aPreferred !== bPreferred) return aPreferred ? -1 : 1;
     return a.time < b.time ? 1 : a.time > b.time ? -1 : 0;
   }
 

@@ -2004,7 +2004,8 @@
       "harness": "cursor",
       "grade": "B",
       "file": "texts/价值_Claude-Opus-5.5_2610161849.txt",
-      "manual": true
+      "manual": true,
+      "preferred": true
     },
     {
       "id": "意识_ClaudeFable5.1_2610171257",
@@ -4037,7 +4038,7 @@
       "time": "202611191331",
       "effort": "high",
       "harness": "claude chat",
-      "grade": "",
+      "grade": "B",
       "file": "texts/价值_Claude-Opus-5.5_2611191331.txt",
       "manual": true
     },
