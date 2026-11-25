@@ -1,57 +1,52 @@
-﻿# 在仓库目录运行：提交本地改动，并经本机代理推送到 GitHub。
-cmd /c "chcp 65001 >nul"
-[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
-$OutputEncoding = [System.Text.Encoding]::UTF8
-$proxy = "http://127.0.0.1:10808"
-$ghDir = "C:\Program Files\GitHub CLI"
+﻿# 在当前分支生成静态资源索引、提交并推送。兼容 Windows PowerShell 5.1。
+$ErrorActionPreference = "Stop"
 Set-Location -LiteralPath $PSScriptRoot
-
-$env:HTTP_PROXY = $proxy
-$env:HTTPS_PROXY = $proxy
-$env:GIT_TERMINAL_PROMPT = "0"
-$env:Path = "$ghDir;" + $env:Path
-
-function Fail($message) {
-  Write-Host $message
-  exit 1
-}
-
-if (-not (Test-Path -LiteralPath (Join-Path $ghDir "gh.exe"))) {
-  Fail "找不到 GitHub CLI。请先安装 gh，并完成 gh auth login。"
-}
-
-git rev-parse --is-inside-work-tree *> $null
-if ($LASTEXITCODE -ne 0) {
-  Fail "当前目录不是 git 仓库。"
-}
+[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false)
+$OutputEncoding = [Console]::OutputEncoding
 
 try {
+  $branch = git symbolic-ref --quiet --short HEAD
+  if ($LASTEXITCODE -ne 0) { throw "请先切换到用于上传的分支。" }
+  $remote = git remote get-url --push origin
+  if ($LASTEXITCODE -ne 0) { throw "当前仓库没有 origin 远程地址。" }
+
+  & (Join-Path $PSScriptRoot "tools/check_catalog.ps1")
   & (Join-Path $PSScriptRoot "tools/update_asset_versions.ps1")
-} catch {
-  Fail ("资源版本更新失败：" + $_.Exception.Message)
-}
+  git add -A
+  if ($LASTEXITCODE -ne 0) { throw "暂存站点文件失败。" }
 
-git add -A
-if ($LASTEXITCODE -ne 0) {
-  Fail "git add 失败。"
-}
+  git diff --cached --quiet
+  if ($LASTEXITCODE -eq 1) {
+    git commit -m ("更新站点 " + (Get-Date -Format "yyyy-MM-dd HH:mm"))
+    if ($LASTEXITCODE -ne 0) { throw "提交失败。" }
+  } elseif ($LASTEXITCODE -ne 0) { throw "无法读取待提交改动。" }
 
-$dirty = git status --porcelain
-if ($dirty) {
-  $message = "更新站点 " + (Get-Date -Format "yyyy-MM-dd HH:mm")
-  git commit -m $message
-  if ($LASTEXITCODE -ne 0) {
-    Fail "提交失败。"
+  $gitOptions = @()
+  if ($remote -match "^https://github\.com/") {
+    $ghPath = Join-Path $env:ProgramFiles "GitHub CLI"
+    if (Test-Path -LiteralPath (Join-Path $ghPath "gh.exe")) { $env:Path += ";$ghPath" }
+    if (Get-Command gh -ErrorAction SilentlyContinue) {
+      # Try the existing gh login first, then allow normal Git credentials.
+      $helpers = @(git config --get-all credential.helper)
+      $gitOptions += @("-c", "credential.helper=", "-c", "credential.helper=!gh auth git-credential")
+      foreach ($helper in $helpers) { $gitOptions += @("-c", "credential.helper=$helper") }
+    }
+    # Honor configured proxies. Keep compatibility with the original local proxy when running.
+    $gitProxy = git config --get-urlmatch http.proxy $remote
+    if (!$gitProxy -and !$env:HTTPS_PROXY -and !$env:HTTP_PROXY -and !$env:ALL_PROXY) {
+      $client = [Net.Sockets.TcpClient]::new()
+      try {
+        if ($client.ConnectAsync("127.0.0.1", 10808).Wait(250) -and $client.Connected) {
+          $gitOptions += @("-c", "http.proxy=http://127.0.0.1:10808")
+        }
+      } catch {} finally { $client.Dispose() }
+    }
   }
-  Write-Host "已提交：$message"
-} else {
-  Write-Host "没有新的文件改动。"
-}
 
-git -c credential.helper= -c "credential.helper=!gh auth git-credential" -c "http.proxy=$proxy" -c "https.proxy=$proxy" push -u origin HEAD
-if ($LASTEXITCODE -ne 0) {
-  Fail "推送失败。请确认代理 $proxy 已开启，并且已执行 gh auth login。"
+  git @gitOptions push --set-upstream origin "HEAD:refs/heads/$branch"
+  if ($LASTEXITCODE -ne 0) { throw "上传失败。本地提交已保留，请检查网络、登录和远端分支状态后重试。" }
+  Write-Host "已上传到 origin/$branch。"
+} catch {
+  Write-Host $_.Exception.Message -ForegroundColor Red
+  exit 1
 }
-
-Write-Host "已推送到 GitHub。"
-Write-Host "https://asdleaving.github.io/NovellaArena/"

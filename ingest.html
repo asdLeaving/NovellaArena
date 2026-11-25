@@ -4,28 +4,31 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>导入文稿 · NovellaArena</title>
-  <link rel="stylesheet" href="assets/style.css?v=1324e96a7e593d449797cb62154b2767b2e861195d4d5ef707baddcb4fa0f564">
-  <script src="assets/load-assets.js?v=e232506c0e367be7897736cb34e66da285b2b35c1687454cfc4a8cd6b3f07a38" data-scripts="assets/models.js?v=054a39d812e9d32ecd969134ead2162f3179da19ca3ac30b6376b01d8839d58f assets/ingest.js?v=aeb445fddb01288d23442582848cc246af2c656ee7d9ee4352fc1a3ebe06c312"></script>
+  <link rel="stylesheet" href="assets/style.css?v=d4f154ff305e2e194a39278131fb2d2b0260bc74aa10fe5ef3fbe01252868b1b">
+  <script defer onerror="document.documentElement.classList.add('asset-error')" src="assets/models.js?v=054a39d812e9d32ecd969134ead2162f3179da19ca3ac30b6376b01d8839d58f"></script>
+  <script defer onerror="document.documentElement.classList.add('asset-error')" src="assets/import-files.js?v=c64489653124e08f351ce464500347d0d05d3bf4710050324cb60824cbb58331"></script>
+  <script defer onerror="document.documentElement.classList.add('asset-error')" src="assets/ingest.js?v=1da35f2464012fd0a4c3041cb1a036170e1fd89e69a99257c742e231d40b3513"></script>
 </head>
-<body>
+<body data-page="ingest">
+  <p class="error asset-message" role="alert">网页脚本未能加载。<button type="button" onclick="location.reload()">重新加载</button></p>
   <div class="topbar">
     <a class="back" href="index.html">返回主页</a>
-    <strong>导入文稿</strong>
+    <strong lang="en">NovellaArena</strong>
   </div>
-  <main class="page">
-    <p class="lede">把符合「题目_模型_yymmddhhmm.txt」的文稿拖进来。模型名会归一成空格分隔的规范写法，并和已有列合并。网页标注的文稿不会收入。</p>
-    <div class="drop" id="drop">
-      <div>
-        <p>把 .txt 拖到这里，或点击选择文件</p>
-        <input id="file" type="file" accept=".txt,text/plain">
-      </div>
-    </div>
+  <main class="page import-page">
+    <h1>导入文稿</h1>
+    <p class="lede" id="file-help">文件名格式为 <code>题目_模型_yymmddhhmm.txt</code>。模型名会归一成空格分隔的规范写法，并和已有列合并。网页标注的文稿不会收入。</p>
+    <label class="drop" id="drop">
+      <span class="drop-title">选择 .txt 文稿</span>
+      <span class="drop-hint">也可拖放文件到这里</span>
+      <input id="file" type="file" accept=".txt,text/plain" aria-label="选择 .txt 文稿" aria-describedby="file-help">
+    </label>
     <section id="panel" class="hidden">
-      <div class="preview" id="preview"></div>
+      <div class="preview" id="preview" role="status"></div>
       <div class="choice-stack">
         <div class="field">
-          <span>Harness</span>
-          <div class="choice-row" id="harness" role="radiogroup">
+          <span id="harnessLabel">Harness</span>
+          <div class="choice-row" id="harness" role="group" aria-labelledby="harnessLabel">
             <button type="button" data-value="cursor">cursor</button>
             <button type="button" data-value="codex">codex</button>
             <button type="button" data-value="claude chat">claude chat</button>
@@ -37,8 +40,8 @@
           <input id="harnessCustom" type="text" autocomplete="off">
         </label>
         <div class="field">
-          <span>Effort</span>
-          <div class="choice-row" id="effort" role="radiogroup">
+          <span id="effortLabel">Effort</span>
+          <div class="choice-row" id="effort" role="group" aria-labelledby="effortLabel">
             <button type="button" data-value="">未记录</button>
             <button type="button" data-value="low">low</button>
             <button type="button" data-value="medium">medium</button>
@@ -52,8 +55,8 @@
           <input id="effortCustom" type="text" autocomplete="off">
         </label>
         <div class="field">
-          <span>生成质量</span>
-          <div class="choice-row" id="grade" role="radiogroup">
+          <span id="qualityLabel">生成质量</span>
+          <div class="choice-row" id="grade" role="group" aria-labelledby="qualityLabel">
             <button type="button" class="g-unset" data-value="">未定</button>
             <button type="button" class="g-a" data-value="A">A</button>
             <button type="button" class="g-b" data-value="B">B</button>
@@ -63,16 +66,17 @@
           </div>
         </div>
         <div id="releaseWrap" class="model-settings hidden">
-          <label>模型发布日期
-            <span class="date-parts">
+          <div class="field">
+            <span id="releaseDateLabel">模型发布日期</span>
+            <span class="date-parts" role="group" aria-labelledby="releaseDateLabel">
               <input id="releaseYear" inputmode="numeric" maxlength="4" placeholder="年" aria-label="年" autocomplete="off">
               <input id="releaseMonth" inputmode="numeric" maxlength="2" placeholder="月" aria-label="月" autocomplete="off">
               <input id="releaseDay" inputmode="numeric" maxlength="2" placeholder="日" aria-label="日" autocomplete="off">
             </span>
-          </label>
+          </div>
           <div class="field">
             <span id="modelVisibilityLabel">显示在列表中</span>
-            <div class="choice-row" id="modelVisibility" role="radiogroup" aria-labelledby="modelVisibilityLabel">
+            <div class="choice-row" id="modelVisibility" role="group" aria-labelledby="modelVisibilityLabel">
               <button type="button" data-value="yes">是</button>
               <button type="button" data-value="no">否</button>
             </div>
@@ -85,7 +89,7 @@
         </label>
         <div class="field">
           <span id="promptGradeLabel">Prompt 开放度（可选）</span>
-          <div class="choice-row" id="promptGrade" role="radiogroup" aria-labelledby="promptGradeLabel" aria-describedby="promptGradeHelp">
+          <div class="choice-row" id="promptGrade" role="group" aria-labelledby="promptGradeLabel" aria-describedby="promptGradeHelp">
             <button type="button" class="on" data-value="__keep" aria-pressed="true">保持原评级</button>
             <button type="button" class="g-unset" data-value="">未定</button>
             <button type="button" class="g-a" data-value="A">A</button>
@@ -99,9 +103,10 @@
       </div>
       <div class="actions">
         <button class="primary" id="save" type="button">加入网页</button>
+        <button class="button" id="export" type="button">下载导入包</button>
         <span id="dirLabel" class="note"></span>
       </div>
-      <p id="message" class="note"></p>
+      <p id="message" class="note" role="status"></p>
     </section>
   </main>
 </body>

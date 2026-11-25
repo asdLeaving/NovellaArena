@@ -1,160 +1,62 @@
 (function () {
-  var GRADE = { "": "g-unset", A: "g-a", B: "g-b", C: "g-c", D: "g-d", E: "g-e" };
-  var coverFiles = {};
+  "use strict";
+  const { loadJSON, loadCatalog, loadCoverFiles, showError, coverUrl, gradeClass, effortText,
+    compareModels, displayTitle, byGradeThenTimeDesc } = window.Arena;
+  const $ = id => document.getElementById(id);
+  const wrap = $("table");
+  const topicFilter = $("filter");
+  const modelFilter = $("filter-model");
+  const showAll = $("show-all");
+  const gradeButtons = Array.from(document.querySelectorAll(".legend button[data-grade]"));
+  const mobile = window.matchMedia("(max-width: 600px)");
+  const list = $("showcase").querySelector(".showcase-list");
+  const slots = Array.from(list.children);
+  const cards = new WeakMap();
+  const failedCovers = new Set();
+  const more = document.createElement("button");
+  // A restored document can receive pagehide after history writes are disabled. Give
+  // this specific history entry a storage key while the document is fully active.
+  const viewKey = history.state?.arenaViewKey || ("arena-view-" + Date.now() + "-" + Math.random());
+  let saved = history.state?.arenaIndex || {};
+  try {
+    history.replaceState({ ...history.state, arenaViewKey: viewKey }, "");
+    saved = JSON.parse(sessionStorage.getItem(viewKey)) || saved;
+  } catch { /* Private browsing may disable storage. */ }
+  let pages = Math.max(1, Number(saved.pages) || 1);
+  let selectedGrade = ["", "A", "B", "C", "D", "E"].includes(saved.grade) ? saved.grade : null;
+  let allModels = saved.all === true;
+  let catalog;
+  let models;
+  let best;
+  let entriesById;
+  let tallies;
+  let index = { titles: {}, references: {} };
+  let covers;
+  let rows = [];
+  let emptyStatus;
+  let firstRender = true;
 
-  function $(id) { return document.getElementById(id); }
-
-  function showError(message) {
-    document.querySelectorAll("[data-loading-message]").forEach(function (status) {
-      status.textContent = status.getAttribute("data-loading-message") + "加载失败，请刷新重试。";
-      status.parentElement.setAttribute("aria-busy", "false");
-    });
-    var node = $("catalog-error");
-    if (!node) {
-      node = document.createElement("p");
-      node.id = "catalog-error";
-      node.className = "error";
-      node.setAttribute("role", "status");
-      document.body.prepend(node);
-    }
-    node.textContent = message;
+  function element(tag, className, label) {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (label != null) node.textContent = label;
+    return node;
   }
 
-  async function loadCatalog() {
-    var response = await fetch("data/catalog.json", { cache: "no-store" });
-    if (!response.ok) {
-      var missing = new Error("打不开 data/catalog.json。请双击「打开网页.bat」，或在发布后通过 GitHub Pages 访问。直接双击 html 时，浏览器不允许读取旁边的数据文件。");
-      missing.catalogKind = "open";
-      throw missing;
-    }
-    var text = await response.text();
-    try {
-      return JSON.parse(text);
-    } catch (error) {
-      var detail = error && error.message ? "：" + error.message : "";
-      var parseError = new Error("data/catalog.json 解析失败" + detail + "。请检查这个文件的 JSON 格式。");
-      parseError.catalogKind = "parse";
-      throw parseError;
-    }
-  }
-
-  async function loadCoverFiles() {
-    try {
-      var response = await fetch("data/covers.json", { cache: "no-store" });
-      if (!response.ok) return null;
-      var manifest = await response.json();
-      return manifest.covers || null;
-    } catch (error) {
-      // Covers are optional; a failed index request must not block the manuscripts.
-      return null;
-    }
-  }
-
-  function coverUrl(entry) {
-    if (!entry.file) return "";
-    var stem = entry.file.split(/[\\/]/).pop().replace(/\.[^.]+$/, "");
-    var cover = coverFiles[stem];
-    if (!cover || !cover.file || !cover.version) return "";
-    return "assets/covers/" + encodeURIComponent(cover.file) + "?v=" + encodeURIComponent(cover.version);
-  }
-
-  function effortText(value) {
-    return value ? value : "未记录";
-  }
-
-  function naturalTime(value) {
-    var digits = String(value || "");
-    var compact = /^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})$/.exec(digits);
-    if (compact) return compact[1] + "年" + compact[2] + "月" + compact[3] + "日 " + compact[4] + ":" + compact[5];
-    var spaced = /^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2})$/.exec(digits);
-    if (spaced) return spaced[1] + "年" + spaced[2] + "月" + spaced[3] + "日 " + spaced[4] + ":" + spaced[5];
-    return digits;
-  }
-
-  function isHan(code) {
-    return code === 0x3007
-      || (code >= 0x3400 && code <= 0x4DBF)
-      || (code >= 0x4E00 && code <= 0x9FFF)
-      || (code >= 0xF900 && code <= 0xFAFF)
-      || (code >= 0x20000 && code <= 0x2EBEF)
-      || (code >= 0x30000 && code <= 0x323AF);
-  }
-
-  function countHan(text) {
-    var count = 0;
-    for (var ch of text) {
-      if (isHan(ch.codePointAt(0))) count += 1;
-    }
-    return count;
-  }
-
-  function referenceLabel(filename) {
-    var base = filename.split(/[\\/]/).pop();
-    var stem = base.replace(/\.(?:xhtml|html|txt|pdf|epub|md)$/i, "").trim();
-    if (stem.replace(/[^A-Za-z]/g, "").toLowerCase() === "goodoldneon") return "Good Old Neon";
-    return stem;
-  }
-
-  function redactPrompt(text) {
-    var labels = [];
-    var pathRe = /[A-Za-z]:\\(?:[^\\/:*?"<>|\r\n]+\\)*[^\\/:*?"<>|\r\n]+?\.(?:xhtml|html|txt|pdf|epub|md)/gi;
-    var body = text.replace(pathRe, function (raw) {
-      if (/所用模型|时间戳|yymmdd|\{/.test(raw)) return raw;
-      labels.push(referenceLabel(raw));
-      return "";
-    });
-    var bareRe = /(?<![\w./\\])([\w\u4e00-\u9fff.\-]+\.(?:xhtml|html|txt|pdf|epub|md))/gi;
-    body = body.replace(bareRe, function (raw) {
-      if (/所用模型|时间戳|yymmdd|\{/.test(raw)) return raw;
-      labels.push(referenceLabel(raw));
-      return "";
-    });
-    body = body.replace(/参考 的风格/g, "参考其风格").replace(/参考的风格/g, "参考其风格");
-    body = body.replace(/[ \t]{2,}/g, " ").replace(/\n{3,}/g, "\n\n").trim();
-    var seen = [];
-    labels.forEach(function (label) {
-      if (label && seen.indexOf(label) < 0) seen.push(label);
-    });
-    var lines = body.split("\n");
-    if (lines.length && /^（[^）\n]+）(?:（[^）\n]+）)*$/.test(lines[0].trim())) {
-      lines[0].trim().match(/（[^）]+）/g).forEach(function (mark) {
-        var name = mark.slice(1, -1);
-        if (seen.indexOf(name) < 0) seen.push(name);
-      });
-      lines.shift();
-      body = lines.join("\n").trim();
-    }
-    return { labels: seen, body: body };
-  }
-
-  function gradeClass(grade) {
-    return GRADE[grade] || "g-unset";
-  }
-
-  function latestMap(entries, compare) {
-    var map = new Map();
-    var count = new Map();
-    entries.forEach(function (entry) {
-      var key = entry.topic + "\0" + entry.model;
-      count.set(key, (count.get(key) || 0) + 1);
-      var prev = map.get(key);
-      if (!prev) {
-        map.set(key, entry);
-        return;
+  // The same ranking serves the unfiltered matrix, featured picks and per-grade views.
+  function groupEntries(entries, grade) {
+    const result = new Map();
+    for (const entry of entries) {
+      if (grade !== null && (entry.grade || "") !== grade) continue;
+      const key = entry.topic + "\0" + entry.model;
+      const group = result.get(key);
+      if (!group) result.set(key, { entry, count: 1 });
+      else {
+        group.count++;
+        if (byGradeThenTimeDesc(entry, group.entry) < 0) group.entry = entry;
       }
-      if (compare) {
-        if (compare(entry, prev) < 0) map.set(key, entry);
-        return;
-      }
-      var prevGraded = Boolean(prev.grade);
-      var nextGraded = Boolean(entry.grade);
-      if (nextGraded !== prevGraded) {
-        if (nextGraded) map.set(key, entry);
-        return;
-      }
-      if (entry.time > prev.time) map.set(key, entry);
-    });
-    return { latest: map, count: count };
+    }
+    return result;
   }
 
   function cellLink(entry, extra) {
@@ -198,1235 +100,337 @@
     return null;
   }
 
-  function releasedOf(model) {
-    return String(model.released || "").trim();
-  }
-
   function modelDisplayName(name) {
     // Hide a separated MMDD suffix in table headings, preserving the model identity.
     return String(name || "").replace(/\s+(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])$/, "");
   }
 
-  /* 发布日期留空的排在最左（彼此按名称），其余从新到旧。 */
-  function compareModels(a, b) {
-    var ar = releasedOf(a);
-    var br = releasedOf(b);
-    if (!ar && br) return -1;
-    if (ar && !br) return 1;
-    if (ar !== br) return ar < br ? 1 : -1;
-    if (a.name < b.name) return -1;
-    if (a.name > b.name) return 1;
-    return 0;
+
+  function logoFor(model, className) {
+    const vendor = vendorOf(model);
+    if (!vendor) return null;
+    const logo = element("img", className + (vendor.ink ? " ink" : ""));
+    logo.src = vendor.src;
+    logo.alt = logo.title = vendor.name;
+    logo.width = logo.height = 16;
+    return logo;
   }
 
-  function displayTitle(title, fallback) {
-    var text = String(title || "").trim();
-    var wrapped = /^(?:《(.+)》|「(.+)」|“(.+)”|"(.+)")$/.exec(text);
-    if (wrapped) text = (wrapped[1] || wrapped[2] || wrapped[3] || wrapped[4] || "").trim();
-    return text || fallback;
-  }
-
-  function renderShowcase(catalog) {
-    var root = $("showcase");
-    if (!root) return;
-    var picked = latestMap(catalog.entries, byGradeThenTimeDesc).latest;
-    var list = root.querySelector(".showcase-list");
-    var slots = Array.from(list.querySelectorAll("[data-model][data-topic], [data-id]"));
-    // Keep the mobile limit aligned with the two-column cover layout.
-    var mobile = window.matchMedia("(max-width: 600px)");
-    var pages = 1;
-    var renderedCount = 0;
-    var pendingTitles = 0;
-    var titleError = false;
-    list.id = "showcase-list";
-    var more = document.createElement("button");
-    more.type = "button";
-    more.className = "button showcase-more";
-    more.textContent = "显示更多";
-    more.setAttribute("aria-controls", list.id);
-    more.hidden = true;
-    root.appendChild(more);
-
-    function renderSlot(slot, index) {
-      var id = slot.getAttribute("data-id");
-      var model = slot.getAttribute("data-model") || "";
-      var topic = slot.getAttribute("data-topic") || "";
-      var entry = id
-        ? catalog.entries.find(function (item) { return item.id === id; })
-        : picked.get(topic + "\0" + model);
-      if (entry) {
-        model = entry.model;
-        topic = entry.topic;
-      }
-      slot.textContent = "";
-      var card = document.createElement(entry ? "a" : "div");
-      card.className = "showcase-work" + (entry ? "" : " unavailable");
-      if (entry) card.href = "read.html?id=" + encodeURIComponent(entry.id);
-
-      var art = document.createElement("span");
-      art.className = "showcase-art";
-      var placeholder = document.createElement("span");
-      placeholder.className = "showcase-placeholder";
-      placeholder.textContent = "封面待补";
-      placeholder.setAttribute("aria-hidden", "true");
-      art.appendChild(placeholder);
-      var coverSrc = entry ? coverUrl(entry) : "";
-      if (coverSrc) {
-        var cover = document.createElement("img");
-        cover.className = "showcase-cover";
-        cover.alt = "";
-        cover.width = 512;
-        cover.height = 512;
-        cover.loading = index < 5 ? "eager" : "lazy";
-        cover.decoding = "async";
-        cover.addEventListener("load", function () {
-          art.classList.add("has-cover");
-        });
-        cover.addEventListener("error", function () {
-          cover.remove();
-          art.classList.remove("has-cover");
-        });
-        cover.src = coverSrc;
-        art.appendChild(cover);
-      }
-      var complexity = (slot.getAttribute("complexity") || "中").trim();
-      if (["高", "中", "低"].indexOf(complexity) < 0) complexity = "中";
-      var complexityTag = document.createElement("span");
-      complexityTag.className = "showcase-complexity complexity-"
-        + (complexity === "高" ? "high" : complexity === "低" ? "low" : "medium");
-      complexityTag.textContent = complexity;
-      complexityTag.title = "严肃程度：" + complexity;
-      complexityTag.setAttribute("aria-label", complexityTag.title);
-      art.appendChild(complexityTag);
-      card.appendChild(art);
-
-      var title = document.createElement("h3");
-      title.className = "showcase-title";
-      title.textContent = topic || "未找到文稿";
-      card.appendChild(title);
-      var meta = document.createElement("span");
-      meta.className = "showcase-meta";
-      var vendor = vendorOf(model);
-      if (vendor) {
-        var logo = document.createElement("img");
-        logo.className = "showcase-logo" + (vendor.ink ? " ink" : "");
-        logo.src = vendor.src;
-        logo.alt = vendor.name;
-        logo.title = vendor.name;
-        logo.width = 16;
-        logo.height = 16;
-        meta.appendChild(logo);
-      }
-      var label = document.createElement("span");
-      label.className = "showcase-model";
-      label.textContent = model;
-      meta.appendChild(label);
-      var grade = document.createElement("span");
-      grade.className = "showcase-grade " + gradeClass(entry && entry.grade);
-      grade.textContent = entry ? entry.grade || "未定" : "暂无";
-      grade.title = entry ? "评级：" + (entry.grade || "未定") : "未找到文稿";
-      grade.setAttribute("aria-label", grade.title);
-      meta.appendChild(grade);
-      card.appendChild(meta);
-      slot.appendChild(card);
-      return entry ? { title: title, entry: entry, topic: topic } : null;
-    }
-
-    function loadTitles(jobs) {
-      pendingTitles += jobs.length;
-      root.setAttribute("aria-busy", pendingTitles ? "true" : "false");
-      Promise.all(jobs.map(function (job) {
-        return fetch(encodeURI(job.entry.file)).then(function (response) {
-          if (!response.ok) throw new Error("text");
-          return response.text();
-        }).then(function (text) {
-          job.title.textContent = displayTitle(parseWork(text).title, job.topic);
-          return true;
-        }).catch(function () {
-          job.title.textContent = job.topic;
-          return false;
-        });
-      })).then(function (results) {
-        pendingTitles -= jobs.length;
-        titleError = titleError || !results.every(Boolean);
-        if (pendingTitles) return;
-        root.setAttribute("aria-busy", "false");
-        var status = root.querySelector("[data-loading-message]");
-        if (!status) return;
-        if (!titleError) status.remove();
-        else {
-          status.textContent = "部分代表作标题未加载，已显示题目名称。";
-          status.removeAttribute("data-loading-message");
-        }
-      });
-    }
-
-    function showPage() {
-      var limit = Math.min(slots.length, pages * (mobile.matches ? 8 : 15));
-      slots.forEach(function (slot, index) { slot.hidden = index >= limit; });
-      var jobs = [];
-      // Create cards and request their assets only when they are first revealed.
-      while (renderedCount < limit) {
-        var job = renderSlot(slots[renderedCount], renderedCount);
-        if (job) jobs.push(job);
-        renderedCount += 1;
-      }
-      more.hidden = limit === slots.length;
-      loadTitles(jobs);
-    }
-
-    more.addEventListener("click", function () {
-      var firstNew = pages * (mobile.matches ? 8 : 15);
-      pages += 1;
-      showPage();
-      var link = slots[firstNew] && slots[firstNew].querySelector("a");
-      if (link) link.focus({ preventScroll: true });
-    });
-    mobile.addEventListener("change", showPage);
-    showPage();
-  }
-
-  function promptReferenceTitle(text) {
-    var firstLine = String(text || "").split(/\r\n?|\n/, 1)[0].trim();
-    var match = /^[（(]\s*《([^《》]+)》[^\r\n]*[）)]\s*$/.exec(firstLine);
-    return match ? match[1].trim() : "";
-  }
-
-  function appendTopicReference(topic, link) {
-    if (!topic.promptFile) return;
-    fetch(encodeURI(topic.promptFile), { cache: "no-store" }).then(function (response) {
-      if (!response.ok) throw new Error("prompt");
-      return response.text();
-    }).then(function (text) {
-      var reference = promptReferenceTitle(text);
-      if (!reference) return;
-      var label = document.createElement("span");
-      label.className = "topic-reference";
-      label.textContent = reference;
-      label.title = "参考作品：《" + reference + "》";
-      label.setAttribute("aria-label", label.title);
-      link.classList.add("has-reference");
-      link.appendChild(label);
-    }).catch(function () {
-      // An optional reference must not prevent the rating table from loading.
-    });
-  }
-
-  function renderIndex(catalog) {
-    var models = catalog.models.slice().sort(compareModels);
-    var summary = $("summary");
-    if (summary) {
-      summary.textContent = catalog.topics.length + " 道题目 · " + catalog.models.length + " 个模型 · " + catalog.entries.length + " 篇";
-    }
-    renderShowcase(catalog);
-    var groups = latestMap(catalog.entries, byGradeThenTimeDesc);
-    var selectedGrade = null;
-    var gradeButtons = document.querySelectorAll(".legend button[data-grade]");
-    function renderWorkCell(td, topic, model) {
-      var key = topic + "\0" + model;
-      var entry = groups.latest.get(key);
-      td.textContent = "";
-      td.classList.toggle("empty", !entry);
-      delete td.dataset.grade;
-      if (!entry) {
-        td.textContent = "·";
-        return;
-      }
-      td.dataset.grade = entry.grade || "";
-      var count = groups.count.get(key) || 1;
-      var mark = null;
-      if (count > 1) {
-        mark = document.createElement("span");
-        mark.className = "count";
-        mark.textContent = String(count);
-        mark.title = selectedGrade === null
-          ? "同题同模型共 " + count + " 篇。显示评级最高的一篇，同评级优先 preferred，再取生成时间最新的一篇，未评级排在 E 之后"
-          : "同题同模型符合当前评级的作品共 " + count + " 篇，显示其中最新的一篇";
-      }
-      td.appendChild(cellLink(entry, mark));
-    }
-    function markColumn(el, model) {
-      el.dataset.model = model.name;
-      if (model.hidden) el.dataset.hidden = "1";
-    }
-    var table = document.createElement("table");
-    var thead = document.createElement("thead");
-    var headRow = document.createElement("tr");
-    var corner = document.createElement("th");
-    corner.textContent = "题目名称";
-    headRow.appendChild(corner);
-    models.forEach(function (model) {
-      var th = document.createElement("th");
-      markColumn(th, model);
-      var name = document.createElement("span");
-      name.className = "model-name";
-      name.textContent = modelDisplayName(model.name);
-      name.title = model.name;
-      th.appendChild(name);
-      var tally = {};
-      groups.latest.forEach(function (entry) {
-        if (entry.model !== model.name || !entry.grade) return;
-        tally[entry.grade] = (tally[entry.grade] || 0) + 1;
-      });
-      var counts = document.createElement("span");
-      counts.className = "grade-counts";
-      counts.title = "同题同模型只统计一次，计入最高评级";
-      ["A", "B", "C", "D", "E"].forEach(function (grade) {
-        if (!tally[grade]) return;
-        var tag = document.createElement("span");
-        tag.className = gradeClass(grade);
-        tag.textContent = tally[grade] + grade;
-        counts.appendChild(tag);
-      });
-      if (counts.childNodes.length) th.appendChild(counts);
-      var foot = document.createElement("div");
-      foot.className = "model-foot";
-      if (model.released) {
-        var sub = document.createElement("span");
-        sub.className = "released";
-        sub.textContent = model.released;
-        foot.appendChild(sub);
-        th.title = "发布于 " + model.released;
-      }
-      var vendor = vendorOf(model.name);
-      if (vendor) {
-        var logo = document.createElement("img");
-        logo.className = vendor.ink ? "vendor ink" : "vendor";
-        logo.src = vendor.src;
-        logo.alt = vendor.name;
-        logo.title = vendor.name;
-        logo.width = 16;
-        logo.height = 16;
-        foot.appendChild(logo);
-      }
-      if (foot.childNodes.length) th.appendChild(foot);
-      headRow.appendChild(th);
-    });
-    thead.appendChild(headRow);
-    table.appendChild(thead);
-
-    var tbody = document.createElement("tbody");
-    catalog.topics.forEach(function (topic) {
-      var tr = document.createElement("tr");
-      tr.dataset.topic = topic.name;
-      var topicCell = document.createElement("td");
-      var topicLink = document.createElement("a");
-      topicLink.className = "cell " + gradeClass(topic.grade);
-      topicLink.href = "prompt.html?topic=" + encodeURIComponent(topic.name);
-      if (topic.grade) {
-        var badge = document.createElement("span");
-        badge.className = "badge";
-        badge.textContent = topic.grade;
-        topicLink.appendChild(badge);
-      }
-      var name = document.createElement("span");
-      name.className = "topic-name";
-      name.textContent = topic.name;
-      topicLink.appendChild(name);
-      topicLink.title = topic.promptFile ? "查看生成 prompt" : "对话记录里没有找到 prompt";
-      appendTopicReference(topic, topicLink);
-      topicCell.appendChild(topicLink);
-      tr.appendChild(topicCell);
-
-      models.forEach(function (model) {
-        var td = document.createElement("td");
-        markColumn(td, model);
-        renderWorkCell(td, topic.name, model.name);
-        tr.appendChild(td);
-      });
-      tbody.appendChild(tr);
-    });
-    table.appendChild(tbody);
-    var wrap = $("table");
-    wrap.textContent = "";
-    wrap.appendChild(table);
-    var emptyStatus = document.createElement("p");
-    emptyStatus.className = "table-note";
-    emptyStatus.setAttribute("role", "status");
-    emptyStatus.hidden = true;
-    emptyStatus.textContent = "没有符合当前筛选条件的作品。";
-    wrap.appendChild(emptyStatus);
-
-    var topicFilter = $("filter");
-    var modelFilter = $("filter-model");
-    var showAll = $("show-all");
-    function columnHidden(el, modelQ) {
-      var name = (el.dataset.model || "").toLowerCase();
-      if (modelQ && name.indexOf(modelQ) === -1) return true;
-      if (modelQ) return false;
-      if (showAll && showAll.classList.contains("on")) return false;
-      return el.dataset.hidden === "1";
-    }
-    function applyFilters() {
-      var topicQ = topicFilter ? topicFilter.value.trim() : "";
-      var modelQ = modelFilter ? modelFilter.value.trim().toLowerCase() : "";
-      var visibleRows = 0;
-      tbody.querySelectorAll("tr").forEach(function (row) {
-        var hasMatchingWork = false;
-        row.querySelectorAll("td[data-model]").forEach(function (cell) {
-          var hidden = columnHidden(cell, modelQ);
-          cell.classList.toggle("col-hidden", hidden);
-          if (!hidden && !cell.classList.contains("empty")) hasMatchingWork = true;
-        });
-        row.hidden = (Boolean(topicQ) && row.dataset.topic.indexOf(topicQ) === -1)
-          || !hasMatchingWork;
-        if (!row.hidden) visibleRows += 1;
-      });
-      headRow.querySelectorAll("th[data-model]").forEach(function (th) {
-        th.classList.toggle("col-hidden", columnHidden(th, modelQ));
-      });
-      emptyStatus.hidden = visibleRows > 0;
-    }
-    gradeButtons.forEach(function (button) {
-      button.addEventListener("click", function () {
-        selectedGrade = selectedGrade === button.dataset.grade ? null : button.dataset.grade;
-        gradeButtons.forEach(function (item) {
-          item.setAttribute("aria-pressed", item.dataset.grade === selectedGrade ? "true" : "false");
-        });
-        // Filter before choosing the displayed version so older matching works remain available.
-        groups = latestMap(catalog.entries.filter(function (entry) {
-          return selectedGrade === null || (entry.grade || "") === selectedGrade;
-        }), byGradeThenTimeDesc);
-        tbody.querySelectorAll("tr").forEach(function (row) {
-          row.querySelectorAll("td[data-model]").forEach(function (cell) {
-            renderWorkCell(cell, row.dataset.topic, cell.dataset.model);
-          });
-        });
-        applyFilters();
-      });
-    });
-    if (topicFilter) topicFilter.addEventListener("input", applyFilters);
-    if (modelFilter) modelFilter.addEventListener("input", applyFilters);
-    if (showAll) {
-      showAll.addEventListener("click", function () {
-        var on = showAll.classList.toggle("on");
-        showAll.setAttribute("aria-pressed", on ? "true" : "false");
-        applyFilters();
-      });
-    }
-    applyFilters();
-    wrap.setAttribute("aria-busy", "false");
-  }
-
-  function pageQuery() {
-    var query = location.search || "";
-    if (query.charAt(0) === "?") query = query.slice(1);
-    var mark = query.indexOf("#");
-    if (mark !== -1) query = query.slice(0, mark);
-    return new URLSearchParams(query);
-  }
-
-  function manuscriptId() {
-    var id = pageQuery().get("id") || "";
-    var mark = id.indexOf("#");
-    if (mark !== -1) id = id.slice(0, mark);
-    return id;
-  }
-
-  function findEntry(catalog, id) {
-    return catalog.entries.find(function (entry) { return entry.id === id; }) || null;
-  }
-
-  function byGradeThenTimeDesc(a, b) {
-    var grades = ["A", "B", "C", "D", "E"];
-    var aGrade = grades.indexOf(a.grade);
-    var bGrade = grades.indexOf(b.grade);
-    if (aGrade < 0) aGrade = grades.length;
-    if (bGrade < 0) bGrade = grades.length;
-    if (aGrade !== bGrade) return aGrade - bGrade;
-    var aPreferred = a.preferred === true;
-    var bPreferred = b.preferred === true;
-    if (aPreferred !== bPreferred) return aPreferred ? -1 : 1;
-    return a.time < b.time ? 1 : a.time > b.time ? -1 : 0;
-  }
-
-  function relatedGroups(catalog, entry) {
-    var both = [];
-    var topicOnly = [];
-    var modelOnly = [];
-    catalog.entries.forEach(function (item) {
-      if (item.id === entry.id) return;
-      var sameTopic = item.topic === entry.topic;
-      var sameModel = item.model === entry.model;
-      if (sameTopic && sameModel) both.push(item);
-      else if (sameTopic) topicOnly.push(item);
-      else if (sameModel) modelOnly.push(item);
-    });
-    both.sort(byGradeThenTimeDesc);
-    topicOnly.sort(byGradeThenTimeDesc);
-    modelOnly.sort(byGradeThenTimeDesc);
-    return [
-      { title: "同题目、同模型", items: both, kind: "both" },
-      { title: "仅题目相同", items: topicOnly, kind: "topic" },
-      { title: "仅模型相同", items: modelOnly, kind: "model" }
-    ].filter(function (group) { return group.items.length; });
-  }
-
-  function relatedLabel(item, kind) {
-    var when = naturalTime(item.time);
-    var head = kind === "topic" ? item.model : kind === "model" ? item.topic : "";
-    var text = head ? head + "  ·  " + when : when;
-    if (item.grade) text += "  ·  " + item.grade;
-    return text;
-  }
-
-  function isPureNumeral(text) {
-    return /^[一二三四五六七八九十百零〇]{1,3}$/.test(text) || /^\d{1,2}(?:\.\d{1,2})?$/.test(text);
-  }
-
-  function isChapterHeading(text) {
-    text = text.replace(/^【([^【】]+)】$/, "$1").trim();
-    return /^第[一二三四五六七八九十百千万零〇两0-9]+(?:[章幕篇部]|部分)(?:$|[\s　·.、:：].+)$/.test(text);
-  }
-
-  function isStandaloneSectionHeading(text) {
-    text = text.replace(/^【([^【】]+)】$/, "$1").trim();
-    return /^(?:零|〇|序章|楔子|终章|后记|引子|尾声|序|跋)(?:$|[\s　·.、:：].+)$/.test(text);
-  }
-
-  function isNumberedBodyContinuation(text, nextText) {
-    return /^[一二三四五六七八九十百零〇]{1,3}[、.．:：\s　].+/.test(text)
-      && /^[一二三四五六七八九十百零〇]{1,3}[、.．:：\s　]/.test(nextText || "")
-      && /(?:[；;，,。！？…])[”’"」』]*$/.test(text);
-  }
-
-  function endsLikeNumberedBody(text) {
-    return /[。！？…；;，,](?:[”’"」』])?(?:\s*[（(【\[].*[）)】\]])?\s*$/.test(text);
-  }
-
-  function isNumberedSection(text, sectionNumbers) {
-    var number = /^(\d{1,2})\.(\d{1,2})$/.exec(text);
-    if (!number || !sectionNumbers) return false;
-    var prefix = number[1] + ".";
-    var section = Number(number[2]);
-    return sectionNumbers.has(prefix + (section - 1)) || sectionNumbers.has(prefix + (section + 1));
-  }
-
-  var CHINESE_NUMERALS = {
-    "〇": 0, "零": 0, "一": 1, "二": 2, "三": 3, "四": 4,
-    "五": 5, "六": 6, "七": 7, "八": 8, "九": 9
-  };
-
-  function chineseNumeralValue(text) {
-    if (!/^[零〇一二三四五六七八九十百千万]{1,6}$/.test(text)) return null;
-    if (text.length === 1) {
-      if (Object.prototype.hasOwnProperty.call(CHINESE_NUMERALS, text)) return CHINESE_NUMERALS[text];
-      if (text === "十") return 10;
-      return null;
-    }
-    var ten = text.indexOf("十");
-    if (ten === -1) return null;
-    var high = ten ? CHINESE_NUMERALS[text.slice(0, ten)] : 1;
-    var low = ten === text.length - 1 ? 0 : CHINESE_NUMERALS[text.slice(ten + 1)];
-    if (high === undefined || low === undefined) return null;
-    return high * 10 + low;
-  }
-
-  function sequenceCandidate(line, index, lines) {
-    var text = line.trim();
-    if (!text || text.length > 42) return null;
-    var chinese = chineseNumeralValue(text);
-    if (chinese !== null) return { index: index, value: chinese, kind: "chinese", text: text, titled: false };
-    var chineseTitle = /^([零〇一二三四五六七八九十百千万]{1,6})(?:[\s　、.．:：]+)(\S.*)$/.exec(text);
-    if (chineseTitle) {
-      chinese = chineseNumeralValue(chineseTitle[1]);
-      if (chinese !== null && !endsLikeNumberedBody(text)) {
-        return { index: index, value: chinese, kind: "chineseTitle", text: text, titled: true };
-      }
-    }
-    var arabic = /^(\d{1,3})$/.exec(text);
-    if (arabic) return { index: index, value: Number(arabic[1]), kind: "arabic", text: text };
-    // A number followed by a title is a strong outer-heading candidate. Sentence-like
-    // lines and inline dialogue/lists are excluded before sequence inference.
-    var titled = /^(\d{1,3})(?:[\s　]+|[、．。:：]|\.\s+)(\S.*)$/.exec(text);
-    if (!titled || /^(?:[「“"（(【\[])/.test(titled[2])) return null;
-    if (endsLikeNumberedBody(text) || /\.{3}[”’"」』）)\]]*$/.test(text)) return null;
-    return { index: index, value: Number(titled[1]), kind: "arabicTitle", text: text, titled: true };
-  }
-
-  function isBareSequenceMarker(text) {
-    var chinese = chineseNumeralValue(text);
-    return /^\d{1,3}$/.test(text) || chinese !== null && chinese !== 0;
-  }
-
-  function hasIndependentParagraphBetween(lines, from, to, candidateIndexes) {
-    var paragraph = false;
-    for (var i = from + 1; i < to; i += 1) {
-      var text = lines[i].trim();
-      if (!text) {
-        continue;
-      }
-      if (candidateIndexes.has(i) || isChapterHeading(text) || isStandaloneSectionHeading(text)) {
-        if (paragraph) return true;
-        paragraph = false;
-        continue;
-      }
-      paragraph = true;
-    }
-    return paragraph;
-  }
-
-  function sequenceHeadingLevels(lines, sectionNumbers) {
-    var candidates = [];
-    var candidateIndexes = new Set();
-    var baseAnchors = [];
-    var hasExplicitContainer = lines.some(function (line) {
-      var text = line.trim();
-      return isChapterHeading(text) && !isStandaloneSectionHeading(text);
-    });
-    lines.forEach(function (line, index) {
-      var candidate = sequenceCandidate(line, index, lines);
-      if (candidate) {
-        candidates.push(candidate);
-        candidateIndexes.add(index);
-      }
-      var text = line.trim();
-      var base = headingOf(text, index === 0 || !lines[index - 1].trim(), nextNonEmpty(lines, index), sectionNumbers);
-      if (base && base.level === 1 && !isStandaloneSectionHeading(text)
-          && (!isBareSequenceMarker(text) || candidate && candidate.titled)) {
-        baseAnchors.push({ index: index, kind: candidate ? candidate.kind : null });
-      }
-    });
-
-    var groups = [];
-    function collectGroups(kind, list) {
-      var current = [];
-      function finish() {
-        if (current.length >= 2) {
-          groups.push({
-            kind: kind,
-            items: current.slice(),
-            start: current[0].index,
-            end: current[current.length - 1].index,
-            hasTitle: current.some(function (item) { return item.titled; })
-          });
-        }
-        current = [];
-      }
-      list.forEach(function (item) {
-        var previous = current[current.length - 1];
-        if (!previous) {
-          current = [item];
-          return;
-        }
-        var consecutive = item.value === previous.value + 1;
-        var hasText = hasIndependentParagraphBetween(lines, previous.index, item.index, candidateIndexes);
-        if (consecutive && hasText) current.push(item);
-        else {
-          finish();
-          current = [item];
-        }
-      });
-      finish();
-    }
-    ["arabicTitle", "arabic", "chineseTitle", "chinese"].forEach(function (kind) {
-      collectGroups(kind, candidates.filter(function (item) { return item.kind === kind; }));
-    });
-    // Some manuscripts alternate titled and bare Chinese markers (for example,
-    // odd sections carry dates while even sections do not). If the titled-only
-    // pass cannot form a sequence, validate the combined family as one run.
-    var chineseTitleGroups = groups.filter(function (group) {
-      return group.kind === "chineseTitle" && group.items.length >= 3;
-    });
-    var chineseTitles = candidates.filter(function (item) { return item.kind === "chineseTitle"; });
-    var chineseBare = candidates.filter(function (item) { return item.kind === "chinese"; });
-    if (!chineseTitleGroups.length && chineseTitles.length && chineseBare.length) {
-      collectGroups("chinese", chineseTitles.concat(chineseBare).sort(function (a, b) { return a.index - b.index; }));
-    }
-    if (!groups.length) return new Map();
-
-    function contains(outer, inner) {
-      return outer.start < inner.start && outer.end > inner.end;
-    }
-
-    function sequenceParent(outer, inner) {
-      if (contains(outer, inner)) return true;
-      // The last child sequence belongs to the final item of the outer
-      // sequence even though the outer sequence's last marker is before it.
-      var previous = null;
-      var next = null;
-      outer.items.forEach(function (item) {
-        if (item.index < inner.start) previous = item;
-        else if (next === null) next = item;
-      });
-      return Boolean(previous && (!next || inner.end < next.index)
-        && (next || outer.kind !== inner.kind || outer.hasTitle));
-    }
-
-    // Longest spans are parents. A contained sequence is a child even when its
-    // marker style changes (Arabic outer parts with Chinese inner sections, and
-    // the reverse, are both common in the corpus).
-    groups.sort(function (a, b) {
-      var aSpan = a.end - a.start;
-      var bSpan = b.end - b.start;
-      return bSpan - aSpan || a.start - b.start;
-    });
-    groups.forEach(function (group) {
-      var parent = groups.filter(function (other) { return other !== group && sequenceParent(other, group); })
-        .sort(function (a, b) { return (a.end - a.start) - (b.end - b.start); })[0];
-      var previousAnchor = baseAnchors.filter(function (anchor) { return anchor.index < group.start; }).pop();
-      if (parent) group.level = Math.min(2, (parent.level || 1) + 1);
-      else if (group.kind === "arabicTitle") group.level = 1;
-      else if (hasExplicitContainer && (group.kind === "arabic" || group.kind === "chinese")) group.level = 2;
-      else if (previousAnchor && previousAnchor.kind !== group.kind) group.level = 2;
-      else if (group.kind === "arabic") group.level = 1;
-      else group.level = 1;
-    });
-
-    var levels = new Map();
-    groups.forEach(function (group) {
-      group.items.forEach(function (item) { levels.set(item.index, group.level); });
-    });
-    return levels;
-  }
-
-  function headingOf(line, prevBlank, nextText, sectionNumbers, sequenceLevels, lineIndex) {
-    var text = line.trim();
-    if (!text || text.length > 42) return null;
-    // Explicit part/chapter and prologue/epilogue markers remain headings
-    // even when the source text omits the blank line before them.
-    if (isChapterHeading(text) || isStandaloneSectionHeading(text)) {
-      return { level: 1, text: text };
-    }
-    if (sequenceLevels && isBareSequenceMarker(text)) {
-      if (sequenceLevels.has(lineIndex)) return { level: sequenceLevels.get(lineIndex), text: text };
-      // A lone number in running prose is not enough evidence for a heading.
-      // Bare markers enter the TOC only when sequence analysis validates them.
-      return null;
-    }
-    if (sequenceLevels && sequenceLevels.has(lineIndex)) return { level: sequenceLevels.get(lineIndex), text: text };
-    if (!prevBlank) return null;
-    var wrapped = /^【([^【】]+)】$/.exec(text);
-    if (wrapped) {
-      var heading = headingOf(wrapped[1], prevBlank, nextText, sectionNumbers);
-      if (heading) return { level: heading.level, text: text };
-    }
-    if (isChapterHeading(text)) return { level: 1, text: text };
-    if (/^(?:One|Two|Three|Four|Five|Six|Seven|Eight|Nine|Ten|Eleven|Twelve|Thirteen|Fourteen|Fifteen|Sixteen|Seventeen|Eighteen|Nineteen|Twenty)$/i.test(text)) return { level: 1, text: text };
-    if (/^[一二三四五六七八九十百零〇]{1,3}$/.test(text)) return { level: 1, text: text };
-    // 排除以句末标点、省略号结尾的正文，以及同一行内列出多项的编号条目。
-    if (/^[一二三四五六七八九十百零〇]{1,3}[\s　·.、:：].+/.test(text)
-        && !/(?:[。！？…]|\.{3})[”’"」』]*$/.test(text)
-        && !/[；;]\s*[一二三四五六七八九十百零〇]{1,3}、/.test(text)
-        && !isNumberedBodyContinuation(text, nextText)) return { level: 1, text: text };
-    if (/^【(?:场景)?[一二三四五六七八九十0-9]{1,3}】/.test(text)) return { level: 1, text: text };
-    if (/^No\.?\s*\d+/i.test(text)) return { level: 1, text: text };
-    if (/^(尾声|序章|楔子|终章|后记|引子|序|跋)$/.test(text)) return { level: 1, text: text };
-    if (/^(尾声|序章|楔子|终章|后记|引子|序|跋)[\s　·.、:：].+/.test(text)) return { level: 1, text: text };
-    if (/^[\u4e00-\u9fff]{2,4}$/.test(text) && /^(\d{1,3}|[一二三四五六七八九十]{2,5})岁$/.test(nextText)) {
-      return { level: 1, text: text };
-    }
-    if (/^(?:（\d{1,3}）|\(\d{1,3}\))/.test(text)) return { level: 2, text: text };
-    if (/^\d{1,2}$/.test(text) || isNumberedSection(text, sectionNumbers)) return { level: 2, text: text };
-    return null;
-  }
-
-  function nextNonEmpty(lines, index) {
-    for (var i = index + 1; i < lines.length; i += 1) {
-      if (lines[i].trim()) return lines[i].trim();
-    }
-    return "";
-  }
-
-  function isAppendixStart(line) {
-    var text = line.trim().replace(/^#{1,6}\s*/, "").replace(/\*\*/g, "").replace(/^[【（(\[]\s*/, "");
-    return /^(?:注释|注解|脚注|尾注|附注|参考资料|参考文献|资料来源|生成情况(?:备注|说明)?|生成说明|生成备注|创作与资料说明|创作说明|写作说明|素材说明|修订记|修订说明)\s*(?:[：:】）)\]]|$)/.test(text);
-  }
-
-  function countWorkHan(lines, sectionNumbers) {
-    var end = lines.length;
-    // 只查找最后一个正文标题之后的附加内容；不改变页面上的原文和目录。
-    for (var i = lines.length - 1; i > 0; i -= 1) {
-      var text = lines[i].trim();
-      if (!text) continue;
-      if (isAppendixStart(text)) {
-        end = i;
-      } else if (headingOf(text, !lines[i - 1].trim(), nextNonEmpty(lines, i), sectionNumbers)) {
-        break;
-      }
-    }
-    return countHan(lines.slice(0, end).join("\n"));
-  }
-
-  function parseWork(raw) {
-    var lines = raw.replace(/^\uFEFF/, "").replace(/\r\n/g, "\n").replace(/\r/g, "\n").split("\n");
-    // A neighboring section number distinguishes headings such as 1.1/1.2 from standalone decimals.
-    var sectionNumbers = new Set(lines.filter(function (line, index) {
-      return (index === 0 || !lines[index - 1].trim()) && /^\d{1,2}\.\d{1,2}$/.test(line.trim());
-    }).map(function (line) { return line.trim(); }));
-    var sequenceLevels = sequenceHeadingLevels(lines, sectionNumbers);
-    var blocks = [];
-    var first = "";
-    var firstIndex = 0;
-    for (var i = 0; i < lines.length; i += 1) {
-      if (lines[i].trim()) { first = lines[i].trim(); firstIndex = i; break; }
-    }
-    var title = "";
-    var skipFirst = false;
-    if (first && first.length <= 22 && !/[。！？]$/.test(first)
-        && !headingOf(first, true, "", sectionNumbers, sequenceLevels, firstIndex)) {
-      title = displayTitle(first, "");
-      skipFirst = true;
-    }
-    var seenTitle = !skipFirst;
-    var inChapter = false;
-    lines.forEach(function (line, index) {
-      var text = line.trim();
-      if (!text) return;
-      if (!seenTitle) {
-        seenTitle = true;
-        return;
-      }
-      var prevBlank = index === 0 || !lines[index - 1].trim();
-      var heading = headingOf(text, prevBlank, nextNonEmpty(lines, index), sectionNumbers, sequenceLevels, index);
-      if (heading) {
-        if (inChapter && /^[一二三四五六七八九十百零〇]{1,3}$/.test(text)) {
-          heading.level = 2;
-        } else if (heading.level === 1) {
-          inChapter = isChapterHeading(text);
-        }
-      }
-      blocks.push(heading ? { type: "h", level: heading.level, text: heading.text } : { type: "p", text: text });
-    });
-    return { title: title, blocks: blocks, chars: countWorkHan(lines, sectionNumbers) };
-  }
-
-  function loadReaderCover(entry, title, onLoad) {
-    var src = coverUrl(entry);
+  function updateCover(slot, art, src, eager) {
+    if (art.dataset.src === src && !failedCovers.has(slot)) return;
+    failedCovers.delete(slot);
+    art.dataset.src = src;
+    art.querySelector("img")?.remove();
+    art.classList.remove("has-cover");
     if (!src) return;
-    var cover = document.createElement("img");
-    cover.className = "reader-cover";
-    cover.alt = title + "封面";
-    cover.decoding = "async";
-    cover.addEventListener("load", function () { onLoad(cover); });
-    cover.src = src;
+    const img = element("img", "showcase-cover");
+    img.width = img.height = 512;
+    img.alt = "";
+    img.loading = eager ? "eager" : "lazy";
+    img.decoding = "async";
+    img.onload = () => art.classList.add("has-cover");
+    img.onerror = () => {
+      if (!art.contains(img)) return;
+      failedCovers.add(slot);
+      img.remove();
+    };
+    img.src = src;
+    art.append(img);
   }
 
-  function renderRead(catalog) {
-    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
-    var glued = pageQuery().get("id") || "";
-    var gluedMark = glued.indexOf("#");
-    if (gluedMark !== -1 && !location.hash) {
-      history.replaceState(null, "", location.pathname + "?id=" + encodeURIComponent(glued.slice(0, gluedMark)) + glued.slice(gluedMark));
-    }
-    var id = manuscriptId();
-    var entry = id && findEntry(catalog, id);
-    var mount = $("reader");
-    if (!entry) {
-      mount.textContent = "没有找到这篇文稿。";
-      return;
-    }
-    fetch(encodeURI(entry.file)).then(function (response) {
-      if (!response.ok) throw new Error("text");
-      return response.text();
-    }).then(function (raw) {
-      var work = parseWork(raw);
-      var when = naturalTime(entry.time);
-      document.title = (work.title || entry.topic) + " · " + when + " · NovellaArena";
-      var layout = document.createElement("div");
-      layout.className = "reader";
-      var tocBar = document.createElement("div");
-      tocBar.className = "toc-bar";
-      var tocToggle = document.createElement("button");
-      tocToggle.type = "button";
-      tocToggle.className = "button toc-toggle";
-      tocToggle.textContent = "目录";
-      tocToggle.setAttribute("aria-expanded", "false");
-      tocToggle.setAttribute("aria-controls", "toc");
-      var toc = document.createElement("nav");
-      toc.className = "toc";
-      toc.id = "toc";
-      toc.setAttribute("aria-label", "目录");
-      var label = document.createElement("p");
-      label.textContent = "目录";
-      toc.appendChild(label);
-      var mobileToc = window.matchMedia("(max-width: 760px)");
-      function setTocOpen(open) {
-        tocBar.classList.toggle("toc-open", open);
-        tocToggle.setAttribute("aria-expanded", open ? "true" : "false");
-        tocToggle.textContent = open ? "收起目录" : "目录";
-      }
-      tocToggle.addEventListener("click", function () {
-        var open = !tocBar.classList.contains("toc-open");
-        setTocOpen(open);
-        if (open) {
-          var active = toc.querySelector("a.active");
-          if (active) revealTocLink(active);
-        }
-      });
-      tocBar.appendChild(tocToggle);
-      tocBar.appendChild(toc);
-      document.addEventListener("pointerdown", function (event) {
-        if (mobileToc.matches && !tocBar.contains(event.target)) setTocOpen(false);
-      });
-      document.addEventListener("focusin", function (event) {
-        if (mobileToc.matches && !tocBar.contains(event.target)) setTocOpen(false);
-      });
-      document.addEventListener("keydown", function (event) {
-        if (event.key === "Escape" && mobileToc.matches && tocBar.classList.contains("toc-open")) {
-          setTocOpen(false);
-          tocToggle.focus();
-        }
-      });
-
-      var article = document.createElement("article");
-      var head = document.createElement("div");
-      head.className = "article-head";
-      head.id = "top";
-      var h1 = document.createElement("h1");
-      h1.textContent = work.title || entry.topic;
-      var sub = document.createElement("p");
-      sub.className = "subhead";
-      sub.textContent = when;
-      var meta = document.createElement("p");
-      meta.className = "meta-line";
-      var bits = [entry.topic, entry.model, effortText(entry.effort) + " · " + entry.harness, work.chars + " 字"];
-      if (entry.grade) bits.push("质量 " + entry.grade);
-      meta.textContent = bits.join("  ·  ");
-      head.appendChild(h1);
-      head.appendChild(sub);
-      head.appendChild(meta);
-      article.appendChild(head);
-
-      var prose = document.createElement("div");
-      prose.className = "prose";
-      var groups = relatedGroups(catalog, entry);
-      var tocLinks = [];
-      var pinnedId = "";
-      function revealTocLink(link) {
-        var tocRect = toc.getBoundingClientRect();
-        var linkRect = link.getBoundingClientRect();
-        var pad = 8;
-        if (linkRect.top < tocRect.top + pad) {
-          toc.scrollTop -= tocRect.top + pad - linkRect.top;
-        } else if (linkRect.bottom > tocRect.bottom - pad) {
-          toc.scrollTop += linkRect.bottom - (tocRect.bottom - pad);
-        }
-      }
-      function activate(id) {
-        var current = null;
-        tocLinks.forEach(function (item) {
-          var on = item.id === id;
-          item.link.classList.toggle("active", on);
-          if (on) current = item.link;
-        });
-        if (current) revealTocLink(current);
-      }
-      function jumpTo(id, target) {
-        pinnedId = id;
-        if (mobileToc.matches) setTocOpen(false);
-        activate(id);
-        target.scrollIntoView({ behavior: "smooth", block: "start" });
-        history.replaceState(null, "", location.pathname + location.search + "#" + id);
-      }
-      var topLink = document.createElement("a");
-      topLink.href = "#top";
-      topLink.textContent = "全文";
-      topLink.className = "active";
-      topLink.addEventListener("click", function (event) {
-        event.preventDefault();
-        jumpTo("top", head);
-      });
-      toc.appendChild(topLink);
-      tocLinks.push({ id: "top", link: topLink });
-
-      var headingCount = 0;
-      work.blocks.forEach(function (block) {
-        if (block.type === "h") {
-          headingCount += 1;
-          var hid = "h-" + headingCount;
-          var hx = document.createElement(block.level === 1 ? "h2" : "h3");
-          hx.id = hid;
-          hx.textContent = block.text;
-          if (isPureNumeral(block.text)) hx.className = "center";
-          prose.appendChild(hx);
-          var link = document.createElement("a");
-          link.href = "#" + hid;
-          link.textContent = block.text;
-          if (block.level === 2) link.className = "lv2";
-          link.addEventListener("click", function (event) {
-            event.preventDefault();
-            jumpTo(hid, hx);
-          });
-          toc.appendChild(link);
-          tocLinks.push({ id: hid, link: link });
-        } else {
-          var p = document.createElement("p");
-          p.textContent = block.text;
-          prose.appendChild(p);
-        }
-      });
-      article.appendChild(prose);
-
-      var topicRow = catalog.topics.find(function (item) { return item.name === entry.topic; });
-      var promptJump = document.createElement("a");
-      promptJump.className = "prompt-jump " + gradeClass(topicRow ? topicRow.grade : "");
-      promptJump.href = "prompt.html?topic=" + encodeURIComponent(entry.topic);
-      promptJump.textContent = "查看prompt";
-      article.appendChild(promptJump);
-
-      if (groups.length) {
-        var relJump = document.createElement("a");
-        relJump.href = "#related";
-        relJump.className = "toc-related";
-        relJump.textContent = "相关文稿";
-        relJump.addEventListener("click", function (event) {
-          event.preventDefault();
-          var target = document.getElementById("related");
-          if (!target) return;
-          jumpTo("related", target);
-        });
-        toc.appendChild(relJump);
-        tocLinks.push({ id: "related", link: relJump });
-
-        var related = document.createElement("section");
-        related.className = "related";
-        related.id = "related";
-        var rh = document.createElement("h2");
-        rh.textContent = "相关文稿";
-        related.appendChild(rh);
-        groups.forEach(function (group) {
-          var heading = document.createElement("h3");
-          heading.textContent = group.title;
-          related.appendChild(heading);
-          var list = document.createElement("div");
-          list.className = "related-list";
-          group.items.forEach(function (item) {
-            var link = document.createElement("a");
-            link.className = gradeClass(item.grade);
-            link.href = "read.html?id=" + encodeURIComponent(item.id);
-            var left = document.createElement("span");
-            left.textContent = relatedLabel(item, group.kind);
-            var right = document.createElement("span");
-            right.textContent = effortText(item.effort) + " · " + item.harness;
-            link.appendChild(left);
-            link.appendChild(right);
-            list.appendChild(link);
-          });
-          related.appendChild(list);
-        });
-        article.appendChild(related);
-      }
-
-      layout.appendChild(tocBar);
-      layout.appendChild(article);
-      mount.textContent = "";
-      mount.appendChild(layout);
-      function placeToc() {
-        setTocOpen(false);
-        if (mobileToc.matches) document.querySelector(".topbar").appendChild(tocBar);
-        else layout.insertBefore(tocBar, article);
-      }
-      placeToc();
-      mobileToc.addEventListener("change", placeToc);
-
-      var readingLine = 96;
-      function syncToc() {
-        if (pinnedId) {
-          var pinned = document.getElementById(pinnedId);
-          if (pinned && Math.abs(pinned.getBoundingClientRect().top - readingLine) > 48) return;
-          pinnedId = "";
-        }
-        var current = tocLinks.length ? tocLinks[0].id : "top";
-        tocLinks.forEach(function (item) {
-          var el = document.getElementById(item.id);
-          if (el && el.getBoundingClientRect().top <= readingLine) current = item.id;
-        });
-        var link = null;
-        var changed = false;
-        tocLinks.forEach(function (item) {
-          var on = item.id === current;
-          if (on && !item.link.classList.contains("active")) changed = true;
-          item.link.classList.toggle("active", on);
-          if (on) link = item.link;
-        });
-        if (changed && link) revealTocLink(link);
-      }
-      var ticking = false;
-      window.addEventListener("scroll", function () {
-        if (ticking) return;
-        ticking = true;
-        requestAnimationFrame(function () {
-          ticking = false;
-          syncToc();
-        });
-      }, { passive: true });
-      window.addEventListener("wheel", function () { pinnedId = ""; }, { passive: true });
-      window.addEventListener("touchmove", function () { pinnedId = ""; }, { passive: true });
-      function scrollToHash() {
-        var raw = location.hash;
-        if (!raw || raw === "#") return;
-        var targetId = raw.slice(1);
-        try { targetId = decodeURIComponent(targetId); } catch (error) { return; }
-        var target = document.getElementById(targetId);
-        if (!target) return;
-        pinnedId = targetId;
-        activate(targetId);
-        target.scrollIntoView({ behavior: "auto", block: "start" });
-      }
-      scrollToHash();
-      requestAnimationFrame(function () {
-        scrollToHash();
-        syncToc();
-      });
-      loadReaderCover(entry, work.title || entry.topic, function (cover) {
-        var before = prose.getBoundingClientRect().top;
-        article.insertBefore(cover, prose);
-        // 封面晚于正文加载时，保持正在阅读的段落或章节锚点位置。
-        if (before < readingLine) {
-          window.scrollBy(0, prose.getBoundingClientRect().top - before);
-        }
-        syncToc();
-      });
-    }).catch(function () {
-      mount.textContent = "正文没有加载出来。请通过本地服务器或 GitHub Pages 打开本站。";
-    });
-  }
-
-  function renderPrompt(catalog) {
-    var topicName = pageQuery().get("topic");
-    var topic = catalog.topics.find(function (item) { return item.name === topicName; });
-    var mount = $("prompt");
-    if (!topic) {
-      mount.textContent = "没有找到这道题目。";
-      return;
-    }
-    var when = topic.promptAt ? naturalTime(topic.promptAt) : "";
-    document.title = topic.name + (when ? " · " + when : "") + " · 生成 prompt · NovellaArena";
-    var h1 = document.createElement("h1");
-    h1.textContent = topic.name;
-    if (when) {
-      var sub = document.createElement("p");
-      sub.className = "subhead";
-      sub.textContent = when;
-      mount.appendChild(h1);
-      mount.appendChild(sub);
-    } else {
-      mount.appendChild(h1);
-    }
-    var meta = document.createElement("p");
-    meta.className = "meta-line";
-    meta.textContent = topic.promptAt ? "其中一版prompt，不同篇目可能有所调整" : "对话记录中没有找到生成 prompt";
-    mount.appendChild(meta);
-    if (!topic.promptFile) {
-      appendTopicWorks(mount, catalog, topic.name);
-      return;
-    }
-    fetch(encodeURI(topic.promptFile)).then(function (response) {
-      if (!response.ok) throw new Error("prompt");
-      return response.text();
-    }).then(function (text) {
-      var cleaned = redactPrompt(text);
-      if (cleaned.labels.length) {
-        var refs = document.createElement("p");
-        refs.className = "prompt-refs";
-        cleaned.labels.forEach(function (label) {
-          var code = document.createElement("code");
-          code.textContent = "（" + label + "）";
-          refs.appendChild(code);
-        });
-        mount.appendChild(refs);
-      }
-      var pre = document.createElement("pre");
-      pre.className = "prompt";
-      pre.textContent = cleaned.body;
-      mount.appendChild(pre);
-      appendTopicWorks(mount, catalog, topic.name);
-    }).catch(function () {
-      var p = document.createElement("p");
-      p.textContent = "prompt 文件没有加载出来。";
-      mount.appendChild(p);
-      appendTopicWorks(mount, catalog, topic.name);
-    });
-  }
-
-  function appendTopicWorks(mount, catalog, topicName) {
-    var models = (catalog.models || []).slice().sort(compareModels);
-    var order = {};
-    models.forEach(function (model, index) { order[model.name] = index; });
-    var works = catalog.entries.filter(function (entry) {
-      return entry.topic === topicName;
-    }).sort(function (a, b) {
-      var ao = Object.prototype.hasOwnProperty.call(order, a.model) ? order[a.model] : models.length;
-      var bo = Object.prototype.hasOwnProperty.call(order, b.model) ? order[b.model] : models.length;
-      if (ao !== bo) return ao - bo;
-      if (a.time === b.time) return 0;
-      return a.time < b.time ? 1 : -1;
-    });
-    if (!works.length) return;
-    var related = document.createElement("section");
-    related.className = "related";
-    var heading = document.createElement("h2");
-    heading.textContent = "相关文稿";
-    related.appendChild(heading);
-    var list = document.createElement("div");
-    list.className = "related-list";
-    works.forEach(function (item) {
-      var link = document.createElement("a");
-      link.className = gradeClass(item.grade);
-      link.href = "read.html?id=" + encodeURIComponent(item.id);
-      var left = document.createElement("span");
-      var when = naturalTime(item.time);
-      left.textContent = item.grade ? item.model + "  ·  " + when + "  ·  " + item.grade : item.model + "  ·  " + when;
-      var right = document.createElement("span");
-      right.textContent = effortText(item.effort) + " · " + item.harness;
-      link.appendChild(left);
-      link.appendChild(right);
-      list.appendChild(link);
-    });
-    related.appendChild(list);
-    mount.appendChild(related);
-  }
-
-  var page = document.body.dataset.page;
-  var renderedCatalog = null;
-  var catalogRequest = 0;
-  var reloadPending = false;
-
-  function refreshCatalog() {
-    if (reloadPending) return;
-    var request = ++catalogRequest;
-    return Promise.all([loadCatalog(), page === "index" || page === "read" ? loadCoverFiles() : Promise.resolve(null)]).then(function (results) {
-      // A request suspended with the old page must not replace a newer response.
-      if (request !== catalogRequest) return;
-      var catalog = results[0];
-      if (results[1]) coverFiles = results[1];
-      var errorNode = $("catalog-error");
-      if (errorNode) errorNode.remove();
-      var snapshot = JSON.stringify({ catalog: catalog, covers: coverFiles });
-      if (page === "index" && renderedCatalog !== null) {
-        // Reload changed data once, keeping one set of filters and showcase listeners.
-        if (snapshot !== renderedCatalog) {
-          reloadPending = true;
-          window.location.reload();
-        }
+  function renderCards() {
+    const limit = Math.min(slots.length, pages * (mobile.matches ? 8 : 15));
+    slots.forEach((slot, i) => {
+      slot.hidden = i >= limit;
+      if (slot.hidden) return;
+      const model = slot.dataset.model;
+      const topic = slot.dataset.topic;
+      const entry = slot.dataset.id ? entriesById.get(slot.dataset.id) : best.get(topic + "\0" + model)?.entry;
+      const name = entry?.model || model || "";
+      const title = displayTitle(index.titles[entry?.file], entry?.topic || topic || "未找到文稿");
+      const src = coverUrl(entry, covers);
+      // Preserve decoded images and keyboard focus when metadata or the viewport changes.
+      const key = JSON.stringify([entry?.id, name, entry?.grade, slot.getAttribute("complexity")]);
+      const previous = cards.get(slot);
+      const eager = i < (mobile.matches ? 2 : 5);
+      if (previous?.key === key) {
+        if (previous.heading.textContent !== title) previous.heading.textContent = title;
+        updateCover(slot, previous.art, src, eager);
         return;
       }
-      if (page === "index") renderIndex(catalog);
-      else if (page === "read") renderRead(catalog);
-      else if (page === "prompt") renderPrompt(catalog);
-      renderedCatalog = snapshot;
-    }).catch(function (error) {
-      if (request !== catalogRequest) return;
-      if (renderedCatalog !== null) {
-        showError("暂时无法核对最新文稿，当前保留上次加载的内容。请确认网络或本地网页服务已启动，再刷新页面。");
-        return;
-      }
-      var message = error && error.catalogKind
-        ? error.message
-        : "打不开 data/catalog.json。请双击「打开网页.bat」，或在发布后通过 GitHub Pages 访问。直接双击 html 时，浏览器不允许读取旁边的数据文件。";
-      showError(message);
+      const card = element(entry ? "a" : "div", "showcase-work" + (entry ? "" : " unavailable"));
+      if (entry) card.href = "read.html?id=" + encodeURIComponent(entry.id);
+      const art = element("span", "showcase-art");
+      const placeholder = element("span", "showcase-placeholder", "封面待补");
+      placeholder.setAttribute("aria-hidden", "true");
+      art.append(placeholder);
+      updateCover(slot, art, src, eager);
+      const complexity = slot.getAttribute("complexity") || "中";
+      const ribbon = element("span", "showcase-complexity complexity-" + ({"高":"high", "低":"low"}[complexity] || "medium"), complexity);
+      ribbon.title = "严肃程度：" + complexity;
+      ribbon.setAttribute("aria-label", ribbon.title);
+      art.append(ribbon);
+      const meta = element("span", "showcase-meta");
+      const logo = logoFor(name, "showcase-logo");
+      if (logo) meta.append(logo);
+      const grade = entry ? entry.grade || "未定" : "暂无";
+      const badge = element("span", "showcase-grade " + gradeClass(entry?.grade), grade);
+      badge.title = "评级：" + grade;
+      badge.setAttribute("aria-label", badge.title);
+      meta.append(element("span", "showcase-model", name), badge);
+      const heading = element("h3", "showcase-title", title);
+      card.append(art, heading, meta);
+      cards.set(slot, { key, heading, art });
+      const focused = slot.contains(document.activeElement);
+      slot.replaceChildren(card);
+      if (focused) card.focus({ preventScroll: true });
+    });
+    more.hidden = limit >= slots.length;
+    $("showcase").querySelector("[data-loading-message]")?.remove();
+    $("showcase").setAttribute("aria-busy", "false");
+  }
+
+  function modelHeading(model) {
+    const th = document.createElement("th");
+    th.scope = "col";
+    th.dataset.model = model.name;
+    const name = element("span", "model-name", modelDisplayName(model.name));
+    name.title = model.name;
+    th.append(name);
+    const counts = element("span", "grade-counts");
+    counts.title = "同题同模型只统计一次，计入最高评级";
+    const tally = tallies.get(model.name);
+    for (const grade of ["A", "B", "C", "D", "E"]) {
+      if (tally?.[grade]) counts.append(element("span", gradeClass(grade), tally[grade] + grade));
+    }
+    if (counts.childElementCount) th.append(counts);
+    const foot = element("div", "model-foot");
+    if (model.released) {
+      foot.append(element("span", "released", model.released));
+      th.title = "发布于 " + model.released;
+    }
+    const logo = logoFor(model.name, "vendor");
+    if (logo) foot.append(logo);
+    if (foot.childElementCount) th.append(foot);
+    return th;
+  }
+
+  function updateReference(topic, link) {
+    const title = index.references[topic.promptFile];
+    let label = link.querySelector(".topic-reference");
+    link.classList.toggle("has-reference", Boolean(title));
+    if (!title) {
+      label?.remove();
+      return;
+    }
+    if (!label) {
+      label = element("span", "topic-reference");
+      link.append(label);
+    }
+    label.textContent = title;
+    label.title = "参考作品：《" + title + "》";
+    label.setAttribute("aria-label", label.title);
+  }
+
+  function topicLink(topic) {
+    const link = element("a", "cell " + gradeClass(topic.grade));
+    link.href = "prompt.html?topic=" + encodeURIComponent(topic.name);
+    link.title = topic.promptFile ? "查看生成 prompt" : "对话记录里没有找到 prompt";
+    if (topic.grade) link.append(element("span", "badge", topic.grade));
+    link.append(element("span", "topic-name", topic.name));
+    updateReference(topic, link);
+    return link;
+  }
+
+  function workCell(model, group) {
+    const td = document.createElement("td");
+    td.dataset.model = model.name;
+    if (!group) {
+      td.className = "empty";
+      td.textContent = "·";
+      return td;
+    }
+    const { entry, count } = group;
+    td.dataset.grade = entry.grade || "";
+    let mark;
+    if (count > 1) {
+      mark = element("span", "count", String(count));
+      mark.title = "同题同模型" + (selectedGrade === null ? "共 " : "符合当前评级的作品共 ") + count + " 篇";
+    }
+    const link = cellLink(entry, mark);
+    link.setAttribute("aria-label", entry.topic + "，" + entry.model + "，" + (entry.grade || "未定") + "，" + entry.time);
+    td.append(link);
+    return td;
+  }
+
+  function filterTopics() {
+    const query = topicFilter.value.trim();
+    let visible = 0;
+    for (const { tr, topic } of rows) {
+      tr.hidden = !topic.name.includes(query);
+      if (!tr.hidden) visible++;
+    }
+    emptyStatus.hidden = visible > 0;
+  }
+
+  function renderTable() {
+    const modelQuery = modelFilter.value.trim().toLowerCase();
+    const columns = models.filter(model => modelQuery ? model.name.toLowerCase().includes(modelQuery) : allModels || !model.hidden);
+    const groups = selectedGrade === null ? best : groupEntries(catalog.entries, selectedGrade);
+    const table = document.createElement("table");
+    const head = table.createTHead().insertRow();
+    const corner = element("th", "", "题目名称");
+    corner.scope = "col";
+    head.append(corner, ...columns.map(modelHeading));
+    const body = table.createTBody();
+    rows = [];
+    for (const topic of catalog.topics) {
+      const matches = columns.map(model => groups.get(topic.name + "\0" + model.name));
+      if (!matches.some(Boolean)) continue;
+      const tr = body.insertRow();
+      tr.dataset.topic = topic.name;
+      const link = topicLink(topic);
+      tr.insertCell().append(link);
+      columns.forEach((model, i) => tr.append(workCell(model, matches[i])));
+      rows.push({ tr, topic, link });
+    }
+    emptyStatus = element("p", "table-note", "没有符合当前筛选条件的作品。");
+    emptyStatus.setAttribute("role", "status");
+    filterTopics();
+    wrap.replaceChildren(table, emptyStatus);
+    wrap.setAttribute("aria-busy", "false");
+    gradeButtons.forEach(item => item.setAttribute("aria-pressed", String(item.dataset.grade === selectedGrade)));
+    showAll.classList.toggle("on", allModels);
+    showAll.setAttribute("aria-pressed", String(allModels));
+  }
+
+  function renderCatalog(data) {
+    const left = firstRender ? Number(saved.left) || 0 : wrap.scrollLeft;
+    const top = firstRender ? Number(saved.top) || 0 : wrap.scrollTop;
+    catalog = data;
+    models = catalog.models.slice().sort(compareModels);
+    entriesById = new Map(catalog.entries.map(entry => [entry.id, entry]));
+    best = groupEntries(catalog.entries, null);
+    tallies = new Map();
+    for (const { entry } of best.values()) {
+      if (!entry.grade) continue;
+      if (!tallies.has(entry.model)) tallies.set(entry.model, Object.create(null));
+      const tally = tallies.get(entry.model);
+      tally[entry.grade] = (tally[entry.grade] || 0) + 1;
+    }
+    $("summary").textContent = catalog.topics.length + " 道题目 · " + models.length + " 个模型 · " + catalog.entries.length + " 篇";
+    renderCards();
+    renderTable();
+    if (left) wrap.scrollLeft = left;
+    if (top) wrap.scrollTop = top;
+    if (firstRender && typeof saved.y === "number") window.scrollTo(0, saved.y);
+    firstRender = false;
+  }
+
+  function saveView() {
+    if (!catalog) return;
+    const arenaIndex = { topic: topicFilter.value, model: modelFilter.value, all: allModels, grade: selectedGrade,
+      pages, left: wrap.scrollLeft, top: wrap.scrollTop, y: window.scrollY };
+    try { sessionStorage.setItem(viewKey, JSON.stringify(arenaIndex)); } catch { /* Storage may be full. */ }
+    try { history.replaceState({ ...history.state, arenaIndex }, ""); } catch { /* Storage may be unavailable. */ }
+  }
+
+  if (saved.topic != null) topicFilter.value = saved.topic;
+  if (saved.model != null) modelFilter.value = saved.model;
+  topicFilter.addEventListener("input", () => { if (catalog) { filterTopics(); saveView(); } });
+  modelFilter.addEventListener("input", () => { if (catalog) { renderTable(); saveView(); } });
+  showAll.addEventListener("click", () => { if (catalog) { allModels = !allModels; renderTable(); saveView(); } });
+  gradeButtons.forEach(button => button.addEventListener("click", () => {
+    if (!catalog) return;
+    selectedGrade = selectedGrade === button.dataset.grade ? null : button.dataset.grade;
+    renderTable();
+    saveView();
+  }));
+
+  list.id = "showcase-list";
+  more.type = "button";
+  more.className = "button showcase-more";
+  more.textContent = "显示更多";
+  more.setAttribute("aria-controls", list.id);
+  more.hidden = true;
+  $("showcase").append(more);
+  more.addEventListener("click", () => {
+    const firstNew = pages * (mobile.matches ? 8 : 15);
+    pages++;
+    renderCards();
+    slots[firstNew]?.querySelector("a")?.focus({ preventScroll: true });
+    saveView();
+  });
+  mobile.addEventListener("change", () => { if (catalog) renderCards(); });
+
+  // Refresh resources independently. A stalled or missing optional index cannot delay the table.
+  const signatures = new Map();
+  const pending = new Map();
+  function refreshResource(key, load, update, onError) {
+    const current = pending.get(key);
+    if (current && Date.now() - current.started < 15000) return;
+    const request = { started: Date.now() };
+    pending.set(key, request);
+    load().then(value => {
+      if (pending.get(key) !== request || !value) return;
+      if (key === "catalog") $("catalog-error")?.remove();
+      const signature = JSON.stringify(value);
+      if (signatures.get(key) === signature) return;
+      update(value);
+      signatures.set(key, signature);
+    }).catch(error => {
+      if (pending.get(key) === request && onError) onError(error);
+    }).finally(() => {
+      if (pending.get(key) === request) pending.delete(key);
     });
   }
 
-  if (page === "index") {
-    window.addEventListener("pageshow", function (event) {
-      if (event.persisted) refreshCatalog();
+  let lastRefresh = 0;
+  function refresh() {
+    lastRefresh = Date.now();
+    if (catalog && failedCovers.size) renderCards();
+    refreshResource("catalog", loadCatalog, renderCatalog, () => {
+      if (!catalog) {
+        document.querySelectorAll("[data-loading-message]").forEach(label => {
+          label.textContent = label.dataset.loadingMessage + "暂时无法加载。";
+          label.parentElement.setAttribute("aria-busy", "false");
+        });
+      }
+      showError(catalog ? "暂时无法更新目录，已保留上次加载的内容。"
+        : "无法读取 data/catalog.json。请检查网络和目录文件，或通过「打开网页.bat」预览。", refresh);
     });
-    document.addEventListener("visibilitychange", function () {
-      if (document.visibilityState === "visible") refreshCatalog();
+    refreshResource("covers", loadCoverFiles, value => { covers = value; if (catalog) renderCards(); });
+    refreshResource("index", () => loadJSON("data/library-index.json"), value => {
+      if (!value.titles || !value.references) return;
+      index = value;
+      if (catalog) {
+        renderCards();
+        rows.forEach(({ topic, link }) => updateReference(topic, link));
+      }
     });
-    window.addEventListener("focus", refreshCatalog);
   }
-  refreshCatalog();
+
+  let scrollTimer;
+  function saveAfterScroll() {
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(saveView, 250);
+  }
+  window.addEventListener("scroll", saveAfterScroll, { passive: true });
+  wrap.addEventListener("scroll", saveAfterScroll, { passive: true });
+  function suspend() {
+    saveView();
+    // Responses begun before a freeze may describe an older version of the library.
+    pending.clear();
+  }
+  window.addEventListener("pagehide", suspend);
+  window.addEventListener("pageshow", e => { if (e.persisted) refresh(); });
+  window.addEventListener("online", refresh);
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") suspend();
+    else refresh();
+  });
+  window.addEventListener("focus", () => {
+    if (document.visibilityState === "visible" && Date.now() - lastRefresh > 30000) refresh();
+  });
+  refresh();
 })();

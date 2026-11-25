@@ -1,8 +1,11 @@
 (function () {
   var FILE_RE = /^([^_]+)_([^_]+)_(\d{10})\.txt$/;
   var modelsApi = window.ArenaModels;
+  var filesApi = window.ArenaImportFiles;
   var pending = null;
   var rootHandle = null;
+  var saving = false;
+  var draftKey = "arena:import:" + location.pathname + ":";
 
   function $(id) { return document.getElementById(id); }
 
@@ -11,13 +14,17 @@
     var dd = Number(ts10.slice(4, 6));
     var hh = Number(ts10.slice(6, 8));
     var mi = Number(ts10.slice(8, 10));
-    if (mm < 1 || mm > 12 || dd < 1 || dd > 31 || hh > 23 || mi > 59) return "";
+    var date = new Date(Date.UTC(Number("20" + ts10.slice(0, 2)), mm - 1, dd));
+    if (date.getUTCMonth() !== mm - 1 || date.getUTCDate() !== dd || hh > 23 || mi > 59) return "";
     return "20" + ts10;
   }
 
   function parseName(name) {
     var match = FILE_RE.exec(name);
     if (!match) return { error: "文件名需要是「题目_模型_yymmddhhmm.txt」，模型名本身不要再含下划线。" };
+    if (/[<>:"/\\|?*\x00-\x1f]/.test(name) || !match[1].trim() || /^(con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|$)/i.test(match[1])) {
+      return { error: "题目或模型名含有不能用于站点文件的字符，请修改文件名。" };
+    }
     if (match[2].indexOf("网页") !== -1) return { error: "模型名带有「网页」标注，这份文稿不收入。" };
     var time = expandTime(match[3]);
     if (!time) return { error: "时间戳不是有效的 yymmddhhmm。" };
@@ -54,7 +61,39 @@
     wrap.classList.toggle("hidden", choiceValue(group) !== "__custom");
   }
 
-  async function showFile(file) {
+  function forgetDraft() {
+    try {
+      sessionStorage.removeItem(draftKey + "file");
+      sessionStorage.removeItem(draftKey + "fields");
+    } catch {}
+  }
+
+  function rememberFields() {
+    if (!pending || pending.checking || !pending.hasDraft) return;
+    var fields = {};
+    ["harness", "effort", "grade", "promptGrade", "modelVisibility"].forEach(id => fields[id] = choiceValue($(id)));
+    ["harnessCustom", "effortCustom", "prompt", "releaseYear", "releaseMonth", "releaseDay"].forEach(id => fields[id] = $(id).value);
+    fields.visibilityManual = pending.visibilityManual;
+    fields.edited = pending.edited;
+    try { sessionStorage.setItem(draftKey + "fields", JSON.stringify(fields)); } catch {}
+  }
+
+  function applyFields(fields) {
+    ["harness", "effort", "grade", "promptGrade", "modelVisibility"].forEach(id => {
+      if (typeof fields[id] === "string") setChoice($(id), fields[id]);
+    });
+    ["harnessCustom", "effortCustom", "prompt", "releaseYear", "releaseMonth", "releaseDay"].forEach(id => {
+      if (typeof fields[id] === "string") $(id).value = fields[id];
+    });
+    pending.visibilityManual = Boolean(fields.visibilityManual);
+    pending.edited = fields.edited || {};
+    syncCustom($("harness"), $("harnessCustomWrap"));
+    syncCustom($("effort"), $("effortCustomWrap"));
+  }
+
+  async function showFile(file, restoredFields) {
+    if (saving) return;
+    if (!restoredFields) forgetDraft();
     var parsed = parseName(file.name);
     $("panel").classList.remove("hidden");
     $("message").textContent = "";
@@ -62,28 +101,51 @@
       pending = null;
       $("preview").textContent = parsed.error;
       $("save").disabled = true;
+      $("export").disabled = true;
       $("releaseWrap").classList.add("hidden");
       return;
     }
-    var selection = { file: file, parsed: parsed, checking: true, visibilityManual: false, visibilityMedian: null };
+    var selection = { parsed: parsed, checking: true, visibilityManual: false, visibilityMedian: null, edited: {} };
     pending = selection;
     $("save").disabled = true;
+    $("export").disabled = true;
     $("preview").textContent = parsed.topic + "  ·  " + parsed.model + "  ·  " + parsed.time
       + "  ·  正在核对最新模型列表…";
     var preset = modelsApi.presetHarnessEffort(parsed.model, parsed.time);
     setChoice($("harness"), preset.harness);
     setChoice($("effort"), preset.effort);
     setChoice($("grade"), "");
+    $("harnessCustom").value = "";
+    $("effortCustom").value = "";
     setChoice($("promptGrade"), "__keep");
     $("prompt").value = "";
     syncCustom($("harness"), $("harnessCustomWrap"));
     syncCustom($("effort"), $("effortCustomWrap"));
     $("releaseWrap").classList.add("hidden");
     setReleased("");
+    var textReady = file.text().then(function (text) {
+      if (selection !== pending) return;
+      selection.text = text;
+      try {
+        sessionStorage.setItem(draftKey + "file", JSON.stringify({ name: file.name, text: text }));
+        selection.hasDraft = true;
+      } catch {}
+    }).catch(function () {
+      if (selection === pending) $("message").textContent = "读取文稿失败，请重新选择文件。";
+    });
     try {
       var catalog = await latestCatalog();
       if (pending !== selection) return;
       showModelInfo(parsed, catalog);
+      var existing = catalog.entries.find(item => item.id === parsed.filename.slice(0, -4));
+      if (existing) {
+        ["harness", "effort"].forEach(function (id) {
+          var value = existing[id] || "";
+          if (setChoice($(id), value) === "__custom") $(id + "Custom").value = value;
+          syncCustom($(id), $(id + "CustomWrap"));
+        });
+        setChoice($("grade"), existing.grade || "");
+      }
     } catch (error) {
       if (pending !== selection) return;
       $("preview").textContent = parsed.topic + "  ·  " + parsed.model + "  ·  " + parsed.time
@@ -92,9 +154,13 @@
       $("releaseWrap").classList.remove("hidden");
       setReleased(modelsApi.modelReleased(parsed.model));
     } finally {
+      await textReady;
       if (pending === selection) {
+        if (restoredFields) applyFields(restoredFields);
         selection.checking = false;
-        $("save").disabled = false;
+        $("save").disabled = $("export").disabled = typeof selection.text !== "string";
+        if (typeof selection.text === "string" && !selection.hasDraft) $("message").textContent += " 此标签页无法暂存文稿，关闭前请保存或下载。";
+        rememberFields();
       }
     }
   }
@@ -204,10 +270,12 @@
   function insertTopic(topics, name, time, entries) {
     if (topics.some(function (item) { return item.name === name; })) return;
     function earliest(topicName) {
-      var times = entries.filter(function (entry) { return entry.topic === topicName; }).map(function (entry) { return entry.time; });
-      times.push(topicName === name ? time : "999999999999");
-      return times.reduce(function (a, b) { return a < b ? a : b; });
+      return firstTimes.get(topicName) || "999999999999";
     }
+    var firstTimes = new Map([[name, time]]);
+    entries.forEach(function (entry) {
+      if (entry.time < earliest(entry.topic)) firstTimes.set(entry.topic, entry.time);
+    });
     var stamp = earliest(name);
     var index = topics.findIndex(function (item) { return earliest(item.name) > stamp; });
     var row = { name: name, grade: "", promptFile: "", promptAt: "" };
@@ -215,55 +283,41 @@
     else topics.splice(index, 0, row);
   }
 
-  async function pickRoot() {
-    if (!window.showDirectoryPicker) return null;
-    var handle = await window.showDirectoryPicker({ mode: "readwrite" });
-    await handle.getFileHandle("index.html");
-    return handle;
-  }
-
-  async function writeText(dir, parts, contents) {
-    var current = dir;
-    for (var i = 0; i < parts.length - 1; i += 1) {
-      current = await current.getDirectoryHandle(parts[i], { create: true });
-    }
-    var file = await current.getFileHandle(parts[parts.length - 1], { create: true });
-    var writable = await file.createWritable();
-    await writable.write(contents);
-    await writable.close();
-  }
-
-  async function readCatalog(dir) {
-    var dataDir = await dir.getDirectoryHandle("data");
-    var file = await dataDir.getFileHandle("catalog.json");
-    var text = await (await file.getFile()).text();
-    return JSON.parse(text);
-  }
-
   async function latestCatalog() {
-    if (rootHandle) return readCatalog(rootHandle);
-    var response = await fetch("data/catalog.json", { cache: "no-store" });
-    if (!response.ok) throw new Error("catalog");
-    return response.json();
-  }
-
-  function download(name, text) {
-    var link = document.createElement("a");
-    link.href = URL.createObjectURL(new Blob([text], { type: "application/json;charset=utf-8" }));
-    if (name.endsWith(".txt")) {
-      link.href = URL.createObjectURL(new Blob([text], { type: "text/plain;charset=utf-8" }));
+    if (rootHandle) return filesApi.parseCatalog(await filesApi.catalogText(rootHandle));
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10000);
+    try {
+      const response = await fetch("data/catalog.json", { cache: "no-cache", signal: controller.signal });
+      if (!response.ok) throw new Error("读取 data/catalog.json 失败（HTTP " + response.status + "）。");
+      return filesApi.parseCatalog(await response.text());
+    } finally {
+      clearTimeout(timeout);
     }
-    link.download = name;
-    link.click();
-    setTimeout(function () { URL.revokeObjectURL(link.href); }, 1000);
   }
 
-  async function save() {
-    if (!pending || pending.checking) return;
-    var selection = pending;
-    var parsed = selection.parsed;
-    var harness = choiceValue($("harness")) === "__custom" ? $("harnessCustom").value.trim() : choiceValue($("harness"));
-    var effort = choiceValue($("effort")) === "__custom" ? $("effortCustom").value.trim() : choiceValue($("effort"));
+  function downloadPackage(files, filename) {
+    const url = URL.createObjectURL(filesApi.zip(files));
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename.slice(0, -4) + ".zip";
+    document.body.append(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
+  }
+
+  function chosen(id) {
+    return choiceValue($(id)) === "__custom" ? $(id + "Custom").value.trim() : choiceValue($(id));
+  }
+
+  async function save(asDownload) {
+    if (saving || !pending || pending.checking || typeof pending.text !== "string") return;
+    const selection = pending;
+    const parsed = selection.parsed;
+    const harness = chosen("harness");
+    const effort = chosen("effort");
+    const released = readReleased();
     if (!harness) {
       $("message").textContent = "请填写 harness。";
       return;
@@ -272,66 +326,73 @@
       $("message").textContent = "请填写 effort，或改回「未记录」。";
       return;
     }
-    var grade = choiceValue($("grade"));
-    var text = await selection.file.text();
-    if (pending !== selection) return;
-    var released = readReleased();
-    var hiddenOverride = selection.visibilityManual ? choiceValue($("modelVisibility")) === "no" : null;
-
-    $("save").disabled = true;
-    $("message").textContent = "正在写入…";
-    try {
-      if (!rootHandle) {
-        try {
-          rootHandle = await pickRoot();
-        } catch (error) {
-          rootHandle = null;
-          if (!error || error.name !== "AbortError") {
-            $("message").textContent = "请选择本站文件夹（里面要有 index.html）。";
-            $("save").disabled = false;
-            return;
-          }
-        }
-      }
-      var promptText = $("prompt").value.trim();
-      var promptGrade = choiceValue($("promptGrade"));
-      if (!rootHandle) {
-        var catalog = await latestCatalog();
-        var wrotePrompt = applyToCatalog(catalog, parsed, text, harness, effort, grade, released, promptText, promptGrade, hiddenOverride);
-        download("catalog.json", JSON.stringify(catalog, null, 2) + "\n");
-        download(parsed.filename, text.endsWith("\n") ? text : text + "\n");
-        if (wrotePrompt) download(parsed.topic + ".txt", promptText + "\n");
-        $("message").textContent = wrotePrompt
-          ? "已下载 catalog.json、正文和 prompt。json 放到 data/，正文放到 texts/，prompt 放到 prompts/ 并保持 catalog 里的文件名。"
-          : "已下载 catalog.json 和正文。json 放到 data/，正文放到 texts/。用 Chrome 或 Edge 打开本页时，可以选择网站文件夹直接写入。";
-        $("save").disabled = false;
-        return;
-      }
-      var catalog = await readCatalog(rootHandle);
-      var wrotePrompt = applyToCatalog(catalog, parsed, text, harness, effort, grade, released, promptText, promptGrade, hiddenOverride);
-      await writeText(rootHandle, ["texts", parsed.filename], text.endsWith("\n") ? text : text + "\n");
-      if (wrotePrompt) {
-        await writeText(rootHandle, ["prompts", parsed.topic + ".txt"], promptText + "\n");
-      }
-      await writeText(rootHandle, ["data", "catalog.json"], JSON.stringify(catalog, null, 2) + "\n");
-      if (pending === selection) showModelInfo(parsed, catalog);
-      $("dirLabel").textContent = "已写入所选网站文件夹";
-      $("message").textContent = "已加入。返回主页刷新即可看到。";
-    } catch (error) {
-      if (error instanceof SyntaxError) {
-        var detail = error.message ? "：" + error.message : "";
-        $("message").textContent = "data/catalog.json 解析失败" + detail + "。请先修正这个文件的 JSON 格式。";
-      } else {
-        $("message").textContent = "没有写进去。请选择含有 index.html 的 NovellaArena 文件夹，或改用下载方式。";
-      }
+    if (!$("releaseWrap").classList.contains("hidden") && ["releaseYear", "releaseMonth", "releaseDay"].some(id => $(id).value) && releaseDay(released) === null) {
+      $("message").textContent = "请填写有效的模型发布日期，或将年月日全部留空。";
+      return;
     }
-    $("save").disabled = false;
+    const grade = choiceValue($("grade"));
+    const hiddenOverride = selection.visibilityManual ? choiceValue($("modelVisibility")) === "no" : null;
+    const promptText = $("prompt").value.trim();
+    const promptGrade = choiceValue($("promptGrade"));
+    function buildFiles(catalog) {
+      const entry = applyToCatalog(catalog, parsed, harness, effort, grade, released, promptText, promptGrade, hiddenOverride, selection.edited);
+      const files = new Map([[entry.file, selection.text]]);
+      if (promptText) {
+        const topic = catalog.topics.find(item => item.name === parsed.topic);
+        files.set(topic.promptFile, promptText + "\n");
+      }
+      files.set(filesApi.catalogPath, JSON.stringify(catalog, null, 2) + "\n");
+      return files;
+    }
+
+    saving = true;
+    const fields = Array.from($("panel").querySelectorAll("input, textarea, .choice-row button")).filter(field => !field.disabled);
+    fields.forEach(field => field.disabled = true);
+    $("save").disabled = $("export").disabled = true;
+    $("file").disabled = true;
+    $("message").textContent = asDownload ? "正在准备导入包…" : "正在写入…";
+    try {
+      if (asDownload) {
+        const catalog = await latestCatalog();
+        downloadPackage(buildFiles(catalog), parsed.filename);
+        $("message").textContent = "已生成 ZIP。请解压到与当前目录版本一致的网站文件夹，再运行「推送更新.bat」。";
+      } else {
+        if (!rootHandle) {
+          const dir = await window.showDirectoryPicker({ mode: "readwrite", id: "novella-arena" });
+          await dir.getFileHandle("index.html");
+          await filesApi.catalogText(dir);
+          rootHandle = dir;
+        }
+        await filesApi.save(rootHandle, buildFiles);
+        $("dirLabel").textContent = "已写入 " + rootHandle.name;
+        $("message").textContent = "已保存。返回本地主页即可查看，双击「推送更新.bat」可提交到 GitHub。";
+      }
+      forgetDraft();
+      selection.hasDraft = false;
+    } catch (error) {
+      if (error.name === "AbortError") {
+        $("message").textContent = "操作已取消或读取超时。文稿仍在，可重试或下载导入包。";
+      } else if (error.name === "NotFoundError" || error.name === "NotAllowedError" || error.name === "SecurityError") {
+        rootHandle = null;
+        $("message").textContent = "请重新选择含有 data/catalog.json 的网站文件夹并允许写入，或下载导入包。";
+      } else {
+        const prefix = error instanceof SyntaxError ? "data/catalog.json 解析失败。" : "导入未完成。";
+        $("message").textContent = prefix + (error.message || "请重试。");
+      }
+    } finally {
+      saving = false;
+      fields.forEach(field => field.disabled = false);
+      $("save").disabled = $("export").disabled = false;
+      $("file").disabled = false;
+    }
   }
 
-  function applyToCatalog(catalog, parsed, text, harness, effort, grade, released, promptText, promptGrade, hiddenOverride) {
-    catalog.models = catalog.models || [];
-    catalog.topics = catalog.topics || [];
-    catalog.entries = catalog.entries || [];
+  function siteTextPath(path, folder) {
+    return typeof path === "string" && path.startsWith(folder + "/") && /\.txt$/i.test(path)
+      && !path.includes("\\") && path.split("/").every(part => part && part !== ".." && part !== ".");
+  }
+
+  function applyToCatalog(catalog, parsed, harness, effort, grade, released, promptText, promptGrade, hiddenOverride, edited) {
     var knownModel = catalog.models.some(function (item) { return item.name === parsed.model; });
     if (!knownModel) {
       insertModel(catalog.models, {
@@ -356,27 +417,31 @@
     var index = catalog.entries.findIndex(function (item) { return item.id === id; });
     if (index >= 0) {
       var previous = catalog.entries[index];
-      if (!grade) entry.grade = previous.grade || "";
-      catalog.entries[index] = entry;
+      entry.file = previous.file || entry.file;
+      // Another tab or the selected directory may hold newer metadata than the preview.
+      ["grade", "harness", "effort"].forEach(function (field) {
+        if (!edited[field] && previous[field] != null) entry[field] = previous[field];
+      });
+      catalog.entries[index] = Object.assign({}, previous, entry);
     } else {
       catalog.entries.push(entry);
       catalog.entries.sort(function (a, b) { return a.time < b.time ? -1 : a.time > b.time ? 1 : 0; });
     }
-    var wrotePrompt = false;
+    if (!siteTextPath(entry.file, "texts")) throw new Error("已有文稿路径不在 texts/ 中，请检查目录。");
     var topic = catalog.topics.find(function (item) { return item.name === parsed.topic; });
     if (topic && ["", "A", "B", "C", "D", "E"].indexOf(promptGrade) !== -1) {
       topic.grade = promptGrade;
     }
     if (promptText) {
       if (topic) {
-        topic.promptFile = "prompts/" + parsed.topic + ".txt";
+        topic.promptFile = topic.promptFile || "prompts/" + parsed.topic + ".txt";
+        if (!siteTextPath(topic.promptFile, "prompts")) throw new Error("已有提示词路径不在 prompts/ 中，请检查目录。");
         topic.promptManual = true;
         var stamp = parsed.time;
         topic.promptAt = stamp.slice(0, 4) + "-" + stamp.slice(4, 6) + "-" + stamp.slice(6, 8) + " " + stamp.slice(8, 10) + ":" + stamp.slice(10, 12);
-        wrotePrompt = true;
       }
     }
-    return wrotePrompt;
+    return entry;
   }
 
   var drop = $("drop");
@@ -398,6 +463,7 @@
     group.addEventListener("click", function (event) {
       var button = event.target.closest("button");
       if (!button || !group.contains(button)) return;
+      if (pending) pending.edited[group.id] = true;
       setChoice(group, button.getAttribute("data-value"));
       onPick(choiceValue(group));
     });
@@ -405,6 +471,7 @@
   bindChoices($("harness"), function (value) {
     syncCustom($("harness"), $("harnessCustomWrap"));
     if (!pending || value === "__custom") return;
+    pending.edited.effort = true;
     setChoice($("effort"), modelsApi.defaultEffort(pending.parsed.model));
     syncCustom($("effort"), $("effortCustomWrap"));
   });
@@ -417,5 +484,25 @@
   bindDatePart($("releaseYear"), $("releaseMonth"), 4);
   bindDatePart($("releaseMonth"), $("releaseDay"), 2);
   bindDatePart($("releaseDay"), null, 2);
-  $("save").addEventListener("click", save);
+  $("save").addEventListener("click", () => save(false));
+  $("export").addEventListener("click", () => save(true));
+  if (!window.showDirectoryPicker) {
+    $("save").hidden = true;
+    $("export").classList.add("primary");
+  }
+  $("panel").addEventListener("input", function (event) {
+    if (pending && /^(?:harness|effort)Custom$/.test(event.target.id)) {
+      pending.edited[event.target.id.replace("Custom", "")] = true;
+    }
+    rememberFields();
+  });
+  $("panel").addEventListener("click", rememberFields);
+  window.addEventListener("pagehide", rememberFields);
+  try {
+    var savedFile = JSON.parse(sessionStorage.getItem(draftKey + "file") || "null");
+    if (savedFile && typeof savedFile.text === "string" && typeof savedFile.name === "string") {
+      var fields = JSON.parse(sessionStorage.getItem(draftKey + "fields") || "{}");
+      showFile(new File([savedFile.text], savedFile.name, { type: "text/plain" }), fields);
+    }
+  } catch { forgetDraft(); }
 })();

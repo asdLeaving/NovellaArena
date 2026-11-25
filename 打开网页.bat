@@ -1,11 +1,29 @@
 @echo off
+setlocal
 cd /d "%~dp0"
-echo NovellaArena  http://127.0.0.1:8765/
-echo Close this window to stop the server.
-start "" /b cmd /c "timeout /t 1 /nobreak >nul & start http://127.0.0.1:8765/"
-py -3 tools\serve.py --port 8765
-if errorlevel 1 python tools\serve.py --port 8765
-if errorlevel 1 (
-  echo Python was not found.
-  pause
+where py >nul 2>&1
+if not errorlevel 1 (
+  py -3 -c "import http.server" >nul 2>&1
+  if not errorlevel 1 (
+    py -3 tools\serve.py --open
+    goto :done
+  )
 )
+where python >nul 2>&1
+if not errorlevel 1 (
+  python -c "import http.server" >nul 2>&1
+  if not errorlevel 1 (
+    python tools\serve.py --open
+    goto :done
+  )
+)
+set "ARENA_PYTHON=%USERPROFILE%\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe"
+if exist "%ARENA_PYTHON%" (
+  "%ARENA_PYTHON%" tools\serve.py --open
+  goto :done
+)
+echo Python 3 is required to preview this folder locally.
+pause
+exit /b 1
+:done
+if errorlevel 1 pause

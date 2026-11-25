@@ -4,6 +4,7 @@ param([string]$SiteRoot = (Split-Path -Parent $PSScriptRoot))
 $ErrorActionPreference = "Stop"
 $sitePath = (Resolve-Path -LiteralPath $SiteRoot).Path
 $utf8 = [System.Text.UTF8Encoding]::new($false)
+& (Join-Path $PSScriptRoot "update_library_index.ps1") -SiteRoot $sitePath
 # GitHub Pages uses this static index; the local server builds the same index live.
 $coverExtensions = @(".webp", ".png", ".jpg", ".jpeg", ".avif", ".gif")
 $covers = [ordered]@{}
