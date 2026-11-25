@@ -7,6 +7,16 @@ $utf8 = [System.Text.UTF8Encoding]::new($false)
 & (Join-Path $PSScriptRoot "update_library_index.ps1") -SiteRoot $sitePath
 # GitHub Pages uses this static index; the local server builds the same index live.
 $coverExtensions = @(".webp", ".png", ".jpg", ".jpeg", ".avif", ".gif")
+function Get-CoverVersion([string]$filePath) {
+  $stream = [IO.File]::OpenRead($filePath)
+  $digest = [Security.Cryptography.SHA256]::Create()
+  try {
+    return [BitConverter]::ToString($digest.ComputeHash($stream)).Replace("-", "").ToLowerInvariant()
+  } finally {
+    $stream.Dispose()
+    $digest.Dispose()
+  }
+}
 $covers = [ordered]@{}
 $coverDirectory = Join-Path $sitePath "assets/covers"
 if (Test-Path -LiteralPath $coverDirectory) {
@@ -17,7 +27,7 @@ if (Test-Path -LiteralPath $coverDirectory) {
       if (-not $covers.Contains($_.BaseName)) {
         $covers[$_.BaseName] = [ordered]@{
           file = $_.Name
-          version = (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+          version = Get-CoverVersion $_.FullName
         }
       }
     }
