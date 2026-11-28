@@ -138,125 +138,265 @@
     return /^[一二三四五六七八九十百零〇]{1,3}$/.test(text) || /^\d{1,2}(?:\.\d{1,2})?$/.test(text);
   }
 
-  function isChapterHeading(text) {
-    text = text.replace(/^【([^【】]+)】$/, "$1").trim();
-    return /^第[一二三四五六七八九十百千万零〇两0-9]+(?:[章幕篇部]|部分)(?:$|[\s　·.、:：].+)$/.test(text);
+  function unboxHeading(text) {
+    return text.replace(/^【([^【】]+)】$/, "$1").trim();
+  }
+
+  function chapterOrdinal(text) {
+    text = unboxHeading(text);
+    var match = /^第([一二三四五六七八九十百千万零〇两0-9]+)(部分|[章幕篇部杯])(?:$|[\s·.、:：].+)$/.exec(text);
+    if (!match || match[2] === "杯" && endsLikeNumberedBody(text)) return null;
+    var value = /^\d+$/.test(match[1]) ? Number(match[1]) : chineseNumeralValue(match[1]);
+    if (value === null || !Number.isSafeInteger(value)) return null;
+    return { kind: match[2] === "部分" ? "部" : match[2], value: value };
   }
 
   function isStandaloneSectionHeading(text) {
-    text = text.replace(/^【([^【】]+)】$/, "$1").trim();
-    return /^(?:零|〇|序章|楔子|终章|后记|引子|尾声|序|跋)(?:$|[\s　·.、:：].+)$/.test(text);
+    return /^(?:零|〇|序章|楔子|终章|后记|引子|尾声|序|跋)(?:$|[\s·.、:：].+)$/.test(unboxHeading(text));
   }
 
-  function isNumberedBodyContinuation(text, nextText) {
-    return /^[一二三四五六七八九十百零〇]{1,3}[、.．:：\s　].+/.test(text)
-      && /^[一二三四五六七八九十百零〇]{1,3}[、.．:：\s　]/.test(nextText || "")
-      && /(?:[；;，,。！？…])[”’"」』]*$/.test(text);
+  function isInterlude(text) {
+    return /^幕间(?:$|[\s·.、:：].+)$/.test(unboxHeading(text));
+  }
+
+  function isClosingSection(text) {
+    return /^(?:尾声|终章|后记|跋)(?:$|[\s·.、:：].+)$/.test(unboxHeading(text));
+  }
+
+  function isClockLabel(text) {
+    return /^\d{1,2}\s*[:：]\s*[0-5]\d(?!\d)/.test(text);
   }
 
   function endsLikeNumberedBody(text) {
     return /[。！？…；;，,](?:[”’"」』])?(?:\s*[（(【\[].*[）)】\]])?\s*$/.test(text);
   }
 
-  function isNumberedSection(text, sectionNumbers) {
-    var number = /^(\d{1,2})\.(\d{1,2})$/.exec(text);
-    if (!number || !sectionNumbers) return false;
-    var prefix = number[1] + ".";
-    var section = Number(number[2]);
-    return sectionNumbers.has(prefix + (section - 1)) || sectionNumbers.has(prefix + (section + 1));
-  }
-
   var CHINESE_NUMERALS = {
     "〇": 0, "零": 0, "一": 1, "二": 2, "三": 3, "四": 4,
-    "五": 5, "六": 6, "七": 7, "八": 8, "九": 9
+    "五": 5, "六": 6, "七": 7, "八": 8, "九": 9, "两": 2
   };
+  var CHINESE_UNITS = [["万", 10000], ["千", 1000], ["百", 100], ["十", 10]];
+  var ENGLISH_NUMERALS = ("one two three four five six seven eight nine ten eleven twelve thirteen"
+    + " fourteen fifteen sixteen seventeen eighteen nineteen twenty").split(" ");
 
   function chineseNumeralValue(text) {
-    if (!/^[零〇一二三四五六七八九十百千万]{1,6}$/.test(text)) return null;
-    if (text.length === 1) {
-      if (Object.prototype.hasOwnProperty.call(CHINESE_NUMERALS, text)) return CHINESE_NUMERALS[text];
-      if (text === "十") return 10;
-      return null;
+    if (!/^[零〇一二两三四五六七八九十百千万]+$/.test(text)) return null;
+    if (Object.prototype.hasOwnProperty.call(CHINESE_NUMERALS, text)) return CHINESE_NUMERALS[text];
+    var value = 0;
+    for (var [unit, multiplier] of CHINESE_UNITS) {
+      var index = text.indexOf(unit);
+      if (index === -1) continue;
+      var digit = CHINESE_NUMERALS[text.slice(0, index)];
+      if (unit === "十" && index === 0 && !value) digit = 1;
+      if (!digit) return null;
+      value += digit * multiplier;
+      text = text.slice(index + 1).replace(/^[零〇]/, "");
     }
-    var ten = text.indexOf("十");
-    if (ten === -1) return null;
-    var high = ten ? CHINESE_NUMERALS[text.slice(0, ten)] : 1;
-    var low = ten === text.length - 1 ? 0 : CHINESE_NUMERALS[text.slice(ten + 1)];
-    if (high === undefined || low === undefined) return null;
-    return high * 10 + low;
+    if (text && !Object.prototype.hasOwnProperty.call(CHINESE_NUMERALS, text)) return null;
+    return text ? value + CHINESE_NUMERALS[text] : value || null;
+  }
+
+  function labeledOrdinal(text) {
+    var match = /^【(场景)?([一二三四五六七八九十百零〇0-9]+)】/.exec(text);
+    if (match) {
+      var value = /^\d+$/.test(match[2]) ? Number(match[2]) : chineseNumeralValue(match[2]);
+      if (value !== null && Number.isSafeInteger(value)) {
+        return { kind: match[1] ? "scene" : "boxed", value: value, level: 1 };
+      }
+    }
+    text = unboxHeading(text);
+    match = /^No\.?\s*(\d+)/i.exec(text);
+    if (match && Number.isSafeInteger(Number(match[1]))) return { kind: "no", value: Number(match[1]), level: 1 };
+    match = /^(?:（(\d{1,3})）|\((\d{1,3})\))/.exec(text);
+    if (match) return { kind: "parenthesized", value: Number(match[1] || match[2]), level: 2 };
+    match = /^(\d{1,2})\.(\d{1,2})$/.exec(text);
+    if (match) return { kind: "decimal:" + match[1], value: Number(match[2]), level: 2, needsPair: true };
+    var english = ENGLISH_NUMERALS.indexOf(text.toLowerCase());
+    return english === -1 ? null : { kind: "english", value: english + 1, level: 1 };
   }
 
   function sequenceCandidate(line, index) {
-    var text = line.trim();
-    if (!text || text.length > 42) return null;
+    var text = unboxHeading(line);
+    if (!text || text.length > 42 || isClockLabel(text)) return null;
     var chinese = chineseNumeralValue(text);
-    if (chinese !== null) return { index: index, value: chinese, kind: "chinese", text: text, titled: false };
-    var chineseTitle = /^([零〇一二三四五六七八九十百千万]{1,6})(?:[\s　、.．:：]+)(\S.*)$/.exec(text);
+    if (chinese !== null) return { index: index, value: chinese, kind: "chinese", titled: false };
+    var chineseTitle = /^([零〇一二两三四五六七八九十百千万]{1,6})[\s·、.．:：]+(\S.*)$/.exec(text);
     if (chineseTitle) {
       chinese = chineseNumeralValue(chineseTitle[1]);
-      if (chinese !== null && !endsLikeNumberedBody(text)) {
-        return { index: index, value: chinese, kind: "chineseTitle", text: text, titled: true };
+      if (chinese !== null && !endsLikeNumberedBody(text) && !/\.{3}[”’"」』）)\]]*$/.test(text)
+          && !/[；;]\s*[一二三四五六七八九十百零〇]{1,3}、/.test(text)) {
+        return { index: index, value: chinese, kind: "chineseTitle", titled: true };
       }
     }
     var arabic = /^(\d{1,3})$/.exec(text);
-    if (arabic) return { index: index, value: Number(arabic[1]), kind: "arabic", text: text };
+    if (arabic) return { index: index, value: Number(arabic[1]), kind: "arabic", titled: false };
     // A number followed by a title is a strong outer-heading candidate. Sentence-like
     // lines and inline dialogue/lists are excluded before sequence inference.
     var titled = /^(\d{1,3})(?:[\s　]+|[、．。:：]|\.\s+)(\S.*)$/.exec(text);
     if (!titled || /^(?:[「“"（(【\[])/.test(titled[2])) return null;
     if (endsLikeNumberedBody(text) || /\.{3}[”’"」』）)\]]*$/.test(text)) return null;
-    return { index: index, value: Number(titled[1]), kind: "arabicTitle", text: text, titled: true };
+    return { index: index, value: Number(titled[1]), kind: "arabicTitle", titled: true };
   }
 
-  function isBareSequenceMarker(text) {
-    var chinese = chineseNumeralValue(text);
-    return /^\d{1,3}$/.test(text) || chinese !== null && chinese !== 0;
+  function isStartNumber(value) {
+    return value === 0 || value === 1;
   }
 
-  function hasIndependentParagraphBetween(lines, from, to, candidateIndexes) {
-    var paragraph = false;
-    for (var i = from + 1; i < to; i += 1) {
-      var text = lines[i].trim();
-      if (!text) {
-        continue;
-      }
-      if (candidateIndexes.has(i) || isChapterHeading(text) || isStandaloneSectionHeading(text)) {
-        if (paragraph) return true;
-        paragraph = false;
-        continue;
-      }
-      paragraph = true;
+  function headingSeparation(lines, index) {
+    var blanks = 0;
+    for (var step of [-1, 1]) {
+      for (var distance = 1; distance <= 2 && lines[index + step * distance] === ""; distance++) blanks++;
     }
-    return paragraph;
+    return blanks;
   }
 
-  function sequenceHeadingLevels(lines, sectionNumbers, following) {
-    var candidates = [];
-    var candidateIndexes = new Set();
-    var baseAnchors = [];
-    var hasExplicitContainer = lines.some(function (line) {
-      var text = line.trim();
-      return isChapterHeading(text) && !isStandaloneSectionHeading(text);
+  function increasingHeadings(items, hasBodyBetween, parents) {
+    // 保留从 0 或 1 开始的递增序列。较高层标题允许重新起号，也允许沿用正文原有编号。
+    var best = null;
+    var scope = 0;
+    var paths = [];
+    items.forEach(function (item, index) {
+      while (scope < parents.length && parents[scope] < item.index) scope++;
+      var path = isStartNumber(item.value) ? { item: item, scope: scope, size: 1, consecutive: 0, separation: item.separation } : null;
+      for (var previous of paths) {
+        if (!previous || path && previous.size + 1 < path.size) continue;
+        var prior = previous.item;
+        var continues = item.value > prior.value;
+        var restarts = scope > previous.scope && isStartNumber(item.value);
+        if ((!continues && !restarts) || !hasBodyBetween(prior.index, item.index)) continue;
+        var next = {
+          item: item, scope: scope, previous: previous, size: previous.size + 1,
+          consecutive: previous.consecutive + (item.value === prior.value + 1 ? 1 : 0),
+          separation: previous.separation + item.separation
+        };
+        if (betterHeadingPath(next, path)) path = next;
+      }
+      paths[index] = path;
+      if (path && betterHeadingPath(path, best)) best = path;
     });
+    var selected = [];
+    for (var path = best; path; path = path.previous) selected.push(path.item.index);
+    return selected.reverse();
+  }
+
+  function betterHeadingPath(a, b) {
+    if (!b || a.size !== b.size) return !b || a.size > b.size;
+    if (a.consecutive !== b.consecutive) return a.consecutive > b.consecutive;
+    if (a.separation !== b.separation) return a.separation > b.separation;
+    // 同一幕间有与正文重号的引文时，等分候选中靠后的重号更可能是正文的续接处。
+    var left = a.item.index === b.item.index && a.previous ? a.previous.item : a.item;
+    var right = a.item.index === b.item.index && b.previous ? b.previous.item : b.item;
+    return left.interlude >= 0 && left.interlude === right.interlude
+      && left.value === right.value && left.index > right.index;
+  }
+
+  function sequenceHeadingLevels(lines, following) {
+    var candidates = new Map();
+    var chapters = [];
+    var labels = new Map();
+    var standalone = new Set();
+    var levels = new Map();
+    var body = [0];
+    var interlude = -1;
+    var closingSection = -1;
     lines.forEach(function (line, index) {
-      var candidate = sequenceCandidate(line, index);
+      if (isInterlude(line)) interlude = index;
+      if (isClosingSection(line)) closingSection = index;
+      var startsParagraph = index === 0 || !lines[index - 1];
+      var chapter = line.length <= 42 && chapterOrdinal(line);
+      var label = !chapter && startsParagraph && line.length <= 42 && labeledOrdinal(line);
+      var candidate = !chapter && !label && sequenceCandidate(line, index);
+      var isStandalone = line.length <= 42 && isStandaloneSectionHeading(line);
+      if (chapter) {
+        chapter.index = index;
+        chapter.separation = headingSeparation(lines, index);
+        chapter.interlude = interlude;
+        if (closingSection < 0) chapters.push(chapter);
+      }
+      if (label) {
+        label.index = index;
+        label.separation = headingSeparation(lines, index);
+        if (closingSection >= 0) label.level = 2;
+        var key = label.kind + ":" + closingSection;
+        if (!labels.has(key)) labels.set(key, []);
+        labels.get(key).push(label);
+      }
       if (candidate) {
-        candidates.push(candidate);
-        candidateIndexes.add(index);
+        candidate.separation = headingSeparation(lines, index);
+        candidate.closingSection = closingSection;
+        candidates.set(index, candidate);
       }
-      var text = line.trim();
-      var base = headingOf(text, index === 0 || !lines[index - 1], following[index], sectionNumbers);
-      if (base && base.level === 1 && !isStandaloneSectionHeading(text)
-          && (!isBareSequenceMarker(text) || candidate && candidate.titled)) {
-        baseAnchors.push({ index: index, kind: candidate ? candidate.kind : null });
+      if (isStandalone) {
+        standalone.add(index);
+        levels.set(index, 1);
+      } else if (startsParagraph && /^[\u4e00-\u9fff]{2,4}$/.test(unboxHeading(line))
+          && /^(?:\d{1,3}|[一二三四五六七八九十]{2,5})岁$/.test(following[index])) {
+        levels.set(index, 1);
       }
+      var ordinary = line && !chapter && !label && !candidate && !levels.has(index)
+        && interlude !== index && !isClockLabel(unboxHeading(line)) && /[\p{L}\p{N}]/u.test(line);
+      body.push(body[index] + (ordinary ? 1 : 0));
+    });
+    function hasBodyBetween(from, to) {
+      return body[to] > body[from + 1];
+    }
+    var parents = [];
+    var explicit = new Set();
+    ["部", "篇", "章", "幕", "杯"].forEach(function (kind) {
+      var items = chapters.filter(function (item) { return item.kind === kind; });
+      var selected = increasingHeadings(items, hasBodyBetween, parents);
+      selected.forEach(function (index) {
+        explicit.add(index);
+        // 用“第几杯”区分重起编号的小节，保留这类文稿原有的目录样式。
+        if (kind !== "杯") levels.set(index, 1);
+      });
+      if (kind === "部" || kind === "篇") parents = parents.concat(selected).sort(function (a, b) { return a - b; });
     });
 
+    var hiddenFromToc = new Set();
+    var hasMainChapters = chapters.some(function (item) {
+      return item.kind === "章" && explicit.has(item.index);
+    });
+    var insideInterlude = false;
+    lines.forEach(function (text, index) {
+      if (explicit.has(index) || isClosingSection(text)) insideInterlude = false;
+      else if (hasMainChapters && isInterlude(text)) insideInterlude = true;
+      if (insideInterlude) {
+        hiddenFromToc.add(index);
+        candidates.delete(index);
+        if (!standalone.has(index)) levels.delete(index);
+      }
+    });
+    function levelOneAnchors() {
+      var anchors = new Set(explicit);
+      levels.forEach(function (level, index) {
+        if (level === 1 && !standalone.has(index)) anchors.add(index);
+      });
+      return Array.from(anchors).sort(function (a, b) { return a - b; });
+    }
+    function addLabeledHeadings(level) {
+      var scopes = levelOneAnchors();
+      labels.forEach(function (items) {
+        if (items[0].level !== level) return;
+        var selected = increasingHeadings(items.filter(function (item) { return !hiddenFromToc.has(item.index); }),
+          hasBodyBetween, scopes);
+        if (items[0].needsPair && selected.length < 2) return;
+        selected.forEach(function (index) { levels.set(index, level); });
+      });
+    }
+    addLabeledHeadings(1);
+    addInferredHeadings(lines, Array.from(candidates.values()), levels, standalone, levelOneAnchors(), hasBodyBetween);
+    addLabeledHeadings(2);
+    return levels;
+  }
+
+  function addInferredHeadings(lines, candidates, levels, standalone, anchorIndexes, hasBodyBetween) {
     var groups = [];
     function collectGroups(kind, list) {
       var current = [];
-      function finish() {
-        if (current.length >= 2) {
+      function finish(before) {
+        if (isStartNumber(current[0]?.value)
+            && (current.length >= 2 || kind === "chineseTitle" && hasBodyBetween(current[0].index, before))) {
           groups.push({
             kind: kind,
             items: current.slice(),
@@ -274,14 +414,14 @@
           return;
         }
         var consecutive = item.value === previous.value + 1;
-        var hasText = hasIndependentParagraphBetween(lines, previous.index, item.index, candidateIndexes);
-        if (consecutive && hasText) current.push(item);
+        var hasText = hasBodyBetween(previous.index, item.index);
+        if (consecutive && hasText && item.closingSection === previous.closingSection) current.push(item);
         else {
-          finish();
+          finish(item.index);
           current = [item];
         }
       });
-      finish();
+      finish(lines.length);
     }
     ["arabicTitle", "arabic", "chineseTitle", "chinese"].forEach(function (kind) {
       collectGroups(kind, candidates.filter(function (item) { return item.kind === kind; }));
@@ -297,7 +437,15 @@
     if (!chineseTitleGroups.length && chineseTitles.length && chineseBare.length) {
       collectGroups("chinese", chineseTitles.concat(chineseBare).sort(function (a, b) { return a.index - b.index; }));
     }
-    if (!groups.length) return new Map();
+    if (!groups.length) return;
+
+    // 带标题的一级序列也可以统领贯穿多个章节的数字小节。
+    var baseAnchors = anchorIndexes.map(function (index) { return { index: index, kind: null }; });
+    groups.forEach(function (group) {
+      if (group.kind !== "chineseTitle") return;
+      group.items.forEach(function (item) { baseAnchors.push({ index: item.index, kind: group.kind }); });
+    });
+    baseAnchors.sort(function (a, b) { return a.index - b.index; });
 
     function contains(outer, inner) {
       return outer.start < inner.start && outer.end > inner.end;
@@ -330,59 +478,43 @@
         .sort(function (a, b) { return (a.end - a.start) - (b.end - b.start); })[0];
       var previousAnchor = baseAnchors.filter(function (anchor) { return anchor.index < group.start; }).pop();
       if (parent) group.level = Math.min(2, (parent.level || 1) + 1);
+      else if (group.items[0].closingSection >= 0) group.level = 2;
       else if (group.kind === "arabicTitle") group.level = 1;
-      else if (hasExplicitContainer && (group.kind === "arabic" || group.kind === "chinese")) group.level = 2;
       else if (previousAnchor && previousAnchor.kind !== group.kind) group.level = 2;
-      else if (group.kind === "arabic") group.level = 1;
       else group.level = 1;
     });
 
-    var levels = new Map();
+    var inferred = new Map();
     groups.forEach(function (group) {
-      group.items.forEach(function (item) { levels.set(item.index, group.level); });
+      group.items.forEach(function (item) { inferred.set(item.index, group.level); });
     });
-    return levels;
-  }
-
-  function headingOf(line, prevBlank, nextText, sectionNumbers, sequenceLevels, lineIndex) {
-    var text = line.trim();
-    if (!text || text.length > 42) return null;
-    // Explicit part/chapter and prologue/epilogue markers remain headings
-    // even when the source text omits the blank line before them.
-    if (isChapterHeading(text) || isStandaloneSectionHeading(text)) {
-      return { level: 1, text: text };
-    }
-    if (sequenceLevels && isBareSequenceMarker(text)) {
-      if (sequenceLevels.has(lineIndex)) return { level: sequenceLevels.get(lineIndex), text: text };
-      // A lone number in running prose is not enough evidence for a heading.
-      // Bare markers enter the TOC only when sequence analysis validates them.
-      return null;
-    }
-    if (sequenceLevels && sequenceLevels.has(lineIndex)) return { level: sequenceLevels.get(lineIndex), text: text };
-    if (!prevBlank) return null;
-    var wrapped = /^【([^【】]+)】$/.exec(text);
-    if (wrapped) {
-      var heading = headingOf(wrapped[1], prevBlank, nextText, sectionNumbers);
-      if (heading) return { level: heading.level, text: text };
-    }
-    if (isChapterHeading(text)) return { level: 1, text: text };
-    if (/^(?:One|Two|Three|Four|Five|Six|Seven|Eight|Nine|Ten|Eleven|Twelve|Thirteen|Fourteen|Fifteen|Sixteen|Seventeen|Eighteen|Nineteen|Twenty)$/i.test(text)) return { level: 1, text: text };
-    if (/^[一二三四五六七八九十百零〇]{1,3}$/.test(text)) return { level: 1, text: text };
-    // 排除以句末标点、省略号结尾的正文，以及同一行内列出多项的编号条目。
-    if (/^[一二三四五六七八九十百零〇]{1,3}[\s　·.、:：].+/.test(text)
-        && !/(?:[。！？…]|\.{3})[”’"」』]*$/.test(text)
-        && !/[；;]\s*[一二三四五六七八九十百零〇]{1,3}、/.test(text)
-        && !isNumberedBodyContinuation(text, nextText)) return { level: 1, text: text };
-    if (/^【(?:场景)?[一二三四五六七八九十0-9]{1,3}】/.test(text)) return { level: 1, text: text };
-    if (/^No\.?\s*\d+/i.test(text)) return { level: 1, text: text };
-    if (/^(尾声|序章|楔子|终章|后记|引子|序|跋)$/.test(text)) return { level: 1, text: text };
-    if (/^(尾声|序章|楔子|终章|后记|引子|序|跋)[\s　·.、:：].+/.test(text)) return { level: 1, text: text };
-    if (/^[\u4e00-\u9fff]{2,4}$/.test(text) && /^(\d{1,3}|[一二三四五六七八九十]{2,5})岁$/.test(nextText)) {
-      return { level: 1, text: text };
-    }
-    if (/^(?:（\d{1,3}）|\(\d{1,3}\))/.test(text)) return { level: 2, text: text };
-    if (/^\d{1,2}$/.test(text) || isNumberedSection(text, sectionNumbers)) return { level: 2, text: text };
-    return null;
+    [1, 2].forEach(function (level) {
+      var siblings = new Map();
+      var scopes = anchorIndexes.slice();
+      if (level === 2) {
+        levels.forEach(function (headingLevel, index) {
+          if (headingLevel === 1 && !standalone.has(index)) scopes.push(index);
+        });
+      }
+      candidates.forEach(function (item) {
+        if (inferred.get(item.index) !== level) return;
+        // 独立书名后的重新起号属于另一篇作品。
+        if (level === 1 && isStartNumber(item.value)) {
+          var previous = item.index - 1;
+          while (lines[previous] === "") previous--;
+          if (/^《[^《》]+》$/.test(lines[previous] || "")) scopes.push(previous);
+        }
+        var key = item.kind.replace(/Title$/, "") + ":" + item.closingSection;
+        if (!siblings.has(key)) siblings.set(key, []);
+        siblings.get(key).push(item);
+      });
+      scopes.sort(function (a, b) { return a - b; });
+      siblings.forEach(function (items) {
+        increasingHeadings(items, hasBodyBetween, scopes).forEach(function (index) {
+          if (!standalone.has(index)) levels.set(index, level);
+        });
+      });
+    });
   }
 
   function isAppendixStart(line) {
@@ -390,7 +522,7 @@
     return /^(?:注释|注解|脚注|尾注|附注|参考资料|参考文献|资料来源|生成情况(?:备注|说明)?|生成说明|生成备注|创作与资料说明|创作说明|写作说明|素材说明|修订记|修订说明)\s*(?:[：:】）)\]]|$)/.test(text);
   }
 
-  function countWorkHan(lines, sectionNumbers, following) {
+  function countWorkHan(lines, levels) {
     var end = lines.length;
     // 只查找最后一个正文标题之后的附加内容；不改变页面上的原文和目录。
     for (var i = lines.length - 1; i > 0; i -= 1) {
@@ -398,7 +530,7 @@
       if (!text) continue;
       if (isAppendixStart(text)) {
         end = i;
-      } else if (headingOf(text, !lines[i - 1], following[i], sectionNumbers)) {
+      } else if (levels.has(i)) {
         break;
       }
     }
@@ -416,45 +548,21 @@
       following[n] = next;
       if (lines[n]) next = lines[n];
     }
-    // A neighboring section number distinguishes headings such as 1.1/1.2 from standalone decimals.
-    var sectionNumbers = new Set(lines.filter(function (line, index) {
-      return (index === 0 || !lines[index - 1].trim()) && /^\d{1,2}\.\d{1,2}$/.test(line.trim());
-    }).map(function (line) { return line.trim(); }));
-    var sequenceLevels = sequenceHeadingLevels(lines, sectionNumbers, following);
+    var levels = sequenceHeadingLevels(lines, following);
     var blocks = [];
-    var first = "";
-    var firstIndex = 0;
-    for (var i = 0; i < lines.length; i += 1) {
-      if (lines[i].trim()) { first = lines[i].trim(); firstIndex = i; break; }
-    }
+    var firstIndex = lines.findIndex(Boolean);
+    var first = lines[firstIndex];
     var title = "";
-    var skipFirst = false;
     if (first && first.length <= 22 && !/[。！？]$/.test(first)
-        && !headingOf(first, true, "", sectionNumbers, sequenceLevels, firstIndex)) {
+        && !levels.has(firstIndex) && !chapterOrdinal(first)) {
       title = displayTitle(first, "");
-      skipFirst = true;
     }
-    var seenTitle = !skipFirst;
-    var inChapter = false;
-    lines.forEach(function (line, index) {
-      var text = line.trim();
-      if (!text) return;
-      if (!seenTitle) {
-        seenTitle = true;
-        return;
-      }
-      var prevBlank = index === 0 || !lines[index - 1].trim();
-      var heading = headingOf(text, prevBlank, following[index], sectionNumbers, sequenceLevels, index);
-      if (heading) {
-        if (inChapter && /^[一二三四五六七八九十百零〇]{1,3}$/.test(text)) {
-          heading.level = 2;
-        } else if (heading.level === 1) {
-          inChapter = isChapterHeading(text);
-        }
-      }
-      blocks.push(heading ? { type: "h", level: heading.level, text: heading.text } : { type: "p", text: text });
+    lines.forEach(function (text, index) {
+      if (!text || (index === firstIndex && title)) return;
+      var level = levels.get(index);
+      blocks.push(level ? { type: "h", level: level, text: text } : { type: "p", text: text });
     });
-    return { title: title, blocks: blocks, chars: countWorkHan(lines, sectionNumbers, following) };
+    return { title: title, blocks: blocks, chars: countWorkHan(lines, levels) };
   }
 
   function loadReaderCover(entry, covers, title, onLoad) {

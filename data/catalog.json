@@ -490,6 +490,20 @@
       "promptFile": "prompts/公关.txt",
       "promptAt": "2026-11-24 11:26",
       "promptManual": true
+    },
+    {
+      "name": "魔法少女",
+      "grade": "D",
+      "promptFile": "prompts/魔法少女.txt",
+      "promptAt": "2026-11-28 08:54",
+      "promptManual": true
+    },
+    {
+      "name": "贵族败类",
+      "grade": "D",
+      "promptFile": "prompts/贵族败类.txt",
+      "promptAt": "2026-11-28 14:45",
+      "promptManual": true
     }
   ],
   "models": [
@@ -3917,7 +3931,7 @@
       "time": "202611181043",
       "effort": "high",
       "harness": "claude chat",
-      "grade": "B",
+      "grade": "C",
       "file": "texts/魔力_Claude-Opus-5.5_2611181043.txt",
       "manual": true
     },
@@ -4467,7 +4481,7 @@
       "time": "202611211513",
       "effort": "max",
       "harness": "codex",
-      "grade": "",
+      "grade": "D",
       "file": "texts/追求_GPT-6.2-Astra_2611211513.txt",
       "manual": true
     },
@@ -4731,7 +4745,7 @@
       "time": "202611231353",
       "effort": "high",
       "harness": "claude chat",
-      "grade": "",
+      "grade": "C",
       "file": "texts/算子_Claude-Opus-5.5_2611231353.txt",
       "manual": true
     },
@@ -4819,7 +4833,7 @@
       "time": "202611240946",
       "effort": "high",
       "harness": "claude chat",
-      "grade": "",
+      "grade": "B",
       "file": "texts/独居_Claude-Opus-5.5_2611240946.txt",
       "manual": true
     },
@@ -4841,7 +4855,7 @@
       "time": "202611241008",
       "effort": "high",
       "harness": "claude chat",
-      "grade": "",
+      "grade": "C",
       "file": "texts/魔力_Claude-Opus-5.5_2611241008.txt",
       "manual": true
     },
@@ -4874,7 +4888,7 @@
       "time": "202611242345",
       "effort": "high",
       "harness": "claude chat",
-      "grade": "",
+      "grade": "C",
       "file": "texts/公关_Claude-Opus-5.5_2611242345.txt",
       "manual": true
     },
@@ -4885,8 +4899,118 @@
       "time": "202611242346",
       "effort": "high",
       "harness": "claude chat",
-      "grade": "",
+      "grade": "B",
       "file": "texts/研究者传_Claude-Opus-5.5_2611242346.txt",
+      "manual": true
+    },
+    {
+      "id": "中年教授_Claude-Opus-5.5_2611262250",
+      "topic": "中年教授",
+      "model": "Claude Opus 5.5",
+      "time": "202611262250",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "C",
+      "file": "texts/中年教授_Claude-Opus-5.5_2611262250.txt",
+      "manual": true
+    },
+    {
+      "id": "科技乌托邦_Claude-Opus-5.5_2611270923",
+      "topic": "科技乌托邦",
+      "model": "Claude Opus 5.5",
+      "time": "202611270923",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "B",
+      "file": "texts/科技乌托邦_Claude-Opus-5.5_2611270923.txt",
+      "manual": true
+    },
+    {
+      "id": "拒稿_GPT-6.2-Astra_2611271037",
+      "topic": "拒稿",
+      "model": "GPT 6.2 Astra",
+      "time": "202611271037",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/拒稿_GPT-6.2-Astra_2611271037.txt",
+      "manual": true
+    },
+    {
+      "id": "中年教授_GPT-6.2-Astra_2611271057",
+      "topic": "中年教授",
+      "model": "GPT 6.2 Astra",
+      "time": "202611271057",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/中年教授_GPT-6.2-Astra_2611271057.txt",
+      "manual": true
+    },
+    {
+      "id": "独居_GPT-6.2-Astra_2611271135",
+      "topic": "独居",
+      "model": "GPT 6.2 Astra",
+      "time": "202611271135",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/独居_GPT-6.2-Astra_2611271135.txt",
+      "manual": true
+    },
+    {
+      "id": "公关_GPT-6.2-Astra_2611271139",
+      "topic": "公关",
+      "model": "GPT 6.2 Astra",
+      "time": "202611271139",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/公关_GPT-6.2-Astra_2611271139.txt",
+      "manual": true
+    },
+    {
+      "id": "追求_GPT-6.2-Astra_2611271337",
+      "topic": "追求",
+      "model": "GPT 6.2 Astra",
+      "time": "202611271337",
+      "effort": "max",
+      "harness": "codex",
+      "grade": "",
+      "file": "texts/追求_GPT-6.2-Astra_2611271337.txt",
+      "manual": true
+    },
+    {
+      "id": "追求_Claude-Opus-5.5_2611272343",
+      "topic": "追求",
+      "model": "Claude Opus 5.5",
+      "time": "202611272343",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/追求_Claude-Opus-5.5_2611272343.txt",
+      "manual": true
+    },
+    {
+      "id": "魔法少女_Claude-Opus-5.5_2611280854",
+      "topic": "魔法少女",
+      "model": "Claude Opus 5.5",
+      "time": "202611280854",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/魔法少女_Claude-Opus-5.5_2611280854.txt",
+      "manual": true
+    },
+    {
+      "id": "贵族败类_Claude-Opus-5.5_2611281445",
+      "topic": "贵族败类",
+      "model": "Claude Opus 5.5",
+      "time": "202611281445",
+      "effort": "high",
+      "harness": "claude chat",
+      "grade": "",
+      "file": "texts/贵族败类_Claude-Opus-5.5_2611281445.txt",
       "manual": true
     }
   ]

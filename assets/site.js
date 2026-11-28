@@ -13,6 +13,9 @@
   const slots = Array.from(list.children);
   const cards = new WeakMap();
   const failedCovers = new Set();
+  const fallbackTitles = new Map();
+  const pendingTitles = new Set();
+  const failedTitles = new Set();
   const more = document.createElement("button");
   // A restored document can receive pagehide after history writes are disabled. Give
   // this specific history entry a storage key while the document is fully active.
@@ -31,6 +34,7 @@
   let entriesById;
   let tallies;
   let index = { titles: {}, references: {} };
+  let titleIndexReady = false;
   let covers;
   let rows = [];
   let emptyStatus;
@@ -138,8 +142,33 @@
     art.append(img);
   }
 
+  function loadMissingTitle(entry) {
+    const file = entry?.file;
+    // Wait for the compact index before downloading any missing featured text.
+    if (!titleIndexReady || !file || index.titles[file] || fallbackTitles.has(file)
+        || pendingTitles.has(file) || failedTitles.has(file)) return;
+    pendingTitles.add(file);
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 15000);
+    fetch(encodeURI(file), { cache: "no-cache", signal: controller.signal }).then(response => {
+      if (!response.ok) throw new Error(file);
+      return response.text();
+    }).then(text => {
+      const first = text.split(/\r\n?|\n/).map(line => line.trim()).find(Boolean) || "";
+      // Match the title rules used by the generated library index.
+      const heading = /^(?:第[一二三四五六七八九十百千万零〇两0-9]+(?:[章幕篇部]|部分)|序章|楔子|终章|后记|引子|尾声|序|跋)(?:$|[\s　·.、:：])|^[一二三四五六七八九十百零〇0-9]{1,3}$/;
+      fallbackTitles.set(file, first.length <= 22 && !/[。！？]$/.test(first) && !heading.test(first) ? first : "");
+      renderCards();
+    }).catch(() => {
+      failedTitles.add(file);
+    }).finally(() => {
+      clearTimeout(timeout);
+      pendingTitles.delete(file);
+    });
+  }
+
   function renderCards() {
-    const limit = Math.min(slots.length, pages * (mobile.matches ? 8 : 15));
+    const limit = Math.min(slots.length, pages * (mobile.matches ? 10 : 15));
     slots.forEach((slot, i) => {
       slot.hidden = i >= limit;
       if (slot.hidden) return;
@@ -147,7 +176,8 @@
       const topic = slot.dataset.topic;
       const entry = slot.dataset.id ? entriesById.get(slot.dataset.id) : best.get(topic + "\0" + model)?.entry;
       const name = entry?.model || model || "";
-      const title = displayTitle(index.titles[entry?.file], entry?.topic || topic || "未找到文稿");
+      const title = displayTitle(index.titles[entry?.file] || fallbackTitles.get(entry?.file), entry?.topic || topic || "未找到文稿");
+      loadMissingTitle(entry);
       const src = coverUrl(entry, covers);
       // Preserve decoded images and keyboard focus when metadata or the viewport changes.
       const key = JSON.stringify([entry?.id, name, entry?.grade, slot.getAttribute("complexity")]);
@@ -265,9 +295,10 @@
 
   function filterTopics() {
     const query = topicFilter.value.trim();
+    const revealHidden = allModels || Boolean(query || modelFilter.value.trim());
     let visible = 0;
     for (const { tr, topic } of rows) {
-      tr.hidden = !topic.name.includes(query);
+      tr.hidden = !topic.name.includes(query) || (topic.hidden === true && !revealHidden);
       if (!tr.hidden) visible++;
     }
     emptyStatus.hidden = visible > 0;
@@ -355,7 +386,7 @@
   more.hidden = true;
   $("showcase").append(more);
   more.addEventListener("click", () => {
-    const firstNew = pages * (mobile.matches ? 8 : 15);
+    const firstNew = pages * (mobile.matches ? 10 : 15);
     pages++;
     renderCards();
     slots[firstNew]?.querySelector("a")?.focus({ preventScroll: true });
@@ -388,7 +419,9 @@
   let lastRefresh = 0;
   function refresh() {
     lastRefresh = Date.now();
-    if (catalog && failedCovers.size) renderCards();
+    const retryTitles = failedTitles.size > 0;
+    failedTitles.clear();
+    if (catalog && (failedCovers.size || retryTitles)) renderCards();
     refreshResource("catalog", loadCatalog, renderCatalog, () => {
       if (!catalog) {
         document.querySelectorAll("[data-loading-message]").forEach(label => {
@@ -401,12 +434,15 @@
     });
     refreshResource("covers", loadCoverFiles, value => { covers = value; if (catalog) renderCards(); });
     refreshResource("index", () => loadJSON("data/library-index.json"), value => {
-      if (!value.titles || !value.references) return;
-      index = value;
+      titleIndexReady = true;
+      if (value.titles && value.references) index = value;
       if (catalog) {
         renderCards();
         rows.forEach(({ topic, link }) => updateReference(topic, link));
       }
+    }, () => {
+      titleIndexReady = true;
+      if (catalog) renderCards();
     });
   }
 

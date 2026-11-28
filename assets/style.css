@@ -625,7 +625,7 @@ a.cell .badge {
 }
 .drop.hot { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, var(--bg-raise)); }
 .choice-stack { display: flex; flex-direction: column; gap: 0.9rem; margin-bottom: 1rem; }
-.choice-stack .field, .choice-stack label, .stack label { display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.88rem; }
+.choice-stack .field, .choice-stack label, .stack .field, .stack label { display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.88rem; }
 .choice-row { display: flex; flex-wrap: wrap; gap: 0.4rem; }
 .choice-row button {
   border: 1px solid var(--line);

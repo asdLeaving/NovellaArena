@@ -3,6 +3,7 @@
   "use strict";
 
   const catalogPath = "data/catalog.json";
+  const libraryIndexPath = "data/library-index.json";
   const encoder = new TextEncoder();
 
   function parseCatalog(text) {
@@ -11,6 +12,37 @@
       throw new Error("目录需要包含 models、topics 和 entries 三个数组。");
     }
     return catalog;
+  }
+
+  function parseLibraryIndex(text) {
+    try {
+      const index = JSON.parse(text.replace(/^\uFEFF/, ""));
+      if (!index || ![index.titles, index.references].every(value => value && typeof value === "object" && !Array.isArray(value))) {
+        throw new Error("需要包含 titles 和 references 两个对象。");
+      }
+      return index;
+    } catch (error) {
+      throw new Error(libraryIndexPath + " 解析失败：" + error.message);
+    }
+  }
+
+  function updateLibraryIndex(index, files) {
+    for (const [path, text] of files) {
+      if (!/\.txt$/i.test(path)) continue;
+      const lines = text.split(/\r\n?|\n/);
+      if (path.startsWith("texts/")) {
+        const first = lines.map(line => line.trim()).find(Boolean) || "";
+        // Keep title recognition consistent with tools/library_index.py.
+        const heading = /^(?:第[一二三四五六七八九十百千万零〇两0-9]+(?:[章幕篇部]|部分)|序章|楔子|终章|后记|引子|尾声|序|跋)(?:$|[\s　·.、:：])|^[一二三四五六七八九十百零〇0-9]{1,3}$/;
+        if (first && first.length <= 22 && !/[。！？]$/.test(first) && !heading.test(first)) index.titles[path] = first;
+        else delete index.titles[path];
+      } else if (path.startsWith("prompts/")) {
+        const match = /^[（(]\s*《([^《》]+)》.*[）)]$/.exec(lines[0].trim());
+        if (match && match[1].trim()) index.references[path] = match[1].trim();
+        else delete index.references[path];
+      }
+    }
+    return index;
   }
 
   async function locate(root, path, create = false) {
@@ -29,6 +61,16 @@
     return (await handle.getFile()).text();
   }
 
+  async function readLibraryIndex(root) {
+    try {
+      const { handle } = await locate(root, libraryIndexPath);
+      return parseLibraryIndex(await (await handle.getFile()).text());
+    } catch (error) {
+      if (error.name === "NotFoundError") return { titles: {}, references: {} };
+      throw error;
+    }
+  }
+
   async function write(handle, content) {
     const stream = await handle.createWritable();
     try {
@@ -42,7 +84,7 @@
 
   async function commit(root, buildFiles) {
     const original = await catalogText(root);
-    const files = buildFiles(parseCatalog(original));
+    const files = await buildFiles(parseCatalog(original));
     const changes = [];
     try {
       for (const [path, content] of files) {
@@ -137,5 +179,6 @@
     return new Blob([...contents, ...directory, end], { type: "application/zip" });
   }
 
-  window.ArenaImportFiles = { catalogPath, catalogText, parseCatalog, save, zip };
+  window.ArenaImportFiles = { catalogPath, catalogText, parseCatalog, libraryIndexPath, parseLibraryIndex,
+    readLibraryIndex, updateLibraryIndex, save, zip };
 })();

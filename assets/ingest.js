@@ -296,6 +296,20 @@
     }
   }
 
+  async function latestLibraryIndex() {
+    if (rootHandle) return filesApi.readLibraryIndex(rootHandle);
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10000);
+    try {
+      const response = await fetch(filesApi.libraryIndexPath, { cache: "no-cache", signal: controller.signal });
+      if (response.status === 404) return { titles: {}, references: {} };
+      if (!response.ok) throw new Error("读取 " + filesApi.libraryIndexPath + " 失败（HTTP " + response.status + "）。");
+      return filesApi.parseLibraryIndex(await response.text());
+    } finally {
+      clearTimeout(timeout);
+    }
+  }
+
   function downloadPackage(files, filename) {
     const url = URL.createObjectURL(filesApi.zip(files));
     const link = document.createElement("a");
@@ -334,13 +348,15 @@
     const hiddenOverride = selection.visibilityManual ? choiceValue($("modelVisibility")) === "no" : null;
     const promptText = $("prompt").value.trim();
     const promptGrade = choiceValue($("promptGrade"));
-    function buildFiles(catalog) {
+    async function buildFiles(catalog) {
+      const libraryIndex = await latestLibraryIndex();
       const entry = applyToCatalog(catalog, parsed, harness, effort, grade, released, promptText, promptGrade, hiddenOverride, selection.edited);
       const files = new Map([[entry.file, selection.text]]);
       if (promptText) {
         const topic = catalog.topics.find(item => item.name === parsed.topic);
         files.set(topic.promptFile, promptText + "\n");
       }
+      files.set(filesApi.libraryIndexPath, JSON.stringify(filesApi.updateLibraryIndex(libraryIndex, files)) + "\n");
       files.set(filesApi.catalogPath, JSON.stringify(catalog, null, 2) + "\n");
       return files;
     }
@@ -354,7 +370,7 @@
     try {
       if (asDownload) {
         const catalog = await latestCatalog();
-        downloadPackage(buildFiles(catalog), parsed.filename);
+        downloadPackage(await buildFiles(catalog), parsed.filename);
         $("message").textContent = "已生成 ZIP。请解压到与当前目录版本一致的网站文件夹，再运行「推送更新.bat」。";
       } else {
         if (!rootHandle) {

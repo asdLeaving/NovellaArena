@@ -20,10 +20,10 @@
   <meta name="twitter:title" content="LLM小说创作竞技场">
   <meta name="twitter:description" content="展示头部大模型生成的中文短篇小说。">
   <meta name="twitter:image" content="https://asdleaving.github.io/NovellaArena/assets/2026%E5%9B%9B%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%86%99%E4%BD%9C%E5%9B%9B%E6%A0%BC%E6%BC%AB%E7%94%BB.webp">
-  <link rel="stylesheet" href="assets/style.css?v=f3c93a716d249c92f4dba6a411c005ebf894171536e1b22697d0d4b06f447fb1">
+  <link rel="stylesheet" href="assets/style.css?v=9d32c97bc7490af4faa036ecaa5b76379f3597266494db9a53adf7abcb677ad6">
   <link rel="preload" href="data/catalog.json" as="fetch" crossorigin>
   <script defer onerror="document.documentElement.classList.add('asset-error')" src="assets/common.js?v=0c6ef0c167065cdbbc57fe2b1bd5b5123eebf560db602b4a5d4dc826856da47a"></script>
-  <script defer onerror="document.documentElement.classList.add('asset-error')" src="assets/site.js?v=f3abfbe07989da8cf92252e773f9931bad6f94f9eea805ef0af797672a1c35df"></script>
+  <script defer onerror="document.documentElement.classList.add('asset-error')" src="assets/site.js?v=5f460ab724f3eb40e6dbb8da175a7f27f67b9750437a6d0b6c331358ac9fb949"></script>
 </head>
 <body data-page="index">
   <p class="error asset-message" role="alert">网页脚本未能加载。<button type="button" onclick="location.reload()">重新加载</button></p>
@@ -47,27 +47,32 @@
       <li complexity="中" data-model="Claude Opus 5.5" data-topic="二人V2"></li>
       <li complexity="低" data-model="GPT 5.6 Sol" data-topic="关系户"></li>
       <li complexity="高" data-model="Claude Fable 5.1" data-topic="分析者"></li>
-      <li complexity="低" data-model="GPT 5.6 Sol" data-topic="报道"></li>
-      <li complexity="中" data-model="Claude Opus 5.5" data-topic="同寝"></li>
-      <li complexity="低" data-model="Claude Opus 5.5" data-topic="冒险家们"></li>
-      <li complexity="高" data-model="Claude Opus 5.5" data-topic="价值"></li>
       <li complexity="中" data-model="Claude Opus 5.5" data-topic="写作者V2"></li>
+      <li complexity="低" data-model="Claude Opus 5.5" data-topic="内部调查"></li>
+      <li complexity="高" data-model="Claude Opus 5.5" data-topic="价值"></li>
+      <li complexity="低" data-model="GPT 5.6 Sol" data-topic="报道"></li>
       <li complexity="高" data-model="GPT 5.6 Sol" data-topic="决定"></li>
+      <li complexity="中" data-model="Claude Opus 5.5" data-topic="同寝"></li>
       <li complexity="高" data-model="Claude Opus 5.5" data-topic="美院"></li>
       <li complexity="中" data-model="Claude Opus 5.5" data-topic="骑手"></li>
       <li complexity="低" data-model="GPT 5.6 Sol" data-topic="逃走"></li>
       <li complexity="高" data-model="Claude Opus 5.5" data-topic="奔现"></li>
-      <li complexity="低" data-model="Claude Opus 5.5" data-topic="内部调查"></li>
+      <li complexity="低" data-model="Claude Opus 5.5" data-topic="冒险家们"></li>
       <li complexity="中" data-model="Claude Opus 5.5" data-topic="故事集"></li>
       <li complexity="中" data-model="GPT 5.6 Sol" data-topic="画师"></li>
       <li complexity="低" data-model="Claude Opus 5.5" data-topic="酒保"></li>
-      <li complexity="中" data-model="Claude Opus 5.5" data-topic="侦探"></li>
+      <li complexity="中" data-model="Claude Opus 5.5" data-topic="科技乌托邦"></li>
       <li complexity="低" data-model="Claude Opus 5.5" data-topic="异途"></li>
+      <li complexity="中" data-model="Claude Opus 5.5" data-topic="侦探"></li>
       <li complexity="高" data-model="Claude Opus 5.5" data-topic="写作者"></li>
       <li complexity="中" data-model="Claude Fable 5.1" data-topic="附魅"></li>
-      <li complexity="高" data-model="Grok 4.7" data-topic="工程师"></li>
-      <li complexity="低" data-model="GPT 5.6 Sol" data-topic="废土"></li>
+      <li complexity="低" data-model="Claude Opus 5.5" data-topic="工程师日记"></li>
       <li complexity="中" data-model="Claude Opus 5.5" data-topic="高魔"></li>
+      <li complexity="中" data-model="Claude Opus 5.5" data-topic="走走停停"></li>
+      <li complexity="高" data-model="Claude Opus 5.5" data-topic="独居"></li>
+      <li complexity="低" data-model="GPT 5.6 Sol" data-topic="废土"></li>
+      <li complexity="高" data-model="Grok 4.7" data-topic="工程师"></li>
+      <li complexity="高" data-model="Claude Opus 5.5" data-topic="研究者传"></li>
     </ul>
   </section>
   <section class="ratings" id="ratings" aria-labelledby="ratings-heading">
@@ -85,7 +90,7 @@
     <div class="toolbar">
       <input id="filter" type="search" placeholder="筛选题目" aria-label="筛选题目">
       <input id="filter-model" type="search" placeholder="筛选模型" aria-label="筛选模型" title="仅显示匹配模型有文稿的题目，空行自动隐藏">
-      <button type="button" id="show-all" aria-pressed="false">显示全部模型</button>
+      <button type="button" id="show-all" aria-pressed="false">显示全部</button>
     </div>
     <div class="table-wrap" id="table" role="region" aria-label="可滚动的评级表" tabindex="0" aria-busy="true">
       <p class="loading-message" data-loading-message="表格" role="status">正在加载表格，请稍候…</p>
